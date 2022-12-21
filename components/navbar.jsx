@@ -157,6 +157,16 @@ export default function Navbar() {
                 </ListItemButton>
               </List>
             </Link>
+            <Link href="/departments/update">
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon sx={{ color: "#fff" }}>
+                    <Edit />
+                  </ListItemIcon>
+                  <ListItemText primary="Actualiar / Eliminar" />
+                </ListItemButton>
+              </List>
+            </Link>
           </Collapse>
 
           {/* Warehouse */}

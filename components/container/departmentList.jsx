@@ -1,5 +1,5 @@
 //DEPENDENCIES
-import { Product } from "../pure/product";
+import { Department } from "../pure/department";
 
 //MATERIAL UI
 import {
@@ -24,37 +24,36 @@ import {
   Alert,
 } from "@mui/material";
 
-//MATERIAL ICONS
-
 //REACT
-import React, { useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 //AXIOS
 import axios from "axios";
 
-export default function ProductsList() {
+import React from "react";
+
+export default function DepartmentList() {
   //STATES
-  const [products, setProducts] = useState([]);
+  const [departments, setDepartments] = useState([]);
   const [search, setSearch] = useState("");
-  const [openDialog, setopenDialog] = useState(false);
-  const [idFromProduct, setIdFromProduct] = useState(0);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [idFromDepartment, setIdFromDepartment] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
   //FETCH DATA
   useEffect(() => {
-    getAllProducts();
+    getAllDepartments();
   }, []);
 
   //METHODS
 
-  function getAllProducts() {
+  function getAllDepartments() {
     axios
-      .get("http://localhost:5000/qrstock/api/products")
+      .get("http://localhost:5000/qrstock/api/departments")
       .then((response) => {
-        const getAllProduct = response.data.allProducts;
+        const getAllDepartment = response.data.allDepartments;
 
-        setProducts(getAllProduct);
+        setDepartments(getAllDepartment);
       })
       .catch((error) => console.log(error));
   }
@@ -64,25 +63,25 @@ export default function ProductsList() {
   };
 
   const handleOpenDialog = (id) => {
-    setIdFromProduct(id);
-    setopenDialog(true);
+    setIdFromDepartment(id);
+    setOpenDialog(true);
   };
   const handleCloseDialog = () => {
-    setopenDialog(false);
+    setOpenDialog(false);
   };
-  const handleCloseConfirmDialog = (idFromProduct) => {
-    setopenDialog(false);
-    deleteProduct(idFromProduct);
+  const handleCloseConfirmDialog = (idFromDepartment) => {
+    setOpenDialog(false);
+    deleteDepartment(idFromDepartment);
   };
 
-  const deleteProduct = (id) => {
+  const deleteDepartment = (id) => {
     console.log("Id a eliminar: ", id);
     axios(`http://localhost:5000/qrstock/api/products/${id}`, {
       method: "DELETE",
     }).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
-      getAllProducts();
+      getAllDepartments();
       setTimeout(() => {
         setDeleteSuccess(false);
       }, 2000);
@@ -90,10 +89,10 @@ export default function ProductsList() {
   };
 
   //Filtrado
-  const productFilter = !search
-    ? products
-    : products.filter((data) =>
-        data.p_description.toUpperCase().includes(search.toUpperCase())
+  const departmentFilter = !search
+    ? departments
+    : departments.filter((data) =>
+        data.d_name.toUpperCase().includes(search.toUpperCase())
       );
 
   return (
@@ -122,24 +121,19 @@ export default function ProductsList() {
           }}
         >
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
+            DEPARTAMENTOS
           </Typography>
 
           <TextField
             variant="standard"
-            label="Buscar Producto"
+            label="Buscar Departamento"
             type="text"
             value={search}
             onChange={searchHandler}
           ></TextField>
         </CardContent>
         <CardContent>
-          <TableContainer
-            sx={{
-              bgcolor: "background.paper",
-              marginTop: 15,
-            }}
-          >
+          <TableContainer sx={{ bgcolor: "background.paper", marginTop: 15 }}>
             <Table sx={{ maxWidth: "70vw" }}>
               <TableHead sx={{ marginTop: 4 }}>
                 <TableRow>
@@ -150,13 +144,7 @@ export default function ProductsList() {
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
-                    Nombre del Producto
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Ubicación
+                    Nombre del Departamento
                   </TableCell>
                   <TableCell
                     align="center"
@@ -167,13 +155,12 @@ export default function ProductsList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {productFilter.map((product) => {
+                {departmentFilter.map((department) => {
                   return (
-                    <Product
-                      key={product.id}
-                      id={product.id}
-                      p_desription={product.p_description}
-                      p_ubication={product.p_ubication}
+                    <Department
+                      key={department.id}
+                      id={department.id}
+                      d_name={department.d_name}
                       handleOpenDialog={handleOpenDialog}
                     />
                   );
@@ -195,7 +182,7 @@ export default function ProductsList() {
             id="alert-dialog-title"
             sx={{ color: "warning.light", fontWeight: "bold" }}
           >
-            {"¿Estás seguro que deseas eliminar este producto?"}
+            {"¿Estás seguro que deseas eliminar este departamento?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -203,17 +190,17 @@ export default function ProductsList() {
               align="center"
               sx={{ color: "#fff" }}
             >
-              {`Cuidado estás a punto de eliminar el producto:`}
+              {`Cuidado estás a punto de eliminar un departamento`}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
             <Button
               variant="outlined"
               color="error"
-              onClick={() => handleCloseConfirmDialog(idFromProduct)}
+              onClick={() => handleCloseConfirmDialog(idFromDepartment)}
               autoFocus
             >
-              Aceptar
+              Eliminar
             </Button>
             <Button
               variant="outlined"

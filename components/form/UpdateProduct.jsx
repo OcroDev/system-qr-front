@@ -35,7 +35,27 @@ export default function UpdateProduct() {
   const [found, setFound] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
-  useEffect(() => {}, []);
+  //METHODS
+  function getproduct() {
+    const options = {
+      method: "GET",
+      url: `http://localhost:5000/qrstock/api/products/update/${router.query.id}`,
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        const newProduct = response.data.product;
+        console.log("produc en axios", newProduct);
+        setProduct(newProduct);
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+  useEffect(() => {
+    getproduct();
+  }, []);
 
   //Initial values for formik form
   const initialValues = {
@@ -63,7 +83,7 @@ export default function UpdateProduct() {
     validationSchema,
     onSubmit: (values) => {
       const options = {
-        method: "POST",
+        method: "PUT",
         url: `http://localhost:5000/qrstock/api/products/update/${router.query.id}`,
         data: {
           p_description: values.p_description,
@@ -79,6 +99,7 @@ export default function UpdateProduct() {
           console.log(data.message);
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
+          getproduct();
         })
         .catch(function (error) {
           if (error.response) {
@@ -96,134 +117,140 @@ export default function UpdateProduct() {
           }, 5000);
         });
     },
-    onReset: () => {},
+    //onReset: () => {},
   });
 
   return (
-    <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
-      <CardContent>
-        <div>
+    <>
+      <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
+        <CardContent>
           <div>
-            <Typography variant="h5" style={{ textAlign: "center" }}>
-              Crear un Nuevo Producto
-            </Typography>
-          </div>
-
-          <form
-            onSubmit={formik.handleSubmit}
-            onReset={formik.handleReset}
-            className=" d-flex justify-content-center align-item-center"
-          >
             <div>
-              <TextField
-                sx={{ mt: 4, width: 500 }}
-                variant="outlined"
-                fullWidth
-                id="p_description"
-                name="p_description"
-                label="Nombre del Producto"
-                type="text"
-                value={formik.values.p_description}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.p_description &&
-                  Boolean(formik.errors.p_description)
-                }
-                helperText={
-                  formik.touched.p_description && formik.errors.p_description
-                }
-              />
-              <br />
-              <TextField
-                sx={{ mt: 4, width: 250 }}
-                variant="outlined"
-                fullWidth
-                id="p_minstock"
-                name="p_minstock"
-                label="Cantidad minima en Stock"
-                type="number"
-                value={formik.values.p_minstock}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.p_minstock && Boolean(formik.errors.p_minstock)
-                }
-                helperText={
-                  formik.touched.p_minstock && formik.errors.p_minstock
-                }
-              />
-              <br />
-              <TextField
-                sx={{ mt: 4, width: 250 }}
-                variant="outlined"
-                fullWidth
-                id="p_unit"
-                name="p_unit"
-                label="Unidad de medida"
-                type="text"
-                value={formik.values.p_unit}
-                onChange={formik.handleChange}
-                error={formik.touched.p_unit && Boolean(formik.errors.p_unit)}
-                helperText={formik.touched.p_unit && formik.errors.p_unit}
-              />
-              <br />
-              <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
-                <InputLabel id="ubication-label">Ubication</InputLabel>
-                <Select
-                  labelId="ubication-label"
-                  id="p_ubication"
-                  name="p_ubication"
-                  label="Ubication"
-                  value={formik.values.p_ubication}
-                  onChange={formik.handleChange}
-                  className="mb-4"
-                  error={
-                    formik.touched.p_ubication &&
-                    Boolean(formik.errors.p_ubication)
-                  }
-                  // helperText={
-                  //   formik.touched.p_ubication && formik.errors.p_ubication
-                  // }
-                >
-                  <MenuItem value="">Selecciona la ubicacion</MenuItem>
-                  <MenuItem value={UBICATION[0]}>Papelería</MenuItem>
-                  <MenuItem value={UBICATION[1]}>Depósito de limpieza</MenuItem>
-                </Select>
-              </FormControl>
-              <br />
-              <div className="d-flex justify-content-center ">
-                <Button
-                  type="submit"
-                  size="large"
-                  variant="contained"
-                  sx={{ mr: 2 }}
-                >
-                  Crear Producto
-                </Button>
-                <Button
-                  type="reset"
-                  size="large"
-                  variant="outlined"
-                  sx={{ ml: 0 }}
-                >
-                  Cancelar
-                </Button>
-              </div>
-              <div className="mt-4">
-                {creationSuccess ? (
-                  <Alert severity="success" variant="standard">
-                    {apiMessage}
-                  </Alert>
-                ) : null}
-                {found ? (
-                  <Alert severity="error" variant="standard">
-                    {apiMessage}
-                  </Alert>
-                ) : null}
-              </div>
+              <Typography variant="h5" style={{ textAlign: "center" }}>
+                Actualizar Producto <br />"{product.p_description}"
+              </Typography>
             </div>
-          </form>
-        </div>
-      </CardContent>
-    </Card>
+
+            <form
+              onSubmit={formik.handleSubmit}
+              onReset={formik.handleReset}
+              className=" d-flex justify-content-center align-item-center"
+            >
+              <div>
+                <TextField
+                  sx={{ mt: 4, width: 500 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_description"
+                  name="p_description"
+                  label="Nuevo nombre del Producto"
+                  type="text"
+                  value={formik.values.p_description}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.p_description &&
+                    Boolean(formik.errors.p_description)
+                  }
+                  helperText={
+                    formik.touched.p_description && formik.errors.p_description
+                  }
+                />
+                <br />
+                <TextField
+                  sx={{ mt: 4, width: 250 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_minstock"
+                  name="p_minstock"
+                  label="Cantidad minima en Stock"
+                  type="number"
+                  value={formik.values.p_minstock}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.p_minstock &&
+                    Boolean(formik.errors.p_minstock)
+                  }
+                  helperText={
+                    formik.touched.p_minstock && formik.errors.p_minstock
+                  }
+                />
+                <br />
+                <TextField
+                  sx={{ mt: 4, width: 250 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_unit"
+                  name="p_unit"
+                  label="Unidad de medida"
+                  type="text"
+                  value={formik.values.p_unit}
+                  onChange={formik.handleChange}
+                  error={formik.touched.p_unit && Boolean(formik.errors.p_unit)}
+                  helperText={formik.touched.p_unit && formik.errors.p_unit}
+                />
+                <br />
+                <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
+                  <InputLabel id="ubication-label">Ubication</InputLabel>
+                  <Select
+                    labelId="ubication-label"
+                    id="p_ubication"
+                    name="p_ubication"
+                    label="Ubication"
+                    value={formik.values.p_ubication}
+                    onChange={formik.handleChange}
+                    className="mb-4"
+                    error={
+                      formik.touched.p_ubication &&
+                      Boolean(formik.errors.p_ubication)
+                    }
+                    // helperText={
+                    //   formik.touched.p_ubication && formik.errors.p_ubication
+                    // }
+                  >
+                    <MenuItem value="">Selecciona la ubicacion</MenuItem>
+                    <MenuItem value={UBICATION[0]}>Papelería</MenuItem>
+                    <MenuItem value={UBICATION[1]}>
+                      Depósito de limpieza
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <br />
+                <div className="d-flex justify-content-center ">
+                  <Button
+                    type="submit"
+                    size="large"
+                    variant="contained"
+                    sx={{ mr: 2 }}
+                  >
+                    Actualizar Producto
+                  </Button>
+                  <Button
+                    type="reset"
+                    size="large"
+                    variant="outlined"
+                    sx={{ ml: 0 }}
+                    onClick={() => router.push("/products/update")}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+                <div className="mt-4">
+                  {creationSuccess ? (
+                    <Alert severity="success" variant="standard">
+                      {apiMessage}
+                    </Alert>
+                  ) : null}
+                  {found ? (
+                    <Alert severity="error" variant="standard">
+                      {apiMessage}
+                    </Alert>
+                  ) : null}
+                </div>
+              </div>
+            </form>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 }

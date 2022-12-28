@@ -1,5 +1,5 @@
 //DEPENDENCIES
-import { Product } from "../pure/product";
+import { Warehouse } from "../pure/warehouse";
 
 //MATERIAL UI
 import {
@@ -32,29 +32,29 @@ import React, { useEffect, useState } from "react";
 //AXIOS
 import axios from "axios";
 
-export default function ProductsList() {
+export default function WarehouseList() {
   //STATES
-  const [products, setProducts] = useState([]);
+  const [warehouses, setWarehouses] = useState([]);
   const [search, setSearch] = useState("");
   const [openDialog, setopenDialog] = useState(false);
-  const [idFromProduct, setIdFromProduct] = useState(0);
+  const [idFromWarehouse, setIdFromWarehouse] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
   //FETCH DATA
   useEffect(() => {
-    getAllProducts();
+    getAllWarehouses();
   }, []);
 
   //METHODS
 
-  function getAllProducts() {
+  function getAllWarehouses() {
     axios
-      .get("http://localhost:5000/qrstock/api/products")
+      .get("http://localhost:5000/qrstock/api/warehouses")
       .then((response) => {
-        const getAllProduct = response.data.allProducts;
+        const getAllWarehouse = response.data.allWarehouses;
 
-        setProducts(getAllProduct);
+        setWarehouses(getAllWarehouse);
       })
       .catch((error) => console.log(error));
   }
@@ -64,7 +64,7 @@ export default function ProductsList() {
   };
 
   const handleOpenDialog = (id) => {
-    setIdFromProduct(id);
+    setIdFromWarehouse(id);
     setopenDialog(true);
   };
   const handleCloseDialog = () => {
@@ -76,12 +76,12 @@ export default function ProductsList() {
   };
 
   const deleteProduct = (id) => {
-    axios(`http://localhost:5000/qrstock/api/products/${id}`, {
+    axios(`http://localhost:5000/qrstock/api/warehouses/${id}`, {
       method: "DELETE",
     }).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
-      getAllProducts();
+      getAllWarehouses();
       setTimeout(() => {
         setDeleteSuccess(false);
       }, 2000);
@@ -89,10 +89,10 @@ export default function ProductsList() {
   };
 
   //Filtrado
-  const productFilter = !search
-    ? products
-    : products.filter((data) =>
-        data.p_description.toUpperCase().includes(search.toUpperCase())
+  const warehouseFilter = !search
+    ? warehouses
+    : warehouses.filter((data) =>
+        data.w_description.toUpperCase().includes(search.toUpperCase())
       );
 
   return (
@@ -121,12 +121,12 @@ export default function ProductsList() {
           }}
         >
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
+            ALMACENES
           </Typography>
 
           <TextField
             variant="standard"
-            label="Buscar Producto"
+            label="Buscar Almacén"
             type="text"
             value={search}
             onChange={searchHandler}
@@ -149,13 +149,7 @@ export default function ProductsList() {
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
-                    Nombre del Producto
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Ubicación
+                    Nombre del Almacén
                   </TableCell>
                   <TableCell
                     align="center"
@@ -166,13 +160,12 @@ export default function ProductsList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {productFilter.map((product) => {
+                {warehouseFilter.map((warehouse) => {
                   return (
-                    <Product
-                      key={product.id}
-                      id={product.id}
-                      p_desription={product.p_description}
-                      p_ubication={product.p_ubication}
+                    <Warehouse
+                      key={warehouse.id}
+                      id={warehouse.id}
+                      w_description={warehouse.w_description}
                       handleOpenDialog={handleOpenDialog}
                     />
                   );
@@ -209,7 +202,7 @@ export default function ProductsList() {
             <Button
               variant="outlined"
               color="error"
-              onClick={() => handleCloseConfirmDialog(idFromProduct)}
+              onClick={() => handleCloseConfirmDialog(idFromWarehouse)}
               autoFocus
             >
               Aceptar

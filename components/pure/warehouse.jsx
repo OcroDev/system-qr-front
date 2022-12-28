@@ -6,7 +6,7 @@ import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 //MATERIAL ICONS
 import { DeleteForever, Update } from "@mui/icons-material";
 
-export const Department = ({ d_name, id, handleOpenDialog }) => {
+export const Warehouse = ({ w_description, id, handleOpenDialog }) => {
   return (
     <>
       <TableRow>
@@ -14,10 +14,10 @@ export const Department = ({ d_name, id, handleOpenDialog }) => {
           {id}
         </TableCell>
         <TableCell align="right" sx={{ color: "#efefef" }}>
-          {d_name}
+          {w_description}
         </TableCell>
         <TableCell align="center">
-          <Link href={`/departments/update/${id}`}>
+          <Link href={`/warehouse/update/${id}`}>
             <IconButton sx={{ color: "info.main" }} aria-label="Actualizar">
               <Tooltip title="Actualizar">
                 <Update />

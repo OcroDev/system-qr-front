@@ -76,7 +76,7 @@ export default function DepartmentList() {
 
   const deleteDepartment = (id) => {
     console.log("Id a eliminar: ", id);
-    axios(`http://localhost:5000/qrstock/api/products/${id}`, {
+    axios(`http://localhost:5000/qrstock/api/departments/${id}`, {
       method: "DELETE",
     }).then((response) => {
       setDeleteSuccess(true);

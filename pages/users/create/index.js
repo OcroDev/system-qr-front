@@ -1,5 +1,10 @@
 import React from "react";
+import AddUser from "../../../components/form/addUser";
 
 export default function UserCreate() {
-  return <div>UserCreate</div>;
+  return (
+    <div>
+      <AddUser />
+    </div>
+  );
 }

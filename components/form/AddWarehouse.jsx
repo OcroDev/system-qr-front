@@ -43,7 +43,7 @@ export const AddWarehouse = () => {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/warehouse",
+        url: "http://localhost:5000/qrstock/api/warehouses",
         data: {
           w_description: values.w_description,
         },
@@ -59,7 +59,7 @@ export const AddWarehouse = () => {
         })
         .catch(function (error) {
           if (error.response) {
-            setFound(error.response.data.departmentFound);
+            setFound(error.response.data.warehouseFound);
             setApiMessage(error.response.data.message);
           } else {
             setFound(true);
@@ -67,6 +67,7 @@ export const AddWarehouse = () => {
           }
         })
         .finally(() => {
+          values.w_description = "";
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);

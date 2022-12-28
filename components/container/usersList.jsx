@@ -1,5 +1,5 @@
 //DEPENDENCIES
-import { Product } from "../pure/product";
+import { User } from "../pure/user";
 
 //MATERIAL UI
 import {
@@ -32,29 +32,29 @@ import React, { useEffect, useState } from "react";
 //AXIOS
 import axios from "axios";
 
-export default function ProductsList() {
+export default function UsersList() {
   //STATES
-  const [products, setProducts] = useState([]);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [openDialog, setopenDialog] = useState(false);
-  const [idFromProduct, setIdFromProduct] = useState(0);
+  const [idFromUser, setIdFromUser] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
 
   //FETCH DATA
   useEffect(() => {
-    getAllProducts();
+    getAllUsers();
   }, []);
 
   //METHODS
 
-  function getAllProducts() {
+  function getAllUsers() {
     axios
-      .get("http://localhost:5000/qrstock/api/products")
+      .get("http://localhost:5000/qrstock/api/users")
       .then((response) => {
-        const getAllProduct = response.data.allProducts;
+        const getAllUser = response.data.allUsers;
 
-        setProducts(getAllProduct);
+        setUsers(getAllUser);
       })
       .catch((error) => console.log(error));
   }
@@ -64,24 +64,24 @@ export default function ProductsList() {
   };
 
   const handleOpenDialog = (id) => {
-    setIdFromProduct(id);
+    setIdFromUser(id);
     setopenDialog(true);
   };
   const handleCloseDialog = () => {
     setopenDialog(false);
   };
-  const handleCloseConfirmDialog = (idFromProduct) => {
+  const handleCloseConfirmDialog = (idFromUser) => {
     setopenDialog(false);
-    deleteProduct(idFromProduct);
+    deleteUser(idFromUser);
   };
 
-  const deleteProduct = (id) => {
-    axios(`http://localhost:5000/qrstock/api/products/${id}`, {
+  const deleteUser = (id) => {
+    axios(`http://localhost:5000/qrstock/api/users/${id}`, {
       method: "DELETE",
     }).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
-      getAllProducts();
+      getAllUsers();
       setTimeout(() => {
         setDeleteSuccess(false);
       }, 2000);
@@ -89,10 +89,10 @@ export default function ProductsList() {
   };
 
   //Filtrado
-  const productFilter = !search
-    ? products
-    : products.filter((data) =>
-        data.p_description.toUpperCase().includes(search.toUpperCase())
+  const userFilter = !search
+    ? users
+    : users.filter((data) =>
+        data.u_username.toUpperCase().includes(search.toUpperCase())
       );
 
   return (
@@ -121,7 +121,7 @@ export default function ProductsList() {
           }}
         >
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
+            USUARIOS
           </Typography>
 
           <TextField
@@ -149,13 +149,19 @@ export default function ProductsList() {
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
-                    Nombre del Producto
+                    Nombre
                   </TableCell>
                   <TableCell
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
-                    Ubicación
+                    Apellido
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ color: "#efefef", fontWeight: "bold" }}
+                  >
+                    Nombre de Usuario
                   </TableCell>
                   <TableCell
                     align="center"
@@ -166,13 +172,14 @@ export default function ProductsList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {productFilter.map((product) => {
+                {userFilter.map((user) => {
                   return (
-                    <Product
-                      key={product.id}
-                      id={product.id}
-                      p_desription={product.p_description}
-                      p_ubication={product.p_ubication}
+                    <User
+                      key={user.id}
+                      id={user.id}
+                      u_firstname={user.u_firstname}
+                      u_lastname={user.u_lastname}
+                      u_username={user.u_username}
                       handleOpenDialog={handleOpenDialog}
                     />
                   );
@@ -209,7 +216,7 @@ export default function ProductsList() {
             <Button
               variant="outlined"
               color="error"
-              onClick={() => handleCloseConfirmDialog(idFromProduct)}
+              onClick={() => handleCloseConfirmDialog(idFromUser)}
               autoFocus
             >
               Aceptar

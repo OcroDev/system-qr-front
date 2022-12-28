@@ -6,7 +6,13 @@ import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 //MATERIAL ICONS
 import { DeleteForever, Update } from "@mui/icons-material";
 
-export const Department = ({ d_name, id, handleOpenDialog }) => {
+export const User = ({
+  id,
+  u_username,
+  u_firstname,
+  u_lastname,
+  handleOpenDialog,
+}) => {
   return (
     <>
       <TableRow>
@@ -14,11 +20,17 @@ export const Department = ({ d_name, id, handleOpenDialog }) => {
           {id}
         </TableCell>
         <TableCell align="right" sx={{ color: "#efefef" }}>
-          {d_name}
+          {u_firstname}
+        </TableCell>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
+          {u_lastname}
+        </TableCell>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
+          {u_username}
         </TableCell>
         <TableCell align="center">
-          <Link href={`/departments/update/${id}`}>
-            <IconButton sx={{ color: "info.main" }} aria-label="Actualizar">
+          <Link href={`/users/update/${id}`}>
+            <IconButton sx={{ color: "info.main" }}>
               <Tooltip title="Actualizar">
                 <Update />
               </Tooltip>

@@ -188,6 +188,16 @@ export default function Navbar() {
                 </ListItemButton>
               </List>
             </Link>
+            <Link href="/warehouse/update">
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon sx={{ color: "#fff" }}>
+                    <Edit />
+                  </ListItemIcon>
+                  <ListItemText primary="Actualiar / Eliminar" />
+                </ListItemButton>
+              </List>
+            </Link>
           </Collapse>
 
           {/* Reports */}
@@ -227,6 +237,16 @@ export default function Navbar() {
                     <AddBox />
                   </ListItemIcon>
                   <ListItemText primary="Crear" />
+                </ListItemButton>
+              </List>
+            </Link>
+            <Link href="/users/update">
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon sx={{ color: "#fff" }}>
+                    <Edit />
+                  </ListItemIcon>
+                  <ListItemText primary="Actualiar / Eliminar" />
                 </ListItemButton>
               </List>
             </Link>

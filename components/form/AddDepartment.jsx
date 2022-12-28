@@ -67,6 +67,7 @@ export default function AddDepartment() {
           }
         })
         .finally(() => {
+          values.d_name = "";
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);

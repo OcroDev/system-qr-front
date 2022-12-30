@@ -35,7 +35,7 @@ export default function AddUser() {
     u_firstname: yup
       .string("Ecribe el primer nombre del usuario")
       .min(3, "El nombre del usuario es demasiado corto")
-      .max(10, "El nombre del usuario es demasiado largo")
+      .max(15, "El nombre del usuario es demasiado largo")
       .required("El nombre del producto es requerido"),
     u_lastname: yup
       .string("Escribe el apellido del usuario")
@@ -48,7 +48,7 @@ export default function AddUser() {
       .required("El nombre de usuario es requerido"),
     u_password: yup
       .string("Escribe una contraseña")
-      .min(6, "La contraseña es demasiado corta")
+      .min(4, "La contraseña es demasiado corta")
       .max(15, "La contraseña es demasiado larga")
       .required("La contraseña es no puede estar vacía"),
     confirm: yup

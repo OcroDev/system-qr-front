@@ -33,7 +33,7 @@ export const AddWarehouse = () => {
     w_description: yup
       .string("Ecribe el nombre del departamento")
       .min(5, "El nombre del departamento es demasiado corto")
-      .max(25, "El nombre del departamento es demasiado largo")
+      .max(50, "El nombre del departamento es demasiado largo")
       .required("El nombre del departamento es requerido"),
   });
 

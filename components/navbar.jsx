@@ -44,6 +44,7 @@ export default function Navbar() {
     openReport,
     openUser,
   } = useSelector((state) => state.navbar);
+  const { u_admin } = useSelector((state) => state.userLogin);
 
   return (
     <aside className={styles.sidebar}>
@@ -222,6 +223,7 @@ export default function Navbar() {
           </Collapse>
 
           {/* Users */}
+
           <ListItemButton onClick={() => dispatch(dropdownSetter("user"))}>
             <ListItemIcon sx={{ color: "#fff" }}>
               <PersonPin />
@@ -229,28 +231,30 @@ export default function Navbar() {
             <ListItemText primary="Usuario"></ListItemText>
             {!openUser ? <ExpandMore /> : <ExpandLess />}
           </ListItemButton>
-          <Collapse in={openUser}>
-            <Link href="/users/create">
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon sx={{ color: "#fff" }}>
-                    <AddBox />
-                  </ListItemIcon>
-                  <ListItemText primary="Crear" />
-                </ListItemButton>
-              </List>
-            </Link>
-            <Link href="/users/update">
-              <List component="div" disablePadding>
-                <ListItemButton sx={{ pl: 4 }}>
-                  <ListItemIcon sx={{ color: "#fff" }}>
-                    <Edit />
-                  </ListItemIcon>
-                  <ListItemText primary="Actualiar / Eliminar" />
-                </ListItemButton>
-              </List>
-            </Link>
-          </Collapse>
+          {u_admin ? (
+            <Collapse in={openUser}>
+              <Link href="/users/create">
+                <List component="div" disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon sx={{ color: "#fff" }}>
+                      <AddBox />
+                    </ListItemIcon>
+                    <ListItemText primary="Crear" />
+                  </ListItemButton>
+                </List>
+              </Link>
+              <Link href="/users/update">
+                <List component="div" disablePadding>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemIcon sx={{ color: "#fff" }}>
+                      <Edit />
+                    </ListItemIcon>
+                    <ListItemText primary="Actualiar / Eliminar" />
+                  </ListItemButton>
+                </List>
+              </Link>
+            </Collapse>
+          ) : null}
         </List>
       </nav>
     </aside>

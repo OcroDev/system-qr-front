@@ -1,0 +1,38 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  id: "",
+  u_firstname: "",
+  u_lastname: "",
+  u_username: "",
+  u_password: "",
+  u_admin: false,
+  isdeleted: false,
+};
+
+export const userLoginSlice = createSlice({
+  name: "userLogin",
+  initialState: initialState,
+  reducers: {
+    setUser: (state, action) => {
+      state.id = action.payload.id;
+      state.u_firstname = action.payload.u_firstname;
+      state.u_lastname = action.payload.u_lastname;
+      state.u_username = action.payload.u_username;
+      state.u_admin = action.payload.u_admin;
+      state.isdeleted = action.payload.isdeleted;
+    },
+    unSetUser: (state, action) => {
+      state.id = "";
+      state.u_firstname = "";
+      state.u_lastname = "";
+      state.u_username = "";
+      state.u_admin = "";
+      state.isdeleted = false;
+    },
+  },
+});
+
+export const { setUser, unSetUser } = userLoginSlice.actions;
+
+export default userLoginSlice.reducer;

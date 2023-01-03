@@ -98,3 +98,9 @@ a {
 color {
   color: #fa030357;
 }
+
+.hr-style {
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, #ffffff00, #000000bf, #ffffff00);
+}

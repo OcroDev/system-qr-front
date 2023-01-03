@@ -115,7 +115,7 @@ export default function Navbar() {
             {!openOperation ? <ExpandMore /> : <ExpandLess />}
           </ListItemButton>
           <Collapse in={openOperation}>
-            <Link href="">
+            <Link href="/operations/in">
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon sx={{ color: "#fff" }}>
@@ -125,7 +125,7 @@ export default function Navbar() {
                 </ListItemButton>
               </List>
             </Link>
-            <Link href="">
+            <Link href="/operations/out">
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon sx={{ color: "#fff" }}>

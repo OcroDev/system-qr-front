@@ -5,6 +5,7 @@ import { configureStore } from "@reduxjs/toolkit";
 // import userReducer from "./reducers/user/userSlice";
 // import filterReducer from "./reducers/filter/filterSlice";
 import navbarReducer from "./reducers/navbar/navbarSlice";
+import productOperationReducer from "./reducers/products/productOperationSlice";
 import userLoginReducer from "./reducers/userLogin/userLoginSlice";
 
 export default configureStore({
@@ -12,5 +13,6 @@ export default configureStore({
     // user: userReducer,
     navbar: navbarReducer,
     userLogin: userLoginReducer,
+    opProduct: productOperationReducer,
   },
 });

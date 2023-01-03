@@ -117,7 +117,6 @@ export default function UpdateProduct() {
           }, 5000);
         });
     },
-    //onReset: () => {},
   });
 
   return (
@@ -203,9 +202,6 @@ export default function UpdateProduct() {
                       formik.touched.p_ubication &&
                       Boolean(formik.errors.p_ubication)
                     }
-                    // helperText={
-                    //   formik.touched.p_ubication && formik.errors.p_ubication
-                    // }
                   >
                     <MenuItem value="">Selecciona la ubicacion</MenuItem>
                     <MenuItem value={UBICATION[0]}>Papelería</MenuItem>

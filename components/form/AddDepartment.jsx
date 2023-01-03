@@ -48,7 +48,7 @@ export default function AddDepartment() {
           d_name: values.d_name,
         },
       };
-      console.log(values.d_name);
+
       axios
         .request(options)
         .then(function (response) {

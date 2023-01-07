@@ -8,17 +8,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Paper,
   Card,
   CardContent,
   Typography,
   TextField,
-  ListItemIcon,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
   Button,
   Alert,
   CardActions,
@@ -28,7 +21,8 @@ import {
 import { Reply } from "@mui/icons-material";
 //REACT
 import { useEffect, useState } from "react";
-
+//REDUX
+import { useSelector } from "react-redux";
 //AXIOS
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -37,6 +31,7 @@ export default function InOutProductsList() {
   const router = useRouter();
 
   //STATES
+  const { operation_type } = useSelector((state) => state.opType);
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
@@ -47,6 +42,7 @@ export default function InOutProductsList() {
     getAllProducts();
   }, []);
 
+  console.log("operation Type:", operation_type);
   //METHODS
 
   function getAllProducts() {
@@ -101,7 +97,7 @@ export default function InOutProductsList() {
         sx={{
           bgcolor: "#fff",
           mt: 0,
-          width: "60vw",
+          width: "75vw",
           height: "80vh",
           overflowY: "scroll",
         }}
@@ -110,7 +106,7 @@ export default function InOutProductsList() {
           sx={{
             position: "absolute",
             background: "#fff",
-            width: "60vw",
+            width: "75vw",
             zIndex: "998",
           }}
         >
@@ -131,10 +127,11 @@ export default function InOutProductsList() {
             sx={{
               bgcolor: "background.paper",
               marginTop: 15,
+              maxHeight: "50vh",
             }}
           >
             <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-              <Table sx={{ maxWidth: "60vw" }}>
+              <Table sx={{ maxWidth: "75vw" }}>
                 <TableHead sx={{ marginTop: 4 }}>
                   <TableRow>
                     <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
@@ -145,6 +142,12 @@ export default function InOutProductsList() {
                       sx={{ color: "#efefef", fontWeight: "bold" }}
                     >
                       Nombre del Producto
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Existencia Actual
                     </TableCell>
                     <TableCell
                       align="right"
@@ -167,6 +170,8 @@ export default function InOutProductsList() {
                         key={product.id}
                         id={product.id}
                         p_description={product.p_description}
+                        stock={product.p_stock}
+                        opType={operation_type}
                       />
                     );
                   })}
@@ -181,7 +186,11 @@ export default function InOutProductsList() {
               variant="contained"
               startIcon={<Reply />}
               color="info"
-              onClick={() => router.push("/operations/in")}
+              onClick={() =>
+                operation_type == "IN"
+                  ? router.push("/operations/in")
+                  : router.push("/operations/out")
+              }
             >
               Regresar
             </Button>

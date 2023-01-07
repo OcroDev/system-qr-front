@@ -79,6 +79,10 @@ export default function AddProduct() {
           }
         })
         .finally(() => {
+          values.p_description = "";
+          values.p_minstock = "";
+          values.p_unit = "";
+          values.p_ubication = "";
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);

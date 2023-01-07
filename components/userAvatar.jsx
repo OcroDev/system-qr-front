@@ -34,7 +34,11 @@ export default function UserAvatar() {
           marginBottom: ".5rem",
         }}
       >
-        <Avatar alt="User Name" src="" sx={{ width: 75, height: 75 }} />
+        <Avatar
+          alt="User Name"
+          src=""
+          sx={{ width: 75, height: 75, color: "#efefef" }}
+        />
       </div>
       <div>
         <List

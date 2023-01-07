@@ -5,11 +5,15 @@ import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 
 //MATERIAL ICONS
 import { DeleteForever, Update } from "@mui/icons-material";
+import QrCode from "./qrCode";
 
 export const Product = ({
   p_desription,
   p_ubication,
   id,
+  p_unit,
+  p_minstock,
+  p_stock,
   handleOpenDialog,
 }) => {
   const checkid = (idbutton) => {
@@ -23,6 +27,12 @@ export const Product = ({
         </TableCell>
         <TableCell align="right" sx={{ color: "#efefef" }}>
           {p_desription}
+        </TableCell>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
+          {p_minstock}
+        </TableCell>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
+          {p_unit}
         </TableCell>
         <TableCell align="right" sx={{ color: "#efefef" }}>
           {p_ubication}
@@ -43,6 +53,14 @@ export const Product = ({
               <DeleteForever />
             </Tooltip>
           </IconButton>
+        </TableCell>
+        <TableCell>
+          <QrCode
+            name={p_desription}
+            ubication={p_ubication}
+            stock={p_stock}
+            type="canvas"
+          />
         </TableCell>
       </TableRow>
     </>

@@ -78,7 +78,7 @@ export default function AddDepartment() {
   });
 
   return (
-    <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
+    <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
       <CardContent>
         <div>
           <div>

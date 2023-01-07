@@ -16,17 +16,14 @@ import { AddShoppingCartSharp } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/reducers/products/productOperationSlice";
 
-export const InOutProduct = ({ p_description, id }) => {
+export const InOutProduct = ({ p_description, id, stock, opType }) => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState(0);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [severityType, setSetSeverity] = useState(true);
+  const [checkStock, setCheckStock] = useState(false);
 
   const productsInList = useSelector((state) => state.opProduct);
-
-  const checkid = (idbutton) => {
-    console.log("id del producto:", idbutton);
-  };
 
   //METHODS
   const addProductToList = () => {
@@ -38,6 +35,13 @@ export const InOutProduct = ({ p_description, id }) => {
 
     if (quantity <= 0) {
       return;
+    }
+    let finalStock = stock - quantity;
+    if (opType === "OUT") {
+      if (finalStock < 0) {
+        setCheckStock(true);
+        return;
+      }
     }
 
     const find = productsInList.products.find((product) => product.id === id);
@@ -75,6 +79,9 @@ export const InOutProduct = ({ p_description, id }) => {
         <TableCell align="right" sx={{ color: "#efefef" }}>
           {p_description}
         </TableCell>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
+          {stock}
+        </TableCell>
         <TableCell align="right">
           <TextField
             type="number"
@@ -110,6 +117,14 @@ export const InOutProduct = ({ p_description, id }) => {
                 sx={{ width: "100%" }}
               >
                 La cantidad no puede ser 0 o menor a cero
+              </Alert>
+            ) : checkStock ? (
+              <Alert
+                onClose={handleCloseSnackbar}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                La cantidad supera el Stock actual
               </Alert>
             ) : !severityType ? (
               <Alert

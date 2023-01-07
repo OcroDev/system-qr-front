@@ -18,6 +18,9 @@ import {
   Snackbar,
   Alert,
   FormHelperText,
+  IconButton,
+  Tooltip,
+  TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -27,6 +30,12 @@ import { MovementProduct } from "../pure/movementProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
+import {
+  deleteDepartment,
+  addDepartment,
+} from "../../redux/reducers/department/departmentOperationSlice";
+import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
+import { Add, Remove } from "@mui/icons-material";
 
 export default function OutOperation() {
   const [lastOperation, setLastOperation] = useState(0);
@@ -37,6 +46,10 @@ export default function OutOperation() {
 
   const dispatch = useDispatch();
 
+  const { department_name, department_id } = useSelector(
+    (state) => state.opDepartment
+  );
+
   const movementProducts = useSelector((state) => state.opProduct);
   const { u_id } = useSelector((state) => state.userLogin);
 
@@ -45,12 +58,24 @@ export default function OutOperation() {
     getAllWarehouses();
   }, []);
 
+  useEffect(() => {
+    return () => {
+      dispatch(deleteDepartment());
+    };
+  }, []);
+
   //*FORMIK
   const initialValues = {
-    w_description: "",
+    warehouse_in_id: "",
+    warehouse_out_id: "",
   };
   const validationSchema = yup.object().shape({
-    w_description: yup.string().required("El almacen es requerido * "),
+    warehouse_in_id: yup
+      .string()
+      .required("El almacen de destino es requerido* "),
+    warehouse_out_id: yup
+      .string()
+      .required("El almacen de origen es requerido* "),
   });
 
   //* METHODS
@@ -76,6 +101,7 @@ export default function OutOperation() {
       .get("http://localhost:5000/qrstock/api/warehouses")
       .then((response) => {
         const getAllWarehouse = response.data.allWarehouses;
+
         setWarehouses(getAllWarehouse);
       })
       .catch((error) => console.log(error));
@@ -89,6 +115,7 @@ export default function OutOperation() {
     if (reason === "clickaway") {
       return;
     }
+
     setOpenSnackbar(false);
   };
 
@@ -100,6 +127,7 @@ export default function OutOperation() {
       url: "http://localhost:5000/qrstock/api/operations",
       data: {
         warehouse_out: newOperation.warehouse_out,
+        warehouse_in: newOperation.warehouse_in,
         u_make: newOperation.u_make,
         dep_in: newOperation.dep_in,
         operation_type_id: newOperation.operation_type_id,
@@ -108,8 +136,10 @@ export default function OutOperation() {
     axios
       .request(options)
       .then((response) => {
-        console.log(response.data);
-        createMovement();
+        if (response.data.status === 201) {
+          createMovement();
+          updateStockProduct();
+        }
       })
       .catch((error) => console.log(error.message));
   };
@@ -123,14 +153,12 @@ export default function OutOperation() {
           product_id: product.id,
           mov_quantity: product.p_stock,
           operation_cod: lastOperation,
-          operation_type_id: 1,
+          operation_type_id: 2,
         },
       };
       axios
         .request(options)
-        .then((response) => {
-          console.log(response.data);
-        })
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     });
   };
@@ -143,12 +171,12 @@ export default function OutOperation() {
         data: {
           id: product.id,
           p_stock: product.p_stock,
-          operation_type: 1,
+          operation_type: 2,
         },
       };
       axios
         .request(options)
-        .then((response) => console.log(response.data))
+        .then((response) => console.log(response.data.status))
         .catch((error) => console.log(error.message));
     });
   };
@@ -158,20 +186,20 @@ export default function OutOperation() {
     initialValues: initialValues,
     validationSchema,
     onSubmit: (values) => {
-      if (movementProducts.totalcount > 0) {
+      if (movementProducts.totalcount > 0 && department_id != null) {
         console.log("enviando informacion");
         let newOperation = {
-          warehouse_out: values.w_description,
+          warehouse_out: values.warehouse_out_id,
+          warehouse_in: values.warehouse_in_id,
           u_make: u_id,
-          dep_in: 1,
-          operation_type_id: 1,
+          dep_in: department_id,
+          operation_type_id: 2,
         };
         createOperation(newOperation);
-        // createMovement();
-        updateStockProduct();
         dispatch(deleteProducts());
+        dispatch(deleteDepartment());
         getOperations();
-        values.w_description = "";
+        values.warehouse_in_id = "";
       } else {
         console.log("faltan datos");
       }
@@ -193,37 +221,36 @@ export default function OutOperation() {
       >
         <CardContent>
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            Entrada de Productos
+            Salida de Productos
           </Typography>
         </CardContent>
 
         <hr className="hr-style" />
         <form onSubmit={formik.handleSubmit}>
-          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 20 }}>
-            <InputLabel sx={{ mr: 15, mt: 2 }}>
+          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
+            <InputLabel sx={{ mr: 5, mt: 2 }}>
               <b>Numero:</b> {lastOperation}
             </InputLabel>
-            <InputLabel sx={{ mr: 15, mt: 2 }}>
+            <InputLabel sx={{ mr: 5, mt: 2 }}>
               <b>Fecha:</b> {date}
             </InputLabel>
-            <FormControl sx={{ width: 250, mt: 0, mb: 0 }}>
-              <InputLabel id="w_description-label">Almacén</InputLabel>
+            <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
+              <InputLabel id="warehouse_in_id-label">
+                Almacén destino
+              </InputLabel>
               <Select
                 variant="standard"
-                labelId="w_description-label"
-                id="w_description"
-                name="w_description"
+                labelId="warehouse_in_id-label"
+                id="warehouse_in_id"
+                name="warehouse_in_id"
                 label="Almacén"
-                value={formik.values.w_description}
+                value={formik.values.warehouse_in_id}
                 onChange={formik.handleChange}
                 className="mb-4"
                 error={
-                  formik.touched.w_description &&
-                  Boolean(formik.errors.w_description)
+                  formik.touched.warehouse_in_id &&
+                  Boolean(formik.errors.warehouse_in_id)
                 }
-                // helperText={
-
-                // }
               >
                 {warehouses.map((warehouse) => {
                   return (
@@ -238,9 +265,73 @@ export default function OutOperation() {
                 })}
               </Select>
               <FormHelperText sx={{ color: "red" }}>
-                {formik.touched.w_description && formik.errors.w_description}
+                {formik.touched.warehouse_in_id &&
+                  formik.errors.warehouse_in_id}
               </FormHelperText>
             </FormControl>
+            <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
+              <InputLabel id="warehouse_out_id-label">
+                Almacén Origen
+              </InputLabel>
+              <Select
+                variant="standard"
+                labelId="warehouse_out_id-label"
+                id="warehouse_out_id"
+                name="warehouse_out_id"
+                label="Almacén Origen"
+                value={formik.values.warehouse_out_id}
+                onChange={formik.handleChange}
+                className="mb-4"
+                error={
+                  formik.touched.warehouse_out_id &&
+                  Boolean(formik.errors.warehouse_out_id)
+                }
+              >
+                {warehouses.map((warehouse) => {
+                  return (
+                    <MenuItem
+                      key={warehouse.id}
+                      value={warehouse.id}
+                      sx={{ color: "#efefef" }}
+                    >
+                      {warehouse.w_description}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+              <FormHelperText sx={{ color: "red" }}>
+                {formik.touched.warehouse_out_id &&
+                  formik.errors.warehouse_out_id}
+              </FormHelperText>
+            </FormControl>
+          </CardContent>
+          <CardContent
+            sx={{ display: "inline-flex", mr: "auto", ml: 10, mt: -5, mb: -5 }}
+          >
+            <InputLabel sx={{ ml: 0, mt: 0 }}>
+              <b>Departamento Destino:</b> {department_name}
+            </InputLabel>
+
+            <IconButton
+              sx={{ color: "success.main", mt: -1 }}
+              onClick={() => {
+                router.push("/departments/operationDepartments/");
+              }}
+            >
+              <Tooltip title="agregar">
+                <Add />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              sx={{ color: "error.main", mt: -1 }}
+              onClick={() => {
+                dispatch(deleteDepartment());
+              }}
+            >
+              <Tooltip title="quitar">
+                <Remove />
+              </Tooltip>
+            </IconButton>
           </CardContent>
           <hr className="hr-style" />
           <CardContent>
@@ -288,7 +379,7 @@ export default function OutOperation() {
               variant="contained"
               sx={{ mr: 2 }}
             >
-              Generar Entrada
+              Generar Salida
             </Button>
             <Button
               type="button"
@@ -296,7 +387,10 @@ export default function OutOperation() {
               variant="outlined"
               sx={{ mr: 2 }}
               color="success"
-              onClick={() => router.push("/products/operationProducts")}
+              onClick={() => {
+                dispatch(setOperationType("OUT"));
+                router.push("/products/operationProducts");
+              }}
             >
               Añadir productos
             </Button>

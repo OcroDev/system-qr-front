@@ -26,7 +26,7 @@ import {
 export default function UpdateProduct() {
   //router
   const router = useRouter();
-  console.log(router.query.id);
+
   //ubication model
   const UBICATION = ["PAPELERÍA", "DEPÓSITO DE LIMPIEZA"];
   //states
@@ -46,7 +46,7 @@ export default function UpdateProduct() {
       .request(options)
       .then(function (response) {
         const newProduct = response.data.product;
-        console.log("produc en axios", newProduct);
+
         setProduct(newProduct);
       })
       .catch(function (error) {
@@ -111,6 +111,10 @@ export default function UpdateProduct() {
           }
         })
         .finally(() => {
+          values.p_description = "";
+          values.p_minstock = "";
+          values.p_unit = "";
+          values.p_ubication = "";
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);

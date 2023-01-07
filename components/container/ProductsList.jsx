@@ -106,9 +106,9 @@ export default function ProductsList() {
       <Card
         sx={{
           bgcolor: "#fff",
-          mt: 20,
-          width: "60vw",
-          height: "60vh",
+          mt: 10,
+          width: "75vw",
+          height: "70vh",
           overflowY: "scroll",
         }}
       >
@@ -116,7 +116,7 @@ export default function ProductsList() {
           sx={{
             position: "absolute",
             background: "#fff",
-            width: "60vw",
+            width: "75vw",
             zIndex: "998",
           }}
         >
@@ -139,7 +139,7 @@ export default function ProductsList() {
               marginTop: 15,
             }}
           >
-            <Table sx={{ maxWidth: "70vw" }}>
+            <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
               <TableHead sx={{ marginTop: 4 }}>
                 <TableRow>
                   <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
@@ -155,6 +155,18 @@ export default function ProductsList() {
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
+                    Stock Mínimo
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ color: "#efefef", fontWeight: "bold" }}
+                  >
+                    Unidad de Medida
+                  </TableCell>
+                  <TableCell
+                    align="right"
+                    sx={{ color: "#efefef", fontWeight: "bold" }}
+                  >
                     Ubicación
                   </TableCell>
                   <TableCell
@@ -162,6 +174,12 @@ export default function ProductsList() {
                     sx={{ color: "#efefef", fontWeight: "bold" }}
                   >
                     Acciones
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{ color: "#efefef", fontWeight: "bold" }}
+                  >
+                    QR Code
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -173,7 +191,10 @@ export default function ProductsList() {
                       id={product.id}
                       p_desription={product.p_description}
                       p_ubication={product.p_ubication}
+                      p_unit={product.p_unit}
+                      p_minstock={product.p_minstock}
                       handleOpenDialog={handleOpenDialog}
+                      p_stock={product.p_stock}
                     />
                   );
                 })}

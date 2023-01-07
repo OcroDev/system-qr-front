@@ -27,6 +27,7 @@ import { MovementProduct } from "../pure/movementProduct";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
+import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
 
 export default function InOperation() {
   const [lastOperation, setLastOperation] = useState(0);
@@ -102,6 +103,7 @@ export default function InOperation() {
       url: "http://localhost:5000/qrstock/api/operations",
       data: {
         warehouse_out: newOperation.warehouse_out,
+        warehouse_in: newOperation.warehouse_in,
         u_make: newOperation.u_make,
         dep_in: newOperation.dep_in,
         operation_type_id: newOperation.operation_type_id,
@@ -110,8 +112,10 @@ export default function InOperation() {
     axios
       .request(options)
       .then((response) => {
-        console.log(response.data);
-        createMovement();
+        if (response.data.status === 201) {
+          createMovement();
+          updateStockProduct();
+        }
       })
       .catch((error) => console.log(error.message));
   };
@@ -130,9 +134,7 @@ export default function InOperation() {
       };
       axios
         .request(options)
-        .then((response) => {
-          console.log(response.data);
-        })
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     });
   };
@@ -150,7 +152,7 @@ export default function InOperation() {
       };
       axios
         .request(options)
-        .then((response) => console.log(response.data))
+        .then((response) => console.log(response.data.status))
         .catch((error) => console.log(error.message));
     });
   };
@@ -163,14 +165,13 @@ export default function InOperation() {
       if (movementProducts.totalcount > 0) {
         console.log("enviando informacion");
         let newOperation = {
-          warehouse_out: values.w_description,
+          warehouse_out: null,
+          warehouse_in: values.w_description,
           u_make: u_id,
-          dep_in: 1,
+          dep_in: null,
           operation_type_id: 1,
         };
         createOperation(newOperation);
-        // createMovement();
-        updateStockProduct();
         dispatch(deleteProducts());
         getOperations();
         values.w_description = "";
@@ -298,7 +299,10 @@ export default function InOperation() {
               variant="outlined"
               sx={{ mr: 2 }}
               color="success"
-              onClick={() => router.push("/products/operationProducts")}
+              onClick={() => {
+                dispatch(setOperationType("IN"));
+                router.push("/products/operationProducts");
+              }}
             >
               Añadir productos
             </Button>

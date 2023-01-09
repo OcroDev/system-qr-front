@@ -16,7 +16,6 @@ import { ExpandLess, ExpandMore, Logout } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { dropdownSetter } from "../redux/reducers/navbar/navbarSlice";
 import { unSetUser } from "../redux/reducers/userLogin/userLoginSlice";
-import { unsetUser } from "d:/users/rohe/documents/programacion/javascript/redux/learning_redux/redux/src/app/reducers/users/userslice";
 import { useRouter } from "next/router";
 
 export default function UserAvatar() {
@@ -69,7 +68,7 @@ export default function UserAvatar() {
               <ListItemButton
                 sx={{ pl: 4 }}
                 onClick={() => {
-                  dispatch(unsetUser());
+                  dispatch(unSetUser());
                   sessionStorage.removeItem("user");
                   router.push("/");
                 }}

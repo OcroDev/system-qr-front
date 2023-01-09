@@ -3,6 +3,140 @@ import axios from "axios";
 import { cm, db } from "./logos";
 
 const printServices = {
+  orderReport: async (id) => {
+    const URI = `http://localhost:5000/qrstock/api/orders/report`;
+    const CM = "COLEGIO METROPOLITANO",
+      DB = "COLEGIO LOS PIRINEOS DON BOSCO",
+      userAuth = "LIC. GABRIELA CEDOLIN";
+
+    //FETCHING DATA
+    let response = [];
+    try {
+      response = await axios.post(URI, { id: id });
+    } catch (error) {
+      console.log(error);
+    }
+    const orderData = response.data.orderFind;
+    //?create table and document data
+    let doc_data = {},
+      doc_table = [];
+    for (let i = 0; i < 1; i++) {
+      for (const key in orderData) {
+        doc_data.Cantidad = orderData[key].mov_quantity.toString();
+        doc_data.Producto = orderData[key].p_description;
+        doc_data.ID = orderData[key].product_id.toString();
+        doc_data.Medida = orderData[key].p_unit;
+        doc_table.push(Object.assign({}, doc_data));
+      }
+    }
+
+    doc_data = {
+      id: orderData[0].id.toString(),
+      title: "Solicitud de Material",
+      date: orderData[0].createdat.substr(0, 10),
+      img:
+        orderData[0].w_description === CM
+          ? cm
+          : orderData[0].w_description === DB
+          ? db
+          : "",
+      from: orderData[0].w_description,
+      to: "OFICINA CENTRAL ADMINISTRATIVA",
+      department: orderData[0].d_name,
+      userName: orderData[0].username,
+      userAuth: userAuth,
+      notes: orderData[0].mov_note,
+    };
+
+    function createHeaders(keys) {
+      let result = [];
+      for (var i = 0; i < keys.length; i += 1) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 60,
+          height: 20,
+          align: "right",
+          padding: 0,
+        });
+      }
+      return result;
+    }
+    const headers = createHeaders(["ID", "Producto", "Cantidad", "Medida"]);
+
+    //DOCUMENT
+    const doc = new jsPDF();
+
+    //? table
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text("DETALLES DE LA OPERACION", 100, 50, null, null, "center");
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.table(10, 55, doc_table, headers, {
+      printHeaders: true,
+      autoSize: false,
+      headerBackgroundColor: "#efefef",
+      headerTextColor: "#363535",
+      fontSize: 10,
+      css: { border: 2 },
+    });
+    //? header
+    doc.addImage(`${doc_data.img}`, "JPEG", 170, 10, 25, 25);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 100, 10, null, null, "center");
+    doc.setFontSize(10);
+    doc.text(10, 20, `Nro. Reporte: ${doc_data.id}`);
+    doc.text(10, 25, `Fecha: ${doc_data.date}`);
+    doc.text(10, 30, `De: ${doc_data.from}`);
+    doc.text(10, 35, `Para: ${doc_data.to}`);
+    doc.text(10, 40, `Dpto: ${doc_data.department}`);
+    //?observaciones
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(10, 219, `Observaciones:`);
+    doc.setFontSize(8);
+
+    doc.text(12, 225, doc_data.notes);
+
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 220, 190, 20, 0.5, 0.5);
+    //? footer
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(10, 258, `Autorizado por:`);
+    doc.setFontSize(10);
+    doc.text(11, 265, "Firma:");
+    doc.text(12, 275, "____________________________");
+    doc.setFontSize(10);
+    doc.text(11, 280, `Nombre:`);
+    doc.setFontSize(7);
+    doc.text(25, 280, `${doc_data.userAuth}`);
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 260, 60, 30, 1, 1);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(140, 258, `Recibido por:`);
+    doc.setFontSize(10);
+    doc.text(141, 265, "Firma:");
+    doc.text(142, 275, "____________________________");
+    doc.setFontSize(10);
+    doc.text(141, 280, `Nombre:`);
+    doc.text(141, 287, `Fecha: ____/____/________`);
+    doc.setFontSize(7);
+    //doc.text(25, 280, `${doc_data.userName} ${doc_data.userLastname}`);
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(140, 260, 60, 30, 1, 1);
+    //save doc
+    doc.save("a4.pdf");
+  },
+
   operationReport: async (type, id) => {
     const URI = `http://localhost:5000/qrstock/api/operations/${type}-id`;
     const CM = "COLEGIO METROPOLITANO",
@@ -150,6 +284,7 @@ const printServices = {
     //save doc
     doc.save("a4.pdf");
   },
+
   productReport: async () => {
     //fetching data
     let response,

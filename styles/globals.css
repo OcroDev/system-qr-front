@@ -135,6 +135,7 @@ textarea {
   margin-left: 45px;
   transition: all 0.5s ease-out;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  resize: none;
 }
 
 .label {

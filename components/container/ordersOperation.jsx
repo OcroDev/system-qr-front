@@ -195,11 +195,11 @@ export default function OrdersOperation() {
         }}
       >
         <CardContent>
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
+          <Typography fontFamily={"monospace"} align='center' variant='h5'>
             Pedido de Productos
           </Typography>
         </CardContent>
-        <hr className="hr-style" />
+        <hr className='hr-style' />
         <form onSubmit={formik.handleSubmit}>
           <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
@@ -209,16 +209,16 @@ export default function OrdersOperation() {
               <b>Fecha:</b> {date}
             </InputLabel>
             <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
-              <InputLabel id="warehouse_id-label">Colegio</InputLabel>
+              <InputLabel id='warehouse_id-label'>Colegio</InputLabel>
               <Select
-                variant="standard"
-                labelId="warehouse_id-label"
-                id="warehouse_id"
-                name="warehouse_id"
-                label="Colegio"
+                variant='standard'
+                labelId='warehouse_id-label'
+                id='warehouse_id'
+                name='warehouse_id'
+                label='Colegio'
                 value={formik.values.warehouse_id}
                 onChange={formik.handleChange}
-                className="mb-4"
+                className='mb-4'
                 error={
                   formik.touched.warehouse_id &&
                   Boolean(formik.errors.warehouse_id)
@@ -255,7 +255,7 @@ export default function OrdersOperation() {
                 router.push("/departments/operationDepartments/");
               }}
             >
-              <Tooltip title="agregar">
+              <Tooltip title='agregar'>
                 <Add />
               </Tooltip>
             </IconButton>
@@ -265,28 +265,28 @@ export default function OrdersOperation() {
                 dispatch(deleteDepartment());
               }}
             >
-              <Tooltip title="quitar">
+              <Tooltip title='quitar'>
                 <Remove />
               </Tooltip>
             </IconButton>
           </CardContent>
-          <hr className="hr-style" />
+          <hr className='hr-style' />
           <CardContent>
             <TableContainer>
               <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
                 <Table>
                   <TableHead sx={{ marginTop: 4 }}>
                     <TableRow>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      <TableCell align='center' sx={{ fontWeight: "bold" }}>
                         ID
                       </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      <TableCell align='center' sx={{ fontWeight: "bold" }}>
                         Nombre del Producto
                       </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      <TableCell align='center' sx={{ fontWeight: "bold" }}>
                         Cantidad
                       </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      <TableCell align='center' sx={{ fontWeight: "bold" }}>
                         Quitar
                       </TableCell>
                     </TableRow>
@@ -308,42 +308,37 @@ export default function OrdersOperation() {
               </div>
             </TableContainer>
             <div>
-              <InputLabel className="label" id="mov_note">
+              <InputLabel className='label' id='mov_note'>
                 Observaciones:
               </InputLabel>
-
               <textarea
-                className="textarea"
-                resize
-                id="mov_note"
-                name="mov_note"
+                className='textarea'
+                id='mov_note'
+                name='mov_note'
                 onChange={formik.handleChange}
                 value={formik.values.mov_note}
-                rows="5"
-                cols="33"
-                placeholder="Escribe tus observaciones sobre el pedido"
-                FormHelperText={
-                  formik.touched.mov_note && formik.errors.mov_note
-                }
+                rows='5'
+                cols='33'
+                placeholder='Escribe tus observaciones sobre el pedido'
               ></textarea>
             </div>
           </CardContent>
-          <hr className="hr-style" />
-          <div className="d-flex justify-content-center ">
+          <hr className='hr-style' />
+          <div className='d-flex justify-content-center '>
             <Button
-              type="submit"
-              size="medium"
-              variant="contained"
+              type='submit'
+              size='medium'
+              variant='contained'
               sx={{ mr: 2 }}
             >
               Generar Salida
             </Button>
             <Button
-              type="button"
-              size="medium"
-              variant="outlined"
+              type='button'
+              size='medium'
+              variant='outlined'
               sx={{ mr: 2 }}
-              color="success"
+              color='success'
               onClick={() => {
                 //dispatch(setOperationType("OUT"));
                 router.push("/products/orderProducts");
@@ -352,11 +347,11 @@ export default function OrdersOperation() {
               Añadir productos
             </Button>
             <Button
-              type="button"
-              size="medium"
-              variant="outlined"
+              type='button'
+              size='medium'
+              variant='outlined'
               sx={{ mr: 2 }}
-              color="error"
+              color='error'
               onClick={() => {
                 dispatch(deleteProducts());
                 handleOpenSnackbar();
@@ -375,7 +370,7 @@ export default function OrdersOperation() {
       >
         <Alert
           onClose={handleCloseSnackbar}
-          severity="error"
+          severity='error'
           sx={{ width: "100%" }}
         >
           Productos eliminados

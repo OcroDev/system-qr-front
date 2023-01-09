@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import axios from "axios";
+import printServices from "../../print_services/printServices";
 
 export default function Orders(props) {
   const [deleted, setDeleted] = useState(false);
@@ -36,24 +37,24 @@ export default function Orders(props) {
           }}
         >
           <CardContent sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography variant="body2" m={1}>
+            <Typography variant='body2' m={1}>
               <span>
                 <b>Fecha: </b>
                 {props.date}
               </span>
             </Typography>
-            <Typography variant="body2" m={1}>
+            <Typography variant='body2' m={1}>
               <span>
                 <b>Pedido # </b>({props.id})
               </span>
             </Typography>
-            <Typography variant="body2" m={1}>
+            <Typography variant='body2' m={1}>
               <span style={{ marginRight: "10px" }}>
                 <b>Colegio: </b>
                 {props.warehouse}
               </span>
             </Typography>
-            <Typography variant="body2" m={1}>
+            <Typography variant='body2' m={1}>
               <span>
                 <b>Departamento: </b>
                 {props.department}
@@ -62,10 +63,12 @@ export default function Orders(props) {
 
             <IconButton
               sx={{ color: "primary.main", ml: 2 }}
-              onClick={() => {}}
-              size="small"
+              onClick={() => {
+                printServices.orderReport(props.id);
+              }}
+              size='small'
             >
-              <Tooltip title="Imprimir">
+              <Tooltip title='Imprimir'>
                 <Print />
               </Tooltip>
             </IconButton>
@@ -75,9 +78,9 @@ export default function Orders(props) {
                 setDeleted(true);
                 deleteOrders();
               }}
-              size="small"
+              size='small'
             >
-              <Tooltip title="Eliminar">
+              <Tooltip title='Eliminar'>
                 <DeleteForever />
               </Tooltip>
             </IconButton>

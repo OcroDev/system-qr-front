@@ -160,12 +160,12 @@ export default function AddProduct() {
               />
               <br />
               <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
-                <InputLabel id="ubication-label">Ubication</InputLabel>
+                <InputLabel id="ubication-label">Ubicación</InputLabel>
                 <Select
                   labelId="ubication-label"
                   id="p_ubication"
                   name="p_ubication"
-                  label="Ubication"
+                  label="Ubicación"
                   value={formik.values.p_ubication}
                   onChange={formik.handleChange}
                   className="mb-4"
@@ -177,9 +177,15 @@ export default function AddProduct() {
                   //   formik.touched.p_ubication && formik.errors.p_ubication
                   // }
                 >
-                  <MenuItem value="">Selecciona la ubicacion</MenuItem>
-                  <MenuItem value={UBICATION[0]}>Papelería</MenuItem>
-                  <MenuItem value={UBICATION[1]}>Depósito de limpieza</MenuItem>
+                  <MenuItem value="" sx={{ color: "#efefef" }}>
+                    Selecciona la ubicacion
+                  </MenuItem>
+                  <MenuItem value={UBICATION[0]} sx={{ color: "#efefef" }}>
+                    Papelería
+                  </MenuItem>
+                  <MenuItem value={UBICATION[1]} sx={{ color: "#efefef" }}>
+                    Depósito de limpieza
+                  </MenuItem>
                 </Select>
               </FormControl>
               <br />

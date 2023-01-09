@@ -6,12 +6,13 @@ import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 //MATERIAL ICONS
 import { AddCircle } from "@mui/icons-material";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addDepartment } from "../../redux/reducers/department/departmentOperationSlice";
 
 export const InOutDepartment = ({ d_name, id }) => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { operation_type } = useSelector((state) => state.opType);
   return (
     <>
       <TableRow>
@@ -31,7 +32,9 @@ export const InOutDepartment = ({ d_name, id }) => {
                   name: d_name,
                 })
               );
-              router.push("/operations/out/");
+              operation_type === "order"
+                ? router.push("/orders")
+                : router.push("/operations/out/");
             }}
           >
             <Tooltip title="Seleccionar">

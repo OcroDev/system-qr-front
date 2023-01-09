@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 import React from "react";
+import { useSelector } from "react-redux";
 
 export default function InOutDepartmentList() {
   //STATES

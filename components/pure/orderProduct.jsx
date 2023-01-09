@@ -16,7 +16,7 @@ import { AddShoppingCartSharp, WarningAmber } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../../redux/reducers/products/productOperationSlice";
 
-export const InOutProduct = ({
+export const OrderProduct = ({
   p_description,
   id,
   stock,
@@ -42,28 +42,6 @@ export const InOutProduct = ({
 
     if (quantity <= 0) {
       return;
-    }
-    let finalStock = stock - quantity;
-    if (opType === "OUT") {
-      let response;
-      try {
-        response = await axios.put(
-          "http://localhost:5000/qrstock/api/products/id",
-          {
-            id: product.id,
-          }
-        );
-      } catch (error) {
-        console.log(error);
-      }
-      if (finalStock <= response.data.product.p_minstock) {
-        setOpenMinStockSnackbar(true);
-      }
-
-      if (finalStock < 0) {
-        setCheckStock(true);
-        return;
-      }
     }
 
     const find = productsInList.products.find((product) => product.id === id);
@@ -117,10 +95,7 @@ export const InOutProduct = ({
         <TableCell align="right" sx={{ color: "#efefef" }}>
           {p_description}
         </TableCell>
-        <TableCell align="right" sx={{ color: "#efefef" }}>
-          {minstock <= stock ? minStockTooltip : null}
-          {stock}
-        </TableCell>
+
         <TableCell align="right">
           <TextField
             type="number"

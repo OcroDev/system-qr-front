@@ -26,8 +26,9 @@ import { useSelector } from "react-redux";
 //AXIOS
 import axios from "axios";
 import { useRouter } from "next/router";
+import { OrderProduct } from "../pure/orderProduct";
 
-export default function InOutProductsList() {
+export default function OrderProductList() {
   const router = useRouter();
 
   //STATES
@@ -42,7 +43,6 @@ export default function InOutProductsList() {
     getAllProducts();
   }, []);
 
-  console.log("operation Type:", operation_type);
   //METHODS
 
   function getAllProducts() {
@@ -143,12 +143,7 @@ export default function InOutProductsList() {
                     >
                       Nombre del Producto
                     </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Existencia Actual
-                    </TableCell>
+
                     <TableCell
                       align="right"
                       sx={{ color: "#efefef", fontWeight: "bold" }}
@@ -166,7 +161,7 @@ export default function InOutProductsList() {
                 <TableBody>
                   {productFilter.map((product) => {
                     return (
-                      <InOutProduct
+                      <OrderProduct
                         key={product.id}
                         id={product.id}
                         p_description={product.p_description}
@@ -187,11 +182,7 @@ export default function InOutProductsList() {
               variant="contained"
               startIcon={<Reply />}
               color="info"
-              onClick={() =>
-                operation_type == "IN"
-                  ? router.push("/operations/in")
-                  : router.push("/operations/out")
-              }
+              onClick={() => router.push("/orders/")}
             >
               Regresar
             </Button>

@@ -23,8 +23,6 @@ const printServices = {
     }
     const operationData = response.data.operation;
 
-    console.log(operationData);
-
     //? create table and document data
     let doc_data = {};
     let doc_table = [];
@@ -59,7 +57,6 @@ const printServices = {
       userLastname: operationData[0].lastname,
       userAuth: operationData[0].operation_auth,
     };
-    console.log(doc_data);
 
     function createHeaders(keys) {
       let result = [];
@@ -83,18 +80,24 @@ const printServices = {
 
     //? table
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(16);
+    doc.setFontSize(12);
     doc.text("DETALLES DE LA OPERACION", 100, 50, null, null, "center");
-    doc.setFont("courier", "normal");
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
     doc.table(10, 55, doc_table, headers, {
       printHeaders: true,
+      autoSize: false,
+      headerBackgroundColor: "#efefef",
+      headerTextColor: "#363535",
+      fontSize: 10,
+      css: { border: 2 },
     });
     //? header
     doc.addImage(`${doc_data.img}`, "JPEG", 170, 10, 25, 25);
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(22);
+    doc.setFontSize(16);
     doc.text(`${doc_data.title}`, 100, 10, null, null, "center");
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.text(10, 20, `Nro. Reporte: ${doc_data.id}`);
     doc.text(10, 25, `Fecha: ${doc_data.date}`);
     doc.text(10, 30, `De: ${doc_data.from}`);
@@ -148,28 +151,252 @@ const printServices = {
     doc.save("a4.pdf");
   },
   productReport: async () => {
-    const createDocument = (product) => {
-      const doc = new jsPDF();
+    //fetching data
+    let response,
+      products = [];
+    try {
+      response = await axios.get("http://localhost:5000/qrstock/api/products");
+    } catch (error) {
+      console.log(error.message);
+    }
+    products = response.data.allProducts;
 
-      let data = {};
+    function createHeaders(keys) {
       let result = [];
-      for (let i = 0; i < 1; i++)
-        for (const key in product) {
-          console.log(product[key].id);
-          data.id = product[key].id.toString();
-          data.p_description = product[key].p_description;
-          data.p_stock = product[key].p_stock;
-          result.push(Object.assign({}, data));
-        }
+      for (var i = 0; i < keys.length; i += 1) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 60,
+          height: 20,
+          align: "left",
+          padding: 0,
+        });
+      }
+      return result;
+    }
+    const headers = createHeaders([
+      "Creado",
+      "Nombre",
+      "Existencia",
+      "Medida",
+      "Ubicacion",
+    ]);
 
-      doc.table(5, 5, result, ["id", "p_description", "p_stock"], {
-        printHeaders: true,
-      });
-      doc.save("a4.pdf");
+    const doc = new jsPDF();
+
+    let doc_data = {};
+    let result = [];
+    for (let i = 0; i < 1; i++)
+      for (const key in products) {
+        //doc_data.ID = products[key].id.toString();
+        doc_data.Nombre = products[key].p_description;
+        doc_data.Existencia = products[key].p_stock.toString();
+        doc_data.Creado = products[key].createdat.substr(0, 10);
+        doc_data.Medida = products[key].p_unit;
+        doc_data.Ubicacion = products[key].p_ubication;
+        result.push(Object.assign({}, doc_data));
+      }
+
+    doc_data = {
+      title: "Reporte de Productos en el Inventario",
+      date: new Date().toLocaleDateString(),
+      totalProduct: result.length.toString(),
     };
+
+    //? header
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 10, 20);
+    doc.setFontSize(10);
+    doc.setDrawColor(0);
+    doc.setFillColor(235, 235, 235);
+    doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
+    doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
+    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    //DATA Table
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Resumen de inventario`, 100, 60, null, null, "center");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.table(20, 65, result, headers, {
+      printHeaders: true,
+      autoSize: true,
+      headerBackgroundColor: "#efefef",
+      headerTextColor: "#363535",
+      fontSize: 10,
+      css: { border: 2 },
+    });
+    doc.save("a4.pdf");
   },
   print: () => {
     window.print();
+  },
+  productMinStock: async () => {
+    //fetching data
+    let response,
+      products = [];
+    try {
+      response = await axios.get(
+        "http://localhost:5000/qrstock/api/products/minstock"
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+    products = response.data.products;
+
+    function createHeaders(keys) {
+      let result = [];
+      for (var i = 0; i < keys.length; i += 1) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 60,
+          height: 20,
+          align: "left",
+          padding: 0,
+        });
+      }
+      return result;
+    }
+    const headers = createHeaders([
+      "Creado",
+      "Nombre",
+      "Existencia",
+      "Medida",
+      "Ubicacion",
+    ]);
+
+    const doc = new jsPDF();
+
+    let doc_data = {};
+    let result = [];
+    for (let i = 0; i < 1; i++)
+      for (const key in products) {
+        //doc_data.ID = products[key].id.toString();
+        doc_data.Nombre = products[key].p_description;
+        doc_data.Existencia = products[key].p_stock.toString();
+        doc_data.Creado = products[key].createdat.substr(0, 10);
+        doc_data.Medida = products[key].p_unit;
+        doc_data.Ubicacion = products[key].p_ubication;
+        result.push(Object.assign({}, doc_data));
+      }
+
+    doc_data = {
+      title: "Productos en existencia mínima",
+      date: new Date().toLocaleDateString(),
+      totalProduct: result.length.toString(),
+    };
+
+    //? header
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 10, 20);
+    doc.setFontSize(10);
+    doc.setDrawColor(0);
+    doc.setFillColor(235, 235, 235);
+    doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
+    doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
+    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    //DATA Table
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Resumen de inventario`, 100, 60, null, null, "center");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.table(20, 65, result, headers, {
+      printHeaders: true,
+      autoSize: true,
+      headerBackgroundColor: "#efefef",
+      headerTextColor: "#363535",
+      fontSize: 10,
+      css: { border: 2 },
+    });
+    doc.save("a4.pdf");
+  },
+  productMustOut: async () => {
+    //fetching data
+    let response,
+      products = [];
+    try {
+      response = await axios.get(
+        "http://localhost:5000/qrstock/api/products/mustout"
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+    products = response.data.products;
+
+    function createHeaders(keys) {
+      let result = [];
+      for (var i = 0; i < keys.length; i += 1) {
+        result.push({
+          id: keys[i],
+          name: keys[i],
+          prompt: keys[i],
+          width: 60,
+          height: 20,
+          align: "left",
+          padding: 0,
+        });
+      }
+      return result;
+    }
+    const headers = createHeaders([
+      "Nombre",
+      "Veces_Pedido",
+      "Cantidad",
+      "Medida",
+    ]);
+
+    const doc = new jsPDF();
+
+    let doc_data = {};
+    let result = [];
+    for (let i = 0; i < 1; i++)
+      for (const key in products) {
+        //doc_data.ID = products[key].id.toString();
+        doc_data.Nombre = products[key].p_description;
+        doc_data.Veces_Pedido = products[key].total_out;
+        doc_data.Medida = products[key].p_unit;
+        doc_data.Cantidad = (-1 * products[key].quantity).toString();
+        result.push(Object.assign({}, doc_data));
+      }
+
+    doc_data = {
+      title: "Productos con mayor salida",
+      date: new Date().toLocaleDateString(),
+      totalProduct: result.length.toString(),
+    };
+
+    //? header
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 10, 20);
+    doc.setFontSize(10);
+    doc.setDrawColor(0);
+    doc.setFillColor(235, 235, 235);
+    doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
+    doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
+    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    //DATA Table
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.text(`Resumen de inventario`, 100, 60, null, null, "center");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.table(20, 65, result, headers, {
+      printHeaders: true,
+      autoSize: true,
+      headerBackgroundColor: "#efefef",
+      headerTextColor: "#363535",
+      fontSize: 10,
+      css: { border: 2 },
+    });
+    doc.save("a4.pdf");
   },
 };
 

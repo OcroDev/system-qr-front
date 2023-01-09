@@ -31,6 +31,8 @@ import {
   DescriptionOutlined,
   PersonPin,
   Edit,
+  Leaderboard,
+  AddShoppingCart,
 } from "@mui/icons-material";
 
 export default function Navbar() {
@@ -135,6 +137,16 @@ export default function Navbar() {
                 </ListItemButton>
               </List>
             </Link>
+            <Link href="/orders">
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon sx={{ color: "#fff" }}>
+                    <AddShoppingCart />
+                  </ListItemIcon>
+                  <ListItemText primary="Pedidos" />
+                </ListItemButton>
+              </List>
+            </Link>
           </Collapse>
 
           {/* Departements */}
@@ -214,16 +226,15 @@ export default function Navbar() {
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon sx={{ color: "#fff" }}>
-                    <AddBox />
+                    <Leaderboard />
                   </ListItemIcon>
-                  <ListItemText primary="Crear" />
+                  <ListItemText primary="Ver" />
                 </ListItemButton>
               </List>
             </Link>
           </Collapse>
 
           {/* Users */}
-
           <ListItemButton onClick={() => dispatch(dropdownSetter("user"))}>
             <ListItemIcon sx={{ color: "#fff" }}>
               <PersonPin />
@@ -231,7 +242,7 @@ export default function Navbar() {
             <ListItemText primary="Usuario"></ListItemText>
             {!openUser ? <ExpandMore /> : <ExpandLess />}
           </ListItemButton>
-          {u_admin ? (
+          {u_admin === "admin" ? (
             <Collapse in={openUser}>
               <Link href="/users/create">
                 <List component="div" disablePadding>

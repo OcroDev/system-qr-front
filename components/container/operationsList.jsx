@@ -1,28 +1,66 @@
 import {
   Card,
-  CardActionArea,
-  CardActions,
   CardContent,
   Divider,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Typography,
+  Tabs,
+  Tab,
+  Box,
+  Button,
+  TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Operation from "../pure/operation";
 import { AddShoppingCart } from "@mui/icons-material";
+import { bgcolor } from "@mui/system";
 
+//tab panel methods
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+//? COMPONENT
 export default function OperationsList() {
-  //REDUX
   //STATE
   const [InOperations, setInOperations] = useState([]);
   const [OutOperations, setOutOperations] = useState([]);
+  const [value, setValue] = React.useState(0);
+  const [searchDate, setSearchDate] = useState("");
+  const [searchWarehouse, setSearchWarehouse] = useState("");
+
   useEffect(() => {
     getInOperations();
     getOutOperations();
@@ -119,79 +157,60 @@ export default function OperationsList() {
 
     return result;
   };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+  const searchHandler = (e) => {
+    setSearchDate(e.target.value);
+  };
 
   const OperationsInCell = createOperationsArray(InOperations, "in");
   const OperationsOutCell = createOperationsArray(OutOperations, "out");
 
+  //DATE FILTER
+  const operationInDateFilter = !searchDate
+    ? OperationsInCell
+    : OperationsInCell.filter((data) =>
+        data.date.toUpperCase().includes(searchDate.toUpperCase())
+      );
+  const operationOutDateFilter = !searchDate
+    ? OperationsOutCell
+    : OperationsOutCell.filter((data) =>
+        data.date.toUpperCase().includes(searchDate.toUpperCase())
+      );
+
   return (
     <>
-      <Typography variant="h5" align="center" m={5}>
-        Operaciones
-      </Typography>
-      <div>
-        <Card
-          sx={{
-            height: "85vh",
-            width: "50vw",
-            bgcolor: "#efefef",
-            borderRadius: "5px",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-
-              height: "40vh",
-            }}
+      <Box>
+        <Typography variant="h6" align="center">
+          Reportes
+        </Typography>
+      </Box>
+      <Box sx={{ width: "70vw", bgcolor: "#efefef", mt: -10 }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
           >
-            <CardContent>
-              <Typography sx={{ m: 1, ml: 4, mb: -1 }} variant="h6">
-                Entradas <AddShoppingCart fontSize="small" color="success" />
-              </Typography>
-            </CardContent>
-            <div style={{ overflowY: "scroll" }}>
-              <TableContainer sx={{ overflowY: "scroll", height: "30vh" }}>
-                <Table>
-                  <TableBody>
-                    {OperationsInCell.map((operation) => {
-                      return (
-                        <Operation
-                          id={operation.id}
-                          date={operation.date}
-                          productsTotal={operation.products}
-                          inOut={"Productos Entrantes"}
-                          type={"in"}
-                        />
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          </div>
-          <Divider />
-          <div style={divstyle}>
-            <CardContent>
-              <Typography sx={{ m: 1, ml: 4, mb: -1 }} variant="h6">
-                Salidas <AddShoppingCart color="secondary" fontSize="small" />
-              </Typography>
-            </CardContent>
-            <TableContainer>
+            <Tab label="Entradas" {...a11yProps(0)} />
+            <Tab label="Salidas" {...a11yProps(1)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <div style={{ overflowY: "scroll" }}>
+            <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
               <Table>
                 <TableBody>
-                  {OperationsOutCell.map((operation) => {
+                  {operationInDateFilter.map((operation) => {
                     return (
                       <Operation
+                        key={operation.id}
                         id={operation.id}
                         date={operation.date}
                         productsTotal={operation.products}
-                        inOut={"Productos Salientes"}
-                        warehouse_in={operation.warehouse_in}
-                        dep_in={operation.dep_in}
-                        warehouse={"Destino: "}
-                        dep={"departamento: "}
-                        type={"out"}
+                        inOut={"Productos Entrantes"}
+                        type={"in"}
                       />
                     );
                   })}
@@ -199,9 +218,44 @@ export default function OperationsList() {
               </Table>
             </TableContainer>
           </div>
-          <Divider />
-        </Card>
-      </div>
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+            <Table>
+              <TableBody>
+                {operationOutDateFilter.map((operation) => {
+                  return (
+                    <Operation
+                      key={operation.id}
+                      id={operation.id}
+                      date={operation.date}
+                      productsTotal={operation.products}
+                      inOut={"Productos Salientes"}
+                      warehouse_in={operation.warehouse_in}
+                      dep_in={operation.dep_in}
+                      warehouse={"Destino: "}
+                      dep={"departamento: "}
+                      type={"out"}
+                    />
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>{" "}
+        </TabPanel>
+
+        <Box sx={{ m: 3 }}>
+          <TextField
+            variant="standard"
+            label="Filtrar por Fecha"
+            type="text"
+            value={searchDate}
+            onChange={searchHandler}
+            helperText={"dd / mm / aaaa"}
+            color="info"
+          ></TextField>
+        </Box>
+      </Box>
     </>
   );
 }

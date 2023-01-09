@@ -1,5 +1,6 @@
+//axios
 import axios from "axios";
-
+//mui material
 import {
   Button,
   Card,
@@ -22,92 +23,125 @@ import {
   Tooltip,
   TextField,
 } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
-import React from "react";
-import { useEffect, useState } from "react";
-import { MovementProduct } from "../pure/movementProduct";
-import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
-import {
-  deleteDepartment,
-  addDepartment,
-} from "../../redux/reducers/department/departmentOperationSlice";
-import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
+
+//mui icons
 import { Add, Remove } from "@mui/icons-material";
 
-export default function OutOperation() {
-  const [lastOperation, setLastOperation] = useState(0);
-  const [warehouses, setWarehouses] = useState([]);
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+//formik
+import { useFormik } from "formik";
+import * as yup from "yup";
 
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { deleteDepartment } from "../../redux/reducers/department/departmentOperationSlice";
+import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
+import { MovementProduct } from "../pure/movementProduct";
+import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
+
+export default function OrdersOperation() {
   const router = useRouter();
 
   const dispatch = useDispatch();
 
+  let date = new Date().toLocaleDateString("es-VE");
+
+  //states
+  const [lastOrder, setLastOrder] = useState(0);
+  const [warehouses, setWarehouses] = useState([]);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
   const { department_name, department_id } = useSelector(
     (state) => state.opDepartment
   );
 
   const movementProducts = useSelector((state) => state.opProduct);
   const { u_id } = useSelector((state) => state.userLogin);
-  let date = new Date().toLocaleDateString("es-VE");
 
-  useEffect(() => {
-    getOperations();
-    getAllWarehouses();
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      dispatch(deleteDepartment());
-    };
-  }, []);
-
-  //*FORMIK
+  //formik state and validations
   const initialValues = {
-    warehouse_in_id: "",
-    warehouse_out_id: "",
+    warehouse_id: "",
+    mov_note: "",
   };
+
   const validationSchema = yup.object().shape({
-    warehouse_in_id: yup
+    warehouse_id: yup.string().required("El colegio es requerido* "),
+    mov_note: yup
       .string()
-      .required("El almacen de destino es requerido* "),
-    warehouse_out_id: yup
-      .string()
-      .required("El almacen de origen es requerido* "),
+      .max(255, "Las observaciones solo pueden contener 255 caracteres"),
   });
 
-  //* METHODS
-  const getOperations = () => {
-    const options = {
-      method: "GET",
-      url: "http://localhost:5000/qrstock/api/operations/last-id",
-      headers: { "Content-Type": "application/json" },
-    };
+  //*METHODS
 
+  useEffect(() => {
+    getOrders();
+    getAllWarehouses();
+    dispatch(setOperationType(""));
+  }, []);
+
+  const createOrder = (newOrder, movnote) => {
+    const options = {
+      method: "POST",
+      url: "http://localhost:5000/qrstock/api/orders",
+      data: {
+        warehouse_id: newOrder.warehouse_id,
+        user_id: newOrder.user_id,
+        department_id: newOrder.department_id,
+      },
+    };
     axios
       .request(options)
       .then((response) => {
-        let getTotal = response.data.operationId + 1;
-        setLastOperation(getTotal);
+        if (response.data.status === 201) {
+          createMovement(movnote);
+        }
       })
-      .catch((error) => {
-        console.error(error.data.message);
-      });
-  };
-  const getAllWarehouses = () => {
-    axios
-      .get("http://localhost:5000/qrstock/api/warehouses")
-      .then((response) => {
-        const getAllWarehouse = response.data.allWarehouses;
-
-        setWarehouses(getAllWarehouse);
-      })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error.message));
   };
 
+  const createMovement = (movnote) => {
+    movementProducts.products.map((product) => {
+      const options = {
+        method: "POST",
+        url: "http://localhost:5000/qrstock/api/ordermovements",
+        data: {
+          product_id: product.id,
+          mov_quantity: product.p_stock,
+          order_cod: lastOrder,
+          mov_note: movnote,
+        },
+      };
+      axios
+        .request(options)
+        .then((response) => {})
+        .catch((error) => console.log(error.message));
+    });
+  };
+
+  //Formik hook
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema,
+    onSubmit: (values) => {
+      console.log(values.warehouse_id);
+      if (movementProducts.totalcount > 0 && department_id != null) {
+        let newOrder = {
+          warehouse_id: values.warehouse_id,
+          user_id: u_id,
+          department_id: department_id,
+        };
+        createOrder(newOrder, values.mov_note);
+        values.mov_note = "";
+        values.warehouse_id = "";
+        dispatch(deleteProducts());
+        dispatch(deleteDepartment());
+        getOrders();
+      }
+    },
+
+    onReset: () => {},
+  });
+
+  //snackbar
   const handleOpenSnackbar = () => {
     setOpenSnackbar(true);
   };
@@ -120,92 +154,34 @@ export default function OutOperation() {
     setOpenSnackbar(false);
   };
 
-  const createOperation = (newOperation) => {
-    // warehouse_out, u_make, dep_in, operation_type_id
-    console.log(newOperation);
+  const getOrders = () => {
     const options = {
-      method: "POST",
-      url: "http://localhost:5000/qrstock/api/operations",
-      data: {
-        warehouse_out: newOperation.warehouse_out,
-        warehouse_in: newOperation.warehouse_in,
-        u_make: newOperation.u_make,
-        dep_in: newOperation.dep_in,
-        operation_type_id: newOperation.operation_type_id,
-      },
+      method: "GET",
+      url: "http://localhost:5000/qrstock/api/orders/last-id",
+      headers: { "Content-Type": "application/json" },
     };
+
     axios
       .request(options)
       .then((response) => {
-        if (response.data.status === 201) {
-          createMovement();
-          updateStockProduct();
-        }
+        let getTotal = parseInt(response.data.total) + 1;
+        setLastOrder(getTotal);
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
 
-  const createMovement = () => {
-    movementProducts.products.map((product) => {
-      const options = {
-        method: "POST",
-        url: "http://localhost:5000/qrstock/api/movements",
-        data: {
-          product_id: product.id,
-          mov_quantity: product.p_stock,
-          operation_cod: lastOperation,
-          operation_type_id: 2,
-        },
-      };
-      axios
-        .request(options)
-        .then((response) => {})
-        .catch((error) => console.log(error.message));
-    });
-  };
+  const getAllWarehouses = () => {
+    axios
+      .get("http://localhost:5000/qrstock/api/warehouses")
+      .then((response) => {
+        const getAllWarehouse = response.data.allWarehouses;
 
-  const updateStockProduct = () => {
-    movementProducts.products.map((product) => {
-      const options = {
-        method: "PUT",
-        url: "http://localhost:5000/qrstock/api/products/update-stock",
-        data: {
-          id: product.id,
-          p_stock: product.p_stock,
-          operation_type: 2,
-        },
-      };
-      axios
-        .request(options)
-        .then((response) => console.log(response.data.status))
-        .catch((error) => console.log(error.message));
-    });
+        setWarehouses(getAllWarehouse);
+      })
+      .catch((error) => console.log(error));
   };
-
-  //FORMIK HOOK
-  const formik = useFormik({
-    initialValues: initialValues,
-    validationSchema,
-    onSubmit: (values) => {
-      if (movementProducts.totalcount > 0 && department_id != null) {
-        let newOperation = {
-          warehouse_out: values.warehouse_out_id,
-          warehouse_in: values.warehouse_in_id,
-          u_make: u_id,
-          dep_in: department_id,
-          operation_type_id: 2,
-        };
-        createOperation(newOperation);
-        dispatch(deleteProducts());
-        dispatch(deleteDepartment());
-        getOperations();
-        values.warehouse_in_id = "";
-      } else {
-        console.log("faltan datos");
-      }
-    },
-    onReset: () => {},
-  });
 
   return (
     <div>
@@ -220,35 +196,32 @@ export default function OutOperation() {
       >
         <CardContent>
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            Salida de Productos
+            Pedido de Productos
           </Typography>
         </CardContent>
-
         <hr className="hr-style" />
         <form onSubmit={formik.handleSubmit}>
           <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
-              <b>Numero:</b> {lastOperation}
+              <b>Numero:</b> {lastOrder}
             </InputLabel>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
               <b>Fecha:</b> {date}
             </InputLabel>
             <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
-              <InputLabel id="warehouse_in_id-label">
-                Almacén destino
-              </InputLabel>
+              <InputLabel id="warehouse_id-label">Colegio</InputLabel>
               <Select
                 variant="standard"
-                labelId="warehouse_in_id-label"
-                id="warehouse_in_id"
-                name="warehouse_in_id"
-                label="Almacén"
-                value={formik.values.warehouse_in_id}
+                labelId="warehouse_id-label"
+                id="warehouse_id"
+                name="warehouse_id"
+                label="Colegio"
+                value={formik.values.warehouse_id}
                 onChange={formik.handleChange}
                 className="mb-4"
                 error={
-                  formik.touched.warehouse_in_id &&
-                  Boolean(formik.errors.warehouse_in_id)
+                  formik.touched.warehouse_id &&
+                  Boolean(formik.errors.warehouse_id)
                 }
               >
                 {warehouses.map((warehouse) => {
@@ -264,43 +237,7 @@ export default function OutOperation() {
                 })}
               </Select>
               <FormHelperText sx={{ color: "red" }}>
-                {formik.touched.warehouse_in_id &&
-                  formik.errors.warehouse_in_id}
-              </FormHelperText>
-            </FormControl>
-            <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
-              <InputLabel id="warehouse_out_id-label">
-                Almacén Origen
-              </InputLabel>
-              <Select
-                variant="standard"
-                labelId="warehouse_out_id-label"
-                id="warehouse_out_id"
-                name="warehouse_out_id"
-                label="Almacén Origen"
-                value={formik.values.warehouse_out_id}
-                onChange={formik.handleChange}
-                className="mb-4"
-                error={
-                  formik.touched.warehouse_out_id &&
-                  Boolean(formik.errors.warehouse_out_id)
-                }
-              >
-                {warehouses.map((warehouse) => {
-                  return (
-                    <MenuItem
-                      key={warehouse.id}
-                      value={warehouse.id}
-                      sx={{ color: "#efefef" }}
-                    >
-                      {warehouse.w_description}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-              <FormHelperText sx={{ color: "red" }}>
-                {formik.touched.warehouse_out_id &&
-                  formik.errors.warehouse_out_id}
+                {formik.touched.warehouse_id && formik.errors.warehouse_id}
               </FormHelperText>
             </FormControl>
           </CardContent>
@@ -308,12 +245,13 @@ export default function OutOperation() {
             sx={{ display: "inline-flex", mr: "auto", ml: 10, mt: -5, mb: -5 }}
           >
             <InputLabel sx={{ ml: 0, mt: 0 }}>
-              <b>Departamento Destino:</b> {department_name}
+              <b>Departamento:</b> {department_name}
             </InputLabel>
 
             <IconButton
               sx={{ color: "success.main", mt: -1 }}
               onClick={() => {
+                dispatch(setOperationType("order"));
                 router.push("/departments/operationDepartments/");
               }}
             >
@@ -369,9 +307,28 @@ export default function OutOperation() {
                 </Table>
               </div>
             </TableContainer>
+            <div>
+              <InputLabel className="label" id="mov_note">
+                Observaciones:
+              </InputLabel>
+
+              <textarea
+                className="textarea"
+                resize
+                id="mov_note"
+                name="mov_note"
+                onChange={formik.handleChange}
+                value={formik.values.mov_note}
+                rows="5"
+                cols="33"
+                placeholder="Escribe tus observaciones sobre el pedido"
+                FormHelperText={
+                  formik.touched.mov_note && formik.errors.mov_note
+                }
+              ></textarea>
+            </div>
           </CardContent>
           <hr className="hr-style" />
-          <InputLabel />
           <div className="d-flex justify-content-center ">
             <Button
               type="submit"
@@ -388,8 +345,8 @@ export default function OutOperation() {
               sx={{ mr: 2 }}
               color="success"
               onClick={() => {
-                dispatch(setOperationType("OUT"));
-                router.push("/products/operationProducts");
+                //dispatch(setOperationType("OUT"));
+                router.push("/products/orderProducts");
               }}
             >
               Añadir productos

@@ -1,5 +1,4 @@
 import { useQRCode } from "next-qrcode";
-import { useState } from "react";
 
 export default function QrCode(props) {
   const { Canvas, Image } = useQRCode();

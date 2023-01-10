@@ -1,5 +1,5 @@
 import React from "react";
-import DepartmentList from "../../../components/container/DepartmentList";
+import DepartmentList from "../../../components/container/departmentList";
 
 export default function departmentEdit() {
   return (

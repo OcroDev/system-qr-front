@@ -15,6 +15,7 @@ import {
   ListItemText,
   ListItemIcon,
   Collapse,
+  Badge,
 } from "@mui/material";
 
 import {
@@ -47,6 +48,7 @@ export default function Navbar() {
     openUser,
   } = useSelector((state) => state.navbar);
   const { u_admin } = useSelector((state) => state.userLogin);
+  const { totalOrders } = useSelector((state) => state.orderBadge);
 
   return (
     <aside className={styles.sidebar}>
@@ -216,7 +218,13 @@ export default function Navbar() {
           {/* Reports */}
           <ListItemButton onClick={() => dispatch(dropdownSetter("report"))}>
             <ListItemIcon sx={{ color: "#fff" }}>
-              <DescriptionOutlined />
+              {totalOrders > 0 ? (
+                <Badge color="error" variant="dot">
+                  <DescriptionOutlined />
+                </Badge>
+              ) : (
+                <DescriptionOutlined />
+              )}
             </ListItemIcon>
             <ListItemText primary="Reportes"></ListItemText>
             {!openReport ? <ExpandMore /> : <ExpandLess />}
@@ -232,6 +240,22 @@ export default function Navbar() {
                 </ListItemButton>
               </List>
             </Link>
+            <Link href="/reports/orders">
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon sx={{ color: "#fff" }}>
+                    {totalOrders > 0 ? (
+                      <Badge badgeContent={totalOrders} color="error">
+                        <AddShoppingCart />
+                      </Badge>
+                    ) : (
+                      <AddShoppingCart />
+                    )}
+                  </ListItemIcon>
+                  <ListItemText primary="Pedidos" />
+                </ListItemButton>
+              </List>
+            </Link>
           </Collapse>
 
           {/* Users */}
@@ -242,7 +266,7 @@ export default function Navbar() {
             <ListItemText primary="Usuario"></ListItemText>
             {!openUser ? <ExpandMore /> : <ExpandLess />}
           </ListItemButton>
-          {u_admin === "admin" ? (
+          {u_admin ? (
             <Collapse in={openUser}>
               <Link href="/users/create">
                 <List component="div" disablePadding>

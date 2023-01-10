@@ -1,4 +1,24 @@
+import axios from "axios";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setTotalOrders } from "../redux/reducers/orderBadge/orderBadgeSlice";
+
 export default function Home() {
+  const dispatch = useDispatch();
+  const { totalOrders } = useSelector((state) => state.orderBadge);
+
+  useEffect(() => {
+    getTotalOrders();
+  }, []);
+
+  const getTotalOrders = () => {
+    axios.get("http://localhost:5000/qrstock/api/orders/").then((response) => {
+      const getTotal = response.data.orders.length;
+
+      dispatch(setTotalOrders(getTotal));
+    });
+  };
+
   return (
     <>
       <div

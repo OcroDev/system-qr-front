@@ -6,6 +6,7 @@ import productOperationReducer from "./reducers/products/productOperationSlice";
 import userLoginReducer from "./reducers/userLogin/userLoginSlice";
 import operationTypeReducer from "./reducers/operations_type/operationTypeSlice";
 import departmentOperationReducer from "./reducers/department/departmentOperationSlice";
+import orderBadgeReducer from "./reducers/orderBadge/orderBadgeSlice";
 
 export default configureStore({
   reducer: {
@@ -14,5 +15,6 @@ export default configureStore({
     opProduct: productOperationReducer,
     opType: operationTypeReducer,
     opDepartment: departmentOperationReducer,
+    orderBadge: orderBadgeReducer,
   },
 });

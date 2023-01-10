@@ -11,9 +11,12 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import printServices from "../../print_services/printServices";
+import { useDispatch } from "react-redux";
+import { discountOne } from "../../redux/reducers/orderBadge/orderBadgeSlice";
 
 export default function Orders(props) {
   const [deleted, setDeleted] = useState(false);
+  const dispatch = useDispatch();
 
   //methods
   const deleteOrders = () => {
@@ -37,24 +40,24 @@ export default function Orders(props) {
           }}
         >
           <CardContent sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography variant='body2' m={1}>
+            <Typography variant="body2" m={1}>
               <span>
                 <b>Fecha: </b>
                 {props.date}
               </span>
             </Typography>
-            <Typography variant='body2' m={1}>
+            <Typography variant="body2" m={1}>
               <span>
                 <b>Pedido # </b>({props.id})
               </span>
             </Typography>
-            <Typography variant='body2' m={1}>
+            <Typography variant="body2" m={1}>
               <span style={{ marginRight: "10px" }}>
                 <b>Colegio: </b>
                 {props.warehouse}
               </span>
             </Typography>
-            <Typography variant='body2' m={1}>
+            <Typography variant="body2" m={1}>
               <span>
                 <b>Departamento: </b>
                 {props.department}
@@ -66,9 +69,9 @@ export default function Orders(props) {
               onClick={() => {
                 printServices.orderReport(props.id);
               }}
-              size='small'
+              size="small"
             >
-              <Tooltip title='Imprimir'>
+              <Tooltip title="Imprimir">
                 <Print />
               </Tooltip>
             </IconButton>
@@ -76,11 +79,12 @@ export default function Orders(props) {
               sx={{ color: "error.main", ml: 2 }}
               onClick={() => {
                 setDeleted(true);
+                dispatch(discountOne());
                 deleteOrders();
               }}
-              size='small'
+              size="small"
             >
-              <Tooltip title='Eliminar'>
+              <Tooltip title="Eliminar">
                 <DeleteForever />
               </Tooltip>
             </IconButton>

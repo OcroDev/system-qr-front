@@ -48,12 +48,12 @@ export const AddWarehouse = () => {
           w_description: values.w_description,
         },
       };
-      console.log(values.w_description);
+
       axios
         .request(options)
         .then(function (response) {
           const { data } = response;
-          console.log(data.message);
+
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
         })

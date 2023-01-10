@@ -122,7 +122,7 @@ export default function OutOperation() {
 
   const createOperation = (newOperation) => {
     // warehouse_out, u_make, dep_in, operation_type_id
-    console.log(newOperation);
+
     const options = {
       method: "POST",
       url: "http://localhost:5000/qrstock/api/operations",
@@ -177,7 +177,7 @@ export default function OutOperation() {
       };
       axios
         .request(options)
-        .then((response) => console.log(response.data.status))
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     });
   };

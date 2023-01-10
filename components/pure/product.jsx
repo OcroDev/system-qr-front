@@ -16,9 +16,7 @@ export const Product = ({
   p_stock,
   handleOpenDialog,
 }) => {
-  const checkid = (idbutton) => {
-    console.log("id del producto:", idbutton);
-  };
+  const checkid = (idbutton) => {};
   return (
     <>
       <TableRow>

@@ -81,7 +81,7 @@ export default function UpdateDepartment() {
         .request(options)
         .then(function (response) {
           const { data } = response;
-          console.log(data.message);
+
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
           getDepartment();

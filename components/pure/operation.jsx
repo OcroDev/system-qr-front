@@ -17,7 +17,6 @@ export default function Operation(props) {
   const [deleted, setDeleted] = useState(false);
 
   const updateStockProduct = (movements) => {
-    console.log(movements);
     movements.map((product) => {
       const type = props.type === "in" ? 1 : 2;
       const options = {
@@ -31,7 +30,7 @@ export default function Operation(props) {
       };
       axios
         .request(options)
-        .then((response) => console.log(response.data.status))
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     });
   };
@@ -49,7 +48,7 @@ export default function Operation(props) {
             .put(movementsURI, {
               id: props.id,
             })
-            .then((response) => console.log(response.data.message))
+            .then((response) => {})
             .catch((error) => console.log(error));
 
           let response, movements;
@@ -64,7 +63,7 @@ export default function Operation(props) {
           updateStockProduct(movements);
         }
       })
-      .catch((error) => console.log(error.data.message));
+      .catch((error) => console.log(error.message));
   };
 
   let operation = (

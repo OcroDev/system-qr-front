@@ -22,7 +22,6 @@ export default function QrCode(props) {
       }}
     />
   );
-  console.log(Canvas);
 
   let image = (
     <Image

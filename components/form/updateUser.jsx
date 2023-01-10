@@ -26,7 +26,7 @@ import {
 export default function UpdateUser() {
   //router
   const router = useRouter();
-  console.log(router.query.id);
+
   //ubication model
   const UBICATION = ["PAPELERÍA", "DEPÓSITO DE LIMPIEZA"];
   //states
@@ -46,7 +46,7 @@ export default function UpdateUser() {
       .request(options)
       .then(function (response) {
         const newUser = response.data.user;
-        console.log("user en axios", newUser);
+
         setUser(newUser);
       })
       .catch(function (error) {
@@ -116,7 +116,7 @@ export default function UpdateUser() {
         .request(options)
         .then(function (response) {
           const { data } = response;
-          console.log(data.message);
+
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
           getUser();

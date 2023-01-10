@@ -55,7 +55,7 @@ export default function DepartmentList() {
 
         setDepartments(getAllDepartment);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error.message));
   }
 
   const searchHandler = (e) => {

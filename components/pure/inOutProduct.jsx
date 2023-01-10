@@ -101,8 +101,8 @@ export const InOutProduct = ({
   };
 
   let minStockTooltip = (
-    <IconButton color='secondary'>
-      <Tooltip title='Producto en existencia mínima'>
+    <IconButton color="secondary">
+      <Tooltip title="Producto en existencia mínima">
         <WarningAmber />
       </Tooltip>
     </IconButton>
@@ -111,37 +111,36 @@ export const InOutProduct = ({
   return (
     <>
       <TableRow>
-        <TableCell component='th' scope='row' sx={{ color: "#efefef" }}>
+        <TableCell component="th" scope="row" sx={{ color: "#efefef" }}>
           {id}
         </TableCell>
-        <TableCell align='right' sx={{ color: "#efefef" }}>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
           {p_description}
         </TableCell>
-        <TableCell align='right' sx={{ color: "#efefef" }}>
+        <TableCell align="right" sx={{ color: "#efefef" }}>
           {minstock >= stock ? minStockTooltip : null}
-          {console.log("stock minimo", minstock)}
-          {console.log("existencia", stock)}
+
           {stock}
         </TableCell>
-        <TableCell align='right'>
+        <TableCell align="right">
           <TextField
-            type='number'
+            type="number"
             onChange={(e) => handleChangeQuantity(e)}
-            variant='standard'
+            variant="standard"
             sx={{ width: "5rem", color: "#fff" }}
-            placeholder='0'
-            color='warning'
+            placeholder="0"
+            color="warning"
           />
         </TableCell>
-        <TableCell align='center'>
+        <TableCell align="center">
           <IconButton
             onClick={() => {
               addProductToList();
               handleOpenSnackbar();
             }}
-            color='warning'
+            color="warning"
           >
-            <Tooltip title='Añadir producto'>
+            <Tooltip title="Añadir producto">
               <AddShoppingCartSharp />
             </Tooltip>
           </IconButton>
@@ -154,7 +153,7 @@ export const InOutProduct = ({
             {quantity <= 0 ? (
               <Alert
                 onClose={handleCloseSnackbar}
-                severity='warning'
+                severity="warning"
                 sx={{ width: "100%" }}
               >
                 La cantidad no puede ser 0 o menor a cero
@@ -162,7 +161,7 @@ export const InOutProduct = ({
             ) : checkStock ? (
               <Alert
                 onClose={handleCloseSnackbar}
-                severity='error'
+                severity="error"
                 sx={{ width: "100%" }}
               >
                 La cantidad supera el Stock actual
@@ -170,7 +169,7 @@ export const InOutProduct = ({
             ) : !severityType ? (
               <Alert
                 onClose={handleCloseSnackbar}
-                severity='error'
+                severity="error"
                 sx={{ width: "100%" }}
               >
                 El producto fue agregado anteriormente
@@ -178,7 +177,7 @@ export const InOutProduct = ({
             ) : (
               <Alert
                 onClose={handleCloseSnackbar}
-                severity='success'
+                severity="success"
                 sx={{ width: "100%" }}
               >
                 Producto agregado
@@ -193,8 +192,8 @@ export const InOutProduct = ({
           >
             <Alert
               onClose={handleCloseSnackbar}
-              severity='warning'
-              variant='filled'
+              severity="warning"
+              variant="filled"
               sx={{ width: "100%" }}
             >
               Cuidado el producto {p_description} quedará en existencia mínima

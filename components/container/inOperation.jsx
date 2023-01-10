@@ -97,7 +97,7 @@ export default function InOperation() {
 
   const createOperation = (newOperation) => {
     // warehouse_out, u_make, dep_in, operation_type_id
-    console.log(newOperation);
+
     const options = {
       method: "POST",
       url: "http://localhost:5000/qrstock/api/operations",
@@ -152,7 +152,7 @@ export default function InOperation() {
       };
       axios
         .request(options)
-        .then((response) => console.log(response.data.status))
+        .then((response) => {})
         .catch((error) => console.log(error.message));
     });
   };
@@ -163,7 +163,6 @@ export default function InOperation() {
     validationSchema,
     onSubmit: (values) => {
       if (movementProducts.totalcount > 0) {
-        console.log("enviando informacion");
         let newOperation = {
           warehouse_out: null,
           warehouse_in: values.w_description,

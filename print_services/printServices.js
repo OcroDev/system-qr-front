@@ -153,7 +153,7 @@ const printServices = {
     try {
       response = await axios.post(URI, { id: id });
     } catch (error) {
-      console.log(first);
+      console.log(error);
     }
     const operationData = response.data.operation;
 

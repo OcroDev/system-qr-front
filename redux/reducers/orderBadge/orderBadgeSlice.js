@@ -13,7 +13,6 @@ export const orderBadgeSlice = createSlice({
     },
     discountOne: (state, action) => {
       state.totalOrders = state.totalOrders - 1;
-      console.log(state.totalOrders);
     },
   },
 });

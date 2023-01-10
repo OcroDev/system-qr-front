@@ -85,7 +85,6 @@ export default function OperationsList() {
     axios
       .request(options)
       .then(function (response) {
-        //      console.log(response.data);
         setInOperations(response.data.operations);
       })
       .catch(function (error) {
@@ -102,7 +101,6 @@ export default function OperationsList() {
     axios
       .request(options)
       .then(function (response) {
-        console.log(response.data);
         setOutOperations(response.data.operations);
       })
       .catch(function (error) {

@@ -42,7 +42,6 @@ export default function InOutProductsList() {
     getAllProducts();
   }, []);
 
-  console.log("operation Type:", operation_type);
   //METHODS
 
   function getAllProducts() {

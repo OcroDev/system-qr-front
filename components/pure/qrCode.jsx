@@ -25,6 +25,7 @@ export default function QrCode(props) {
 
   let image = (
     <Image
+      className="qrcode"
       text={`
         Nombre:${props.name}, 
         Ubicacion ${props.ubication}

@@ -1,5 +1,6 @@
 //DEPENDENCIES
 import { Product } from "../pure/product";
+import printServices from "../../print_services/printServices";
 
 //MATERIAL UI
 import {
@@ -201,6 +202,15 @@ export default function ProductsList() {
               </TableBody>
             </Table>
           </TableContainer>
+        </CardContent>
+        <CardContent>
+          <Button
+            onClick={() => {
+              printServices.printQr();
+            }}
+          >
+            Imprimir reporte
+          </Button>
         </CardContent>
       </Card>
       <div>

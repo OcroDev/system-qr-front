@@ -57,7 +57,7 @@ export const Product = ({
             name={p_desription}
             ubication={p_ubication}
             stock={p_stock}
-            type="canvas"
+            type="images"
           />
         </TableCell>
       </TableRow>

@@ -533,6 +533,14 @@ const printServices = {
     });
     doc.save("a4.pdf");
   },
+  printQr: () => {
+    console.log("hello world");
+    let $d = document;
+    let img;
+    $d.querySelectorAll("table");
+    img = $d.body.ownerDocument.images;
+    console.log(img.item(0).currentSrc);
+  },
 };
 
 export default printServices;

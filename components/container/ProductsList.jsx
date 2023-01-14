@@ -107,9 +107,9 @@ export default function ProductsList() {
       <Card
         sx={{
           bgcolor: "#fff",
-          mt: 10,
+          mt: 0,
           width: "75vw",
-          height: "70vh",
+          height: "80vh",
           overflowY: "scroll",
         }}
       >
@@ -132,6 +132,15 @@ export default function ProductsList() {
             value={search}
             onChange={searchHandler}
           ></TextField>
+
+          <Button
+            sx={{ ml: 10, mt: 2 }}
+            onClick={() => {
+              printServices.printQr(products);
+            }}
+          >
+            Imprimir reporte QR
+          </Button>
         </CardContent>
         <CardContent>
           <TableContainer
@@ -143,9 +152,9 @@ export default function ProductsList() {
             <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
               <TableHead sx={{ marginTop: 4 }}>
                 <TableRow>
-                  <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+                  {/* <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
                     ID
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell
                     align="right"
                     sx={{ color: "#efefef", fontWeight: "bold" }}
@@ -202,15 +211,6 @@ export default function ProductsList() {
               </TableBody>
             </Table>
           </TableContainer>
-        </CardContent>
-        <CardContent>
-          <Button
-            onClick={() => {
-              printServices.printQr();
-            }}
-          >
-            Imprimir reporte
-          </Button>
         </CardContent>
       </Card>
       <div>

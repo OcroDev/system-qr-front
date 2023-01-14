@@ -1,6 +1,7 @@
 import { jsPDF } from "jspdf";
 import axios from "axios";
 import { cm, db } from "./logos";
+import { date } from "yup/lib/locale";
 
 const printServices = {
   orderReport: async (id) => {
@@ -533,13 +534,102 @@ const printServices = {
     });
     doc.save("a4.pdf");
   },
-  printQr: () => {
-    console.log("hello world");
+  printQr: (doc_data) => {
     let $d = document;
     let img;
-    $d.querySelectorAll("table");
+    console.log(doc_data);
     img = $d.body.ownerDocument.images;
-    console.log(img.item(0).currentSrc);
+    let date = new Date().toLocaleDateString("es-ve");
+    let title = "Lista de Productos Qr";
+
+    //? document
+
+    console.log(doc_data);
+    const doc = new jsPDF();
+    let setDownSquare = 50,
+      setDownProduct = 55,
+      setDownStock = 60,
+      setDownUbication = 65,
+      setDownQrCode = 52,
+      pageCounter = 0;
+
+    for (const key in doc_data) {
+      //header
+      doc.addImage(
+        `${img.item(key).currentSrc}`,
+        "JPEG",
+        180,
+        setDownQrCode,
+        15,
+        15
+      );
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(16);
+      doc.text(`${title}`, 100, 30, null, null, "center");
+      //text square
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(10);
+      doc.text(12, setDownProduct, `Producto: ${doc_data[key].p_description}`);
+      doc.text(12, setDownStock, `Existencia: ${doc_data[key].p_stock}`);
+      doc.text(12, setDownUbication, `Ubicación: ${doc_data[key].p_ubication}`);
+      doc.text(10, 25, `Fecha: ${date}`);
+      //square
+      doc.setFontSize(8);
+      doc.setDrawColor(0);
+      doc.setFillColor(255, 255, 255);
+      doc.roundedRect(10, setDownSquare, 190, 20, 0.5, 0.5);
+      setDownSquare += 21;
+      setDownProduct += 21;
+      setDownStock += 21;
+      setDownUbication += 21;
+      setDownQrCode += 21;
+      if (pageCounter === 9) {
+        doc.addPage();
+        setDownSquare = 50;
+        setDownProduct = 55;
+        setDownStock = 60;
+        setDownUbication = 65;
+        setDownQrCode = 52;
+        pageCounter = 0;
+      }
+      pageCounter++;
+    }
+
+    var key = 0;
+    // for (let i = 0; i < 30; i++, pageCounter++, key++) {
+
+    // }
+
+    doc.save("a4.pdf");
+  },
+  printOneQr: (doc_data) => {
+    doc_data = {
+      ...doc_data,
+      title: "Qr de producto",
+      date: new Date().toLocaleDateString("es-ve"),
+    };
+
+    //DOCUMENT
+    const doc = new jsPDF();
+    //? header
+    doc.addImage(`${doc_data.dataImage}`, "JPEG", 180, 52, 15, 15);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 100, 30, null, null, "center");
+    doc.setFontSize(10);
+    //?observaciones
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(12, 55, `Producto: ${doc_data.name}`);
+    doc.text(12, 60, `Existencia: ${doc_data.stock}`);
+    doc.text(12, 65, `Ubicación: ${doc_data.ubication}`);
+
+    doc.text(10, 25, `Fecha: ${doc_data.date}`);
+    doc.setFontSize(8);
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 50, 190, 20, 0.5, 0.5);
+    doc.save("a4.pdf");
   },
 };
 

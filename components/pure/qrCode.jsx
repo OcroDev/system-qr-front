@@ -32,12 +32,12 @@ export default function QrCode(props) {
         Existencia: ${props.stock}
         `}
       options={{
-        type: "image/jpeg",
+        type: "image/png",
         quality: 0.9,
         level: "H",
         margin: 1,
-        scale: 30,
-        width: 80,
+        scale: 100,
+        width: props.width,
         color: {
           dark: "#000000",
           light: "#ffffff",

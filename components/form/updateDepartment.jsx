@@ -125,7 +125,6 @@ export default function UpdateDepartment() {
                 <TextField
                   sx={{ mt: 4, width: 500 }}
                   variant="outlined"
-                  fullWidth
                   id="d_name"
                   name="d_name"
                   label="Nuevo nombre del Departamento"

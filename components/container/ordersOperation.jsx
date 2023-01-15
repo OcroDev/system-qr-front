@@ -22,6 +22,8 @@ import {
   IconButton,
   Tooltip,
   TextField,
+  Stack,
+  AlertTitle,
 } from "@mui/material";
 
 //mui icons
@@ -38,6 +40,7 @@ import { deleteDepartment } from "../../redux/reducers/department/departmentOper
 import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
 import { MovementProduct } from "../pure/movementProduct";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
+import { addOne } from "../../redux/reducers/orderBadge/orderBadgeSlice";
 
 export default function OrdersOperation() {
   const router = useRouter();
@@ -50,6 +53,7 @@ export default function OrdersOperation() {
   const [lastOrder, setLastOrder] = useState(0);
   const [warehouses, setWarehouses] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openAlert, setOpenAlert] = useState("");
   const { department_name, department_id } = useSelector(
     (state) => state.opDepartment
   );
@@ -93,9 +97,10 @@ export default function OrdersOperation() {
       .then((response) => {
         if (response.data.status === 201) {
           createMovement(movnote);
+          setOpenAlert("created");
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => setOpenAlert("failure"));
   };
 
   const createMovement = (movnote) => {
@@ -134,6 +139,15 @@ export default function OrdersOperation() {
         dispatch(deleteProducts());
         dispatch(deleteDepartment());
         getOrders();
+        setTimeout(() => {
+          setOpenAlert("");
+        }, 3000);
+        dispatch(addOne());
+      } else {
+        setOpenAlert("failure");
+        setTimeout(() => {
+          setOpenAlert("");
+        }, 3000);
       }
     },
 
@@ -202,7 +216,7 @@ export default function OrdersOperation() {
         <form onSubmit={formik.handleSubmit}>
           <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
-              <b>Numero:</b> {lastOrder}
+              <b>Número:</b> {lastOrder}
             </InputLabel>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
               <b>Fecha:</b> {date}
@@ -290,7 +304,6 @@ export default function OrdersOperation() {
                       </TableCell>
                     </TableRow>
                   </TableHead>
-
                   <TableBody>
                     {movementProducts.products.map((product, index) => {
                       return (
@@ -330,7 +343,7 @@ export default function OrdersOperation() {
               variant="contained"
               sx={{ mr: 2 }}
             >
-              Generar Salida
+              Generar Pedido
             </Button>
             <Button
               type="button"
@@ -360,6 +373,30 @@ export default function OrdersOperation() {
             </Button>
           </div>
         </form>
+        <br />
+        {openAlert === "created" ? (
+          <Stack
+            sx={{ width: "100%" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Alert variant="standard" color="success">
+              <AlertTitle>Operación Exitosa</AlertTitle>
+              Pedido generado
+            </Alert>
+          </Stack>
+        ) : openAlert === "failure" ? (
+          <Stack
+            sx={{ width: "100%" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Alert variant="standard" color="error">
+              <AlertTitle>Operación Fallida</AlertTitle>
+              No se pudo generar el pedido
+            </Alert>
+          </Stack>
+        ) : null}
       </Card>
       <Snackbar
         open={openSnackbar}

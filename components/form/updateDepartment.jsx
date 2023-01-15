@@ -107,7 +107,7 @@ export default function UpdateDepartment() {
 
   return (
     <>
-      <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
+      <Card sx={{ bgcolor: "#fff", mt: -10, width: "50vw" }}>
         <CardContent>
           <div>
             <div>

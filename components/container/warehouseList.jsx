@@ -106,7 +106,7 @@ export default function WarehouseList() {
       <Card
         sx={{
           bgcolor: "#fff",
-          mt: 20,
+          mt: 0,
           width: "60vw",
           height: "60vh",
           overflowY: "scroll",
@@ -187,7 +187,7 @@ export default function WarehouseList() {
             id="alert-dialog-title"
             sx={{ color: "warning.light", fontWeight: "bold" }}
           >
-            {"¿Estás seguro que deseas eliminar este producto?"}
+            {"¿Estás seguro que deseas eliminar este almacén?"}
           </DialogTitle>
           <DialogContent>
             <DialogContentText
@@ -195,7 +195,7 @@ export default function WarehouseList() {
               align="center"
               sx={{ color: "#fff" }}
             >
-              {`Cuidado estás a punto de eliminar el producto:`}
+              {`Cuidado estás a punto de eliminar el almacen:`}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

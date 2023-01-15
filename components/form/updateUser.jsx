@@ -21,6 +21,7 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  FormHelperText,
 } from "@mui/material";
 
 export default function UpdateUser() {
@@ -64,6 +65,7 @@ export default function UpdateUser() {
     u_username: "",
     u_password: "",
     confirm: "",
+    u_type: "",
   };
 
   //VALIDATION SCHEMA
@@ -82,6 +84,9 @@ export default function UpdateUser() {
       .min(4, "El nombre del usuario es demasiado corto")
       .max(10, "El nombre de usuario es demasiado largo")
       .required("El nombre de usuario es requerido"),
+    u_type: yup
+      .string("Selecciona el tipo de usuario")
+      .required("El tipo de usuario es requerido"),
     u_password: yup
       .string("Escribe una contraseña")
       .min(6, "La contraseña es demasiado corta")
@@ -146,7 +151,7 @@ export default function UpdateUser() {
 
   return (
     <>
-      <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
+      <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
         <CardContent>
           <div>
             <div>
@@ -218,8 +223,35 @@ export default function UpdateUser() {
                   }
                 />
                 <br />
+                <FormControl sx={{ width: 250, mt: 4, mb: 0 }}>
+                  <InputLabel id="u_type-label">Tipo de Usuario</InputLabel>
+                  <Select
+                    labelId="u_type-label"
+                    id="u_type"
+                    name="u_type"
+                    label="Tipo de Usuaroi"
+                    value={formik.values.u_type}
+                    onChange={formik.handleChange}
+                    className="mb-4"
+                  >
+                    <MenuItem value="" sx={{ color: "#efefef" }}>
+                      Selecciona el tipo de usuario
+                    </MenuItem>
+                    <MenuItem value={"WORKER"} sx={{ color: "#efefef" }}>
+                      Almacenista
+                    </MenuItem>
+                    <MenuItem value={"CLIENT"} sx={{ color: "#efefef" }}>
+                      Cliente
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <FormHelperText color="error">
+                  {formik.touched.u_type && Boolean(formik.errors.u_type)}
+                </FormHelperText>
+
+                <br />
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 0, width: 500 }}
                   variant="outlined"
                   id="u_password"
                   name="u_password"

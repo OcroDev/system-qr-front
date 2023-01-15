@@ -14,6 +14,11 @@ import {
   Button,
   TextField,
   Typography,
+  FormHelperText,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
 
 export default function AddUser() {
@@ -28,6 +33,7 @@ export default function AddUser() {
     u_username: "",
     u_password: "",
     confirm: "",
+    u_type: "",
   };
 
   //VALIDATION SCHEMA
@@ -51,6 +57,9 @@ export default function AddUser() {
       .min(4, "La contraseña es demasiado corta")
       .max(15, "La contraseña es demasiado larga")
       .required("La contraseña es no puede estar vacía"),
+    u_type: yup
+      .string("Seleccioan el tipo de usuario")
+      .required("El tipo de usuario es requerido"),
     confirm: yup
       .string()
       .when("u_password", {
@@ -75,6 +84,7 @@ export default function AddUser() {
           u_lastname: values.u_lastname,
           u_username: values.u_username,
           u_password: values.u_password,
+          u_type: values.u_type,
         },
       };
       axios
@@ -99,6 +109,7 @@ export default function AddUser() {
           values.u_username = "";
           values.u_password = "";
           values.confirm = "";
+          values.u_type = "";
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);
@@ -109,7 +120,7 @@ export default function AddUser() {
   });
 
   return (
-    <Card sx={{ bgcolor: "#fff", mt: 20, width: "50vw" }}>
+    <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
       <CardContent>
         <div>
           <div>
@@ -179,8 +190,34 @@ export default function AddUser() {
                 }
               />
               <br />
+              <FormControl sx={{ width: 250, mt: 4, mb: 0 }}>
+                <InputLabel id="u_type-label">Tipo de Usuario</InputLabel>
+                <Select
+                  labelId="u_type-label"
+                  id="u_type"
+                  name="u_type"
+                  label="Tipo de Usuaroi"
+                  value={formik.values.u_type}
+                  onChange={formik.handleChange}
+                  className="mb-4"
+                >
+                  <MenuItem value="" sx={{ color: "#efefef" }}>
+                    Selecciona el tipo de usuario
+                  </MenuItem>
+                  <MenuItem value={"worker"} sx={{ color: "#efefef" }}>
+                    Almacenista
+                  </MenuItem>
+                  <MenuItem value={"client"} sx={{ color: "#efefef" }}>
+                    Cliente
+                  </MenuItem>
+                </Select>
+              </FormControl>
+              <FormHelperText color="error">
+                {formik.touched.u_type && Boolean(formik.errors.u_type)}
+              </FormHelperText>
+              <br />
               <TextField
-                sx={{ mt: 4, width: 500 }}
+                sx={{ mt: 0, width: 500 }}
                 variant="outlined"
                 id="u_password"
                 name="u_password"

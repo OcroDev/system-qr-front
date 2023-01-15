@@ -6,6 +6,7 @@ const initialState = {
   u_lastname: "",
   u_username: "",
   u_password: "",
+  u_type: "",
   u_admin: false,
   isdeleted: false,
 };
@@ -21,6 +22,7 @@ export const userLoginSlice = createSlice({
       state.u_username = action.payload.u_username;
       state.u_admin = action.payload.u_admin;
       state.isdeleted = action.payload.isdeleted;
+      state.u_type = action.payload.u_type;
     },
     unSetUser: (state, action) => {
       state.u_id = "";

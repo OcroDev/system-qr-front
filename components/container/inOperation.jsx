@@ -18,6 +18,7 @@ import {
   Snackbar,
   Alert,
   FormHelperText,
+  AlertTitle,
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -28,11 +29,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
 import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
+import { Stack } from "@mui/system";
 
 export default function InOperation() {
   const [lastOperation, setLastOperation] = useState(0);
   const [warehouses, setWarehouses] = useState([]);
   const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [openAlert, setOpenAlert] = useState("");
 
   const router = useRouter();
 
@@ -115,9 +118,10 @@ export default function InOperation() {
         if (response.data.status === 201) {
           createMovement();
           updateStockProduct();
+          setOpenAlert("created");
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => setOpenAlert("failure"));
   };
 
   const createMovement = () => {
@@ -174,8 +178,14 @@ export default function InOperation() {
         dispatch(deleteProducts());
         getOperations();
         values.w_description = "";
+        setTimeout(() => {
+          setOpenAlert("");
+        }, 3000);
       } else {
-        console.log("faltan datos");
+        setOpenAlert("failure");
+        setTimeout(() => {
+          setOpenAlert("");
+        }, 3000);
       }
     },
     onReset: () => {},
@@ -203,7 +213,7 @@ export default function InOperation() {
         <form onSubmit={formik.handleSubmit}>
           <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 20 }}>
             <InputLabel sx={{ mr: 15, mt: 2 }}>
-              <b>Numero:</b> {lastOperation}
+              <b>Número:</b> {lastOperation}
             </InputLabel>
             <InputLabel sx={{ mr: 15, mt: 2 }}>
               <b>Fecha:</b> {date}
@@ -320,6 +330,30 @@ export default function InOperation() {
             </Button>
           </div>
         </form>
+        <br />
+        {openAlert === "created" ? (
+          <Stack
+            sx={{ width: "100%" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Alert variant="standard" color="success">
+              <AlertTitle>Operación Exitosa</AlertTitle>
+              Entrada generada
+            </Alert>
+          </Stack>
+        ) : openAlert === "failure" ? (
+          <Stack
+            sx={{ width: "100%" }}
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Alert variant="standard" color="error">
+              <AlertTitle>Operación Fallida</AlertTitle>
+              No se pudo generar la entada
+            </Alert>
+          </Stack>
+        ) : null}
       </Card>
       <Snackbar
         open={openSnackbar}

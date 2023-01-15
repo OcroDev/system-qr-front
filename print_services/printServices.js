@@ -1,7 +1,6 @@
 import { jsPDF } from "jspdf";
 import axios from "axios";
 import { cm, db } from "./logos";
-import { date } from "yup/lib/locale";
 
 const printServices = {
   orderReport: async (id) => {
@@ -137,7 +136,6 @@ const printServices = {
     //save doc
     doc.save("a4.pdf");
   },
-
   operationReport: async (type, id) => {
     const URI = `http://localhost:5000/qrstock/api/operations/${type}-id`;
     const CM = "COLEGIO METROPOLITANO",
@@ -285,7 +283,6 @@ const printServices = {
     //save doc
     doc.save("a4.pdf");
   },
-
   productReport: async () => {
     //fetching data
     let response,

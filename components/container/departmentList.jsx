@@ -106,7 +106,7 @@ export default function DepartmentList() {
       <Card
         sx={{
           bgcolor: "#fff",
-          mt: 20,
+          mt: 0,
           width: "60vw",
           height: "60vh",
           overflowY: "scroll",

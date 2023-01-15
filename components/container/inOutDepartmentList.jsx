@@ -72,7 +72,7 @@ export default function InOutDepartmentList() {
       <Card
         sx={{
           bgcolor: "#fff",
-          mt: 20,
+          mt: 0,
           width: "60vw",
           height: "60vh",
           overflowY: "scroll",

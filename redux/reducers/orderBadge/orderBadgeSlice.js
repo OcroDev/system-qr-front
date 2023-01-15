@@ -14,9 +14,12 @@ export const orderBadgeSlice = createSlice({
     discountOne: (state, action) => {
       state.totalOrders = state.totalOrders - 1;
     },
+    addOne: (state, action) => {
+      state.totalOrders = state.totalOrders + 1;
+    },
   },
 });
 
-export const { setTotalOrders, discountOne } = orderBadgeSlice.actions;
+export const { setTotalOrders, discountOne, addOne } = orderBadgeSlice.actions;
 
 export default orderBadgeSlice.reducer;

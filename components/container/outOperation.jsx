@@ -85,7 +85,7 @@ export default function OutOperation() {
   const getOperations = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/operations/last-id",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/last-id`,
       headers: { "Content-Type": "application/json" },
     };
 
@@ -101,7 +101,7 @@ export default function OutOperation() {
   };
   const getAllWarehouses = () => {
     axios
-      .get("http://localhost:5000/qrstock/api/warehouses")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`)
       .then((response) => {
         const getAllWarehouse = response.data.allWarehouses;
 

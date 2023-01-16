@@ -20,7 +20,7 @@ export default function Home() {
         dispatch(setTotalOrders(getTotal));
       });
   };
-  console.log(process.env.NEXT_PUBLIC_URI_ENDPOINT);
+
   return (
     <>
       <div

@@ -49,11 +49,6 @@ export default function ReportCreate() {
         </Card>
       </div>
 
-      <Typography variant="h5" mt={5}>
-        Pedidos
-      </Typography>
-      <Divider></Divider>
-
       {/* <div
         style={{
           display: "flex",

@@ -127,7 +127,7 @@ export default function OutOperation() {
 
     const options = {
       method: "POST",
-      url: "http://localhost:5000/qrstock/api/operations",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations`,
       data: {
         warehouse_out: newOperation.warehouse_out,
         warehouse_in: newOperation.warehouse_in,
@@ -152,7 +152,7 @@ export default function OutOperation() {
     movementProducts.products.map((product) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/movements",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/movements`,
         data: {
           product_id: product.id,
           mov_quantity: product.p_stock,
@@ -171,7 +171,7 @@ export default function OutOperation() {
     movementProducts.products.map((product) => {
       const options = {
         method: "PUT",
-        url: "http://localhost:5000/qrstock/api/products/update-stock",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update-stock`,
         data: {
           id: product.id,
           p_stock: product.p_stock,

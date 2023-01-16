@@ -43,7 +43,7 @@ export const AddWarehouse = () => {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/warehouses",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`,
         data: {
           w_description: values.w_description,
         },

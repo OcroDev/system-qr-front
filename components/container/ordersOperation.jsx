@@ -21,7 +21,6 @@ import {
   FormHelperText,
   IconButton,
   Tooltip,
-  TextField,
   Stack,
   AlertTitle,
 } from "@mui/material";
@@ -85,7 +84,7 @@ export default function OrdersOperation() {
   const createOrder = (newOrder, movnote) => {
     const options = {
       method: "POST",
-      url: "http://localhost:5000/qrstock/api/orders",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders`,
       data: {
         warehouse_id: newOrder.warehouse_id,
         user_id: newOrder.user_id,
@@ -107,7 +106,7 @@ export default function OrdersOperation() {
     movementProducts.products.map((product) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/ordermovements",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/ordermovements`,
         data: {
           product_id: product.id,
           mov_quantity: product.p_stock,
@@ -170,7 +169,7 @@ export default function OrdersOperation() {
   const getOrders = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/orders/last-id",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/last-id`,
       headers: { "Content-Type": "application/json" },
     };
 
@@ -187,7 +186,7 @@ export default function OrdersOperation() {
 
   const getAllWarehouses = () => {
     axios
-      .get("http://localhost:5000/qrstock/api/warehouses")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`)
       .then((response) => {
         const getAllWarehouse = response.data.allWarehouses;
 

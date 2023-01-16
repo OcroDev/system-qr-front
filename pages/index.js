@@ -12,13 +12,15 @@ export default function Home() {
   }, []);
 
   const getTotalOrders = () => {
-    axios.get("http://localhost:5000/qrstock/api/orders/").then((response) => {
-      const getTotal = response.data.orders.length;
+    axios
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/`)
+      .then((response) => {
+        const getTotal = response.data.orders.length;
 
-      dispatch(setTotalOrders(getTotal));
-    });
+        dispatch(setTotalOrders(getTotal));
+      });
   };
-
+  console.log(process.env.NEXT_PUBLIC_URI_ENDPOINT);
   return (
     <>
       <div

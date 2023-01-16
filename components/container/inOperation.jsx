@@ -61,7 +61,7 @@ export default function InOperation() {
   const getOperations = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/operations/last-id",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/last-id`,
       headers: { "Content-Type": "application/json" },
     };
 
@@ -77,7 +77,7 @@ export default function InOperation() {
   };
   const getAllWarehouses = () => {
     axios
-      .get("http://localhost:5000/qrstock/api/warehouses")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`)
       .then((response) => {
         const getAllWarehouse = response.data.allWarehouses;
 
@@ -128,7 +128,7 @@ export default function InOperation() {
     movementProducts.products.map((product) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/movements",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/movements`,
         data: {
           product_id: product.id,
           mov_quantity: product.p_stock,
@@ -147,7 +147,7 @@ export default function InOperation() {
     movementProducts.products.map((product) => {
       const options = {
         method: "PUT",
-        url: "http://localhost:5000/qrstock/api/products/update-stock",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update-stock`,
         data: {
           id: product.id,
           p_stock: product.p_stock,

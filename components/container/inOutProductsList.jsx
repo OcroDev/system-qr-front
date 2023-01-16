@@ -46,7 +46,7 @@ export default function InOutProductsList() {
 
   function getAllProducts() {
     axios
-      .get("http://localhost:5000/qrstock/api/products")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
         const getAllProduct = response.data.allProducts;
 
@@ -65,9 +65,12 @@ export default function InOutProductsList() {
   };
 
   const deleteProduct = (id) => {
-    axios(`http://localhost:5000/qrstock/api/products/${id}`, {
-      method: "",
-    }).then((response) => {
+    axios(
+      `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/${id}`,
+      {
+        method: "",
+      }
+    ).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
       getAllProducts();

@@ -41,7 +41,7 @@ export default function InOutDepartmentList() {
 
   function getAllDepartments() {
     axios
-      .get("http://localhost:5000/qrstock/api/departments")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
       .then((response) => {
         const getAllDepartment = response.data.allDepartments;
 

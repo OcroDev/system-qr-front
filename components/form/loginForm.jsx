@@ -53,7 +53,7 @@ export default function LoginForm() {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/users/login",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users/login`,
         data: {
           u_username: values.u_username,
           u_password: values.u_password,

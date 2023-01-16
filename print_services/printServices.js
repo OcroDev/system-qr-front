@@ -4,7 +4,7 @@ import { cm, db } from "./logos";
 
 const printServices = {
   orderReport: async (id) => {
-    const URI = `http://localhost:5000/qrstock/api/orders/report`;
+    const URI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/report`;
     const CM = "COLEGIO METROPOLITANO",
       DB = "COLEGIO LOS PIRINEOS DON BOSCO",
       userAuth = "LIC. GABRIELA CEDOLIN";
@@ -137,7 +137,7 @@ const printServices = {
     doc.save("a4.pdf");
   },
   operationReport: async (type, id) => {
-    const URI = `http://localhost:5000/qrstock/api/operations/${type}-id`;
+    const URI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/${type}-id`;
     const CM = "COLEGIO METROPOLITANO",
       DB = "COLEGIO LOS PIRINEOS DON BOSCO";
     let minus;
@@ -288,7 +288,9 @@ const printServices = {
     let response,
       products = [];
     try {
-      response = await axios.get("http://localhost:5000/qrstock/api/products");
+      response = await axios.get(
+        `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`
+      );
     } catch (error) {
       console.log(error.message);
     }
@@ -373,7 +375,7 @@ const printServices = {
       products = [];
     try {
       response = await axios.get(
-        "http://localhost:5000/qrstock/api/products/minstock"
+        `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/minstock`
       );
     } catch (error) {
       console.log(error.message);
@@ -456,7 +458,7 @@ const printServices = {
       products = [];
     try {
       response = await axios.get(
-        "http://localhost:5000/qrstock/api/products/mustout"
+        `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/mustout`
       );
     } catch (error) {
       console.log(error.message);

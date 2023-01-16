@@ -21,7 +21,7 @@ export default function Operation(props) {
       const type = props.type === "in" ? 1 : 2;
       const options = {
         method: "PUT",
-        url: "http://localhost:5000/qrstock/api/products/update-stock",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update-stock`,
         data: {
           id: product.product_id,
           p_stock: product.mov_quantity,
@@ -35,9 +35,9 @@ export default function Operation(props) {
     });
   };
   const deleteOperation = () => {
-    let operationURI = "http://localhost:5000/qrstock/api/operations/delete";
-    let movementsURI = "http://localhost:5000/qrstock/api/movements/delete";
-    let operationCodURI = "http://localhost:5000/qrstock/api/movements/op-cod";
+    let operationURI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/delete`;
+    let movementsURI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/movements/delete`;
+    let operationCodURI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/movements/op-cod`;
     axios
       .put(operationURI, {
         id: props.id,

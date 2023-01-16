@@ -43,7 +43,7 @@ export default function AddDepartment() {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/departments",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`,
         data: {
           d_name: values.d_name,
         },

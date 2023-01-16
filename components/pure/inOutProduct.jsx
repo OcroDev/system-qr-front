@@ -48,7 +48,7 @@ export const InOutProduct = ({
       let response;
       try {
         response = await axios.put(
-          "http://localhost:5000/qrstock/api/products/id",
+          `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/id`,
           {
             id: product.id,
           }

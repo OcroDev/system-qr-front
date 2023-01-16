@@ -50,7 +50,7 @@ export default function UsersList() {
 
   function getAllUsers() {
     axios
-      .get("http://localhost:5000/qrstock/api/users")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users`)
       .then((response) => {
         const getAllUser = response.data.allUsers;
 

@@ -33,7 +33,7 @@ export default function UpdateDepartment() {
   function getDepartment() {
     const options = {
       method: "GET",
-      url: `http://localhost:5000/qrstock/api/departments/update/${router.query.id}`,
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments/update/${router.query.id}`,
     };
 
     axios
@@ -72,7 +72,7 @@ export default function UpdateDepartment() {
     onSubmit: (values) => {
       const options = {
         method: "PUT",
-        url: `http://localhost:5000/qrstock/api/departments/update/${router.query.id}`,
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments/update/${router.query.id}`,
         data: {
           d_name: values.d_name,
         },

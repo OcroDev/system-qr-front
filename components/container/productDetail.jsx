@@ -58,7 +58,7 @@ export default function ProductDetail(props) {
   const getProduct = () => {
     axios
       .get(
-        `http://localhost:5000/qrstock/api/products/update/${router.query.id}`
+        `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update/${router.query.id}`
       )
       .then((response) => {
         setProduct(response.data.product);

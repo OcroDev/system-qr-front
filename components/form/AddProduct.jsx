@@ -53,7 +53,7 @@ export default function AddProduct() {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/products",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`,
         data: {
           p_description: values.p_description,
           p_minstock: values.p_minstock,

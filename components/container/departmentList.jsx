@@ -49,7 +49,7 @@ export default function DepartmentList() {
 
   function getAllDepartments() {
     axios
-      .get("http://localhost:5000/qrstock/api/departments")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
       .then((response) => {
         const getAllDepartment = response.data.allDepartments;
 
@@ -76,9 +76,12 @@ export default function DepartmentList() {
 
   const deleteDepartment = (id) => {
     console.log("Id a eliminar: ", id);
-    axios(`http://localhost:5000/qrstock/api/departments/${id}`, {
-      method: "DELETE",
-    }).then((response) => {
+    axios(
+      `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments/${id}`,
+      {
+        method: "DELETE",
+      }
+    ).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
       getAllDepartments();

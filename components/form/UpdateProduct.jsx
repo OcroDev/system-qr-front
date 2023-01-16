@@ -39,7 +39,7 @@ export default function UpdateProduct() {
   function getproduct() {
     const options = {
       method: "GET",
-      url: `http://localhost:5000/qrstock/api/products/update/${router.query.id}`,
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update/${router.query.id}`,
     };
 
     axios
@@ -84,7 +84,7 @@ export default function UpdateProduct() {
     onSubmit: (values) => {
       const options = {
         method: "PUT",
-        url: `http://localhost:5000/qrstock/api/products/update/${router.query.id}`,
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/update/${router.query.id}`,
         data: {
           p_description: values.p_description,
           p_minstock: values.p_minstock,

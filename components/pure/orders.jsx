@@ -20,7 +20,7 @@ export default function Orders(props) {
 
   //methods
   const deleteOrders = () => {
-    let ordersURI = "http://localhost:5000/qrstock/api/orders/delete";
+    let ordersURI = `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/delete`;
     axios
       .put(ordersURI, {
         id: props.id,

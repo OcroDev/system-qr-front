@@ -78,7 +78,7 @@ export default function AddUser() {
     onSubmit: (values) => {
       const options = {
         method: "POST",
-        url: "http://localhost:5000/qrstock/api/users",
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users`,
         data: {
           u_firstname: values.u_firstname,
           u_lastname: values.u_lastname,

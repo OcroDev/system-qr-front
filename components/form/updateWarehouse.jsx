@@ -33,7 +33,7 @@ export default function UpdateWarehouse() {
   function getWarehouse() {
     const options = {
       method: "GET",
-      url: `http://localhost:5000/qrstock/api/warehouses/update/${router.query.id}`,
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses/update/${router.query.id}`,
     };
 
     axios
@@ -72,7 +72,7 @@ export default function UpdateWarehouse() {
     onSubmit: (values) => {
       const options = {
         method: "PUT",
-        url: `http://localhost:5000/qrstock/api/warehouses/update/${router.query.id}`,
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses/update/${router.query.id}`,
         data: {
           w_description: values.w_description,
         },

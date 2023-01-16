@@ -23,7 +23,7 @@ export default function OrderList() {
   const getOrders = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/orders/report",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/report`,
       headers: { "Content-Type": "application/json" },
     };
 

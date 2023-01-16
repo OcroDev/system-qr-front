@@ -1,7 +1,5 @@
 import React from "react";
-import { jsPDF } from "jspdf";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
 import { Box } from "@mui/system";
 import printServices from "../../../print_services/printServices";
 import {
@@ -55,7 +53,8 @@ export default function ReportCreate() {
         Pedidos
       </Typography>
       <Divider></Divider>
-      <div
+
+      {/* <div
         style={{
           display: "flex",
           flexDirection: "row",
@@ -76,7 +75,7 @@ export default function ReportCreate() {
           </CardContent>
           <CardActions></CardActions>
         </Card>
-      </div>
+      </div> */}
 
       <Typography variant="h5" mt={5}>
         Productos

@@ -1,7 +1,4 @@
 import {
-  Card,
-  CardContent,
-  Divider,
   Table,
   TableBody,
   TableContainer,
@@ -9,16 +6,12 @@ import {
   Tabs,
   Tab,
   Box,
-  Button,
   TextField,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Operation from "../pure/operation";
-import { AddShoppingCart } from "@mui/icons-material";
-import { bgcolor } from "@mui/system";
 
 //tab panel methods
 function TabPanel(props) {
@@ -59,7 +52,6 @@ export default function OperationsList() {
   const [OutOperations, setOutOperations] = useState([]);
   const [value, setValue] = React.useState(0);
   const [searchDate, setSearchDate] = useState("");
-  const [searchWarehouse, setSearchWarehouse] = useState("");
 
   useEffect(() => {
     getInOperations();
@@ -78,7 +70,7 @@ export default function OperationsList() {
   const getInOperations = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/operations/in",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/in`,
       headers: { "Content-Type": "application/json" },
     };
 
@@ -94,7 +86,7 @@ export default function OperationsList() {
   const getOutOperations = () => {
     const options = {
       method: "GET",
-      url: "http://localhost:5000/qrstock/api/operations/out",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/out`,
       headers: { "Content-Type": "application/json" },
     };
 

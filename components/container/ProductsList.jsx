@@ -10,12 +10,10 @@ import {
   TableCell,
   TableHead,
   TableRow,
-  Paper,
   Card,
   CardContent,
   Typography,
   TextField,
-  ListItemIcon,
   Dialog,
   DialogActions,
   DialogContent,
@@ -51,7 +49,7 @@ export default function ProductsList() {
 
   function getAllProducts() {
     axios
-      .get("http://localhost:5000/qrstock/api/products")
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
         const getAllProduct = response.data.allProducts;
 
@@ -77,9 +75,12 @@ export default function ProductsList() {
   };
 
   const deleteProduct = (id) => {
-    axios(`http://localhost:5000/qrstock/api/products/${id}`, {
-      method: "DELETE",
-    }).then((response) => {
+    axios(
+      `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products/${id}`,
+      {
+        method: "DELETE",
+      }
+    ).then((response) => {
       setDeleteSuccess(true);
       setApiMessage(response.data.message);
       getAllProducts();

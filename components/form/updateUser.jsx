@@ -40,7 +40,7 @@ export default function UpdateUser() {
   function getUser() {
     const options = {
       method: "GET",
-      url: `http://localhost:5000/qrstock/api/users/update/${router.query.id}`,
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users/update/${router.query.id}`,
     };
 
     axios
@@ -109,7 +109,7 @@ export default function UpdateUser() {
     onSubmit: (values) => {
       const options = {
         method: "PUT",
-        url: `http://localhost:5000/qrstock/api/users/update/${router.query.id}`,
+        url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users/update/${router.query.id}`,
         data: {
           u_firstname: values.u_firstname,
           u_lastname: values.u_lastname,

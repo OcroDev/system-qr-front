@@ -66,7 +66,7 @@ export default function LoginForm() {
           sessionStorage.setItem("user", "logeado");
 
           const userloged = data.userFound;
-          console.log(userloged);
+
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
           dispatch(

@@ -536,14 +536,13 @@ const printServices = {
   printQr: (doc_data) => {
     let $d = document;
     let img;
-    console.log(doc_data);
+
     img = $d.body.ownerDocument.images;
     let date = new Date().toLocaleDateString("es-ve");
     let title = "Lista de Productos Qr";
 
     //? document
 
-    console.log(doc_data);
     const doc = new jsPDF();
     let setDownSquare = 50,
       setDownProduct = 55,

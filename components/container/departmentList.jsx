@@ -75,7 +75,6 @@ export default function DepartmentList() {
   };
 
   const deleteDepartment = (id) => {
-    console.log("Id a eliminar: ", id);
     axios(
       `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments/${id}`,
       {

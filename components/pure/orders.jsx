@@ -25,9 +25,7 @@ export default function Orders(props) {
       .put(ordersURI, {
         id: props.id,
       })
-      .then((response) => {
-        console.log(response.data);
-      });
+      .then((response) => {});
   };
 
   let orders = (

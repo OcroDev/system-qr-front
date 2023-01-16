@@ -103,7 +103,7 @@ export default function InOperation() {
 
     const options = {
       method: "POST",
-      url: "http://localhost:5000/qrstock/api/operations",
+      url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations`,
       data: {
         warehouse_out: newOperation.warehouse_out,
         warehouse_in: newOperation.warehouse_in,

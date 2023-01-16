@@ -49,29 +49,6 @@ export default function ReportCreate() {
         </Card>
       </div>
 
-      {/* <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <Card sx={styleCard}>
-          <CardContent>
-            <Typography variant="h6">Reportes de Pedidos</Typography>
-            <Button
-              variant="contained"
-              size="medium"
-              color="info"
-              sx={{ mt: 5 }}
-              onClick={() => router.push("/reports/orders")}
-            >
-              Ver
-            </Button>
-          </CardContent>
-          <CardActions></CardActions>
-        </Card>
-      </div> */}
-
       <Typography variant="h5" mt={5}>
         Productos
       </Typography>

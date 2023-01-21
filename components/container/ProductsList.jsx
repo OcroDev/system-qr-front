@@ -51,7 +51,7 @@ export default function ProductsList() {
 
   function getAllProducts() {
     setIsLoading(!isLoading)
-    console.log({isLoading})
+  
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -61,8 +61,7 @@ export default function ProductsList() {
       })
       .catch((error) => console.log(error)).finally(() => {
         setIsLoading(false)
-        console.log({ isLoading }
-        )
+        
       }
       )
   }
@@ -108,7 +107,7 @@ export default function ProductsList() {
 
           
   return (<>
-    { isLoading?<Spinner></Spinner> :
+    { isLoading ? <Spinner></Spinner> :
     <div>
       {deleteSuccess ? (
         <Alert severity="success" variant="standard">

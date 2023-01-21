@@ -20,6 +20,7 @@ import {
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
+import Spinner from "../pure/spinner";
 
 export default function LoginForm() {
   //redux
@@ -29,6 +30,7 @@ export default function LoginForm() {
   const [creationSuccess, setCreationSuccess] = useState(false);
   const [found, setFound] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
   //Initial values for formik form
   const initialValues = {
     u_username: "",
@@ -51,6 +53,7 @@ export default function LoginForm() {
     initialValues: initialValues,
     validationSchema,
     onSubmit: (values) => {
+      setIsLoading(true)
       const options = {
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users/login`,
@@ -96,6 +99,7 @@ export default function LoginForm() {
           values.u_username = "";
           values.u_password = "";
           router.push("/");
+          setIsLoading(false)
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);
@@ -192,6 +196,9 @@ export default function LoginForm() {
                     Cancelar
                   </Button>
                 </div>
+                {isLoading ? <div className="mt-4">
+                  <Spinner/>
+                </div> : null}
                 <div className="mt-4">
                   {creationSuccess ? (
                     <Alert severity="success" variant="standard">

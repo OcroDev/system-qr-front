@@ -29,6 +29,7 @@ import React, { useEffect, useState } from "react";
 
 //AXIOS
 import axios from "axios";
+import Spinner from "../pure/spinner";
 
 export default function WarehouseList() {
   //STATES
@@ -38,6 +39,7 @@ export default function WarehouseList() {
   const [idFromWarehouse, setIdFromWarehouse] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   //FETCH DATA
   useEffect(() => {
@@ -47,6 +49,7 @@ export default function WarehouseList() {
   //METHODS
 
   function getAllWarehouses() {
+    setIsLoading(!isLoading)
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`)
       .then((response) => {
@@ -54,7 +57,11 @@ export default function WarehouseList() {
 
         setWarehouses(getAllWarehouse);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 500)
+      )
   }
 
   const searchHandler = (e) => {
@@ -96,7 +103,7 @@ export default function WarehouseList() {
         data.w_description.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (
+  return (<>{isLoading ? <Spinner/> : 
     <div>
       {deleteSuccess ? (
         <Alert severity="success" variant="standard">
@@ -218,6 +225,7 @@ export default function WarehouseList() {
           </DialogActions>
         </Dialog>
       </div>
-    </div>
+    </div>}
+    </>
   );
 }

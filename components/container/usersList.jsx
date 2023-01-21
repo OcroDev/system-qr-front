@@ -31,6 +31,7 @@ import React, { useEffect, useState } from "react";
 
 //AXIOS
 import axios from "axios";
+import Spinner from "../pure/spinner";
 
 export default function UsersList() {
   //STATES
@@ -40,6 +41,7 @@ export default function UsersList() {
   const [idFromUser, setIdFromUser] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   //FETCH DATA
   useEffect(() => {
@@ -49,6 +51,7 @@ export default function UsersList() {
   //METHODS
 
   function getAllUsers() {
+    setIsLoading(!isLoading)
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users`)
       .then((response) => {
@@ -56,7 +59,10 @@ export default function UsersList() {
 
         setUsers(getAllUser);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 500))
   }
 
   const searchHandler = (e) => {
@@ -95,142 +101,144 @@ export default function UsersList() {
         data.u_username.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (
-    <div>
-      {deleteSuccess ? (
-        <Alert severity="success" variant="standard">
-          {apiMessage}
-        </Alert>
-      ) : null}
+  return (<>
+    {isLoading ? <Spinner /> :
+      <div>
+        {deleteSuccess ? (
+          <Alert severity="success" variant="standard">
+            {apiMessage}
+          </Alert>
+        ) : null}
 
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 0,
-          width: "60vw",
-          height: "60vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent
+        <Card
           sx={{
-            position: "absolute",
-            background: "#fff",
+            bgcolor: "#fff",
+            mt: 0,
             width: "60vw",
-            zIndex: "998",
+            height: "60vh",
+            overflowY: "scroll",
           }}
         >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            USUARIOS
-          </Typography>
-
-          <TextField
-            variant="standard"
-            label="Buscar Producto"
-            type="text"
-            value={search}
-            onChange={searchHandler}
-          ></TextField>
-        </CardContent>
-        <CardContent>
-          <TableContainer
+          <CardContent
             sx={{
-              bgcolor: "background.paper",
-              marginTop: 15,
+              position: "absolute",
+              background: "#fff",
+              width: "60vw",
+              zIndex: "998",
             }}
           >
-            <Table sx={{ maxWidth: "70vw" }}>
-              <TableHead sx={{ marginTop: 4 }}>
-                <TableRow>
-                  <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
-                    ID
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Nombre
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Apellido
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Nombre de Usuario
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Acciones
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {userFilter.map((user) => {
-                  return (
-                    <User
-                      key={user.id}
-                      id={user.id}
-                      u_firstname={user.u_firstname}
-                      u_lastname={user.u_lastname}
-                      u_username={user.u_username}
-                      handleOpenDialog={handleOpenDialog}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-      </Card>
-      <div>
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{ bgcolor: "background.default" }}
-        >
-          <DialogTitle
-            id="alert-dialog-title"
-            sx={{ color: "warning.light", fontWeight: "bold" }}
+            <Typography fontFamily={"monospace"} align="center" variant="h5">
+              USUARIOS
+            </Typography>
+
+            <TextField
+              variant="standard"
+              label="Buscar Producto"
+              type="text"
+              value={search}
+              onChange={searchHandler}
+            ></TextField>
+          </CardContent>
+          <CardContent>
+            <TableContainer
+              sx={{
+                bgcolor: "background.paper",
+                marginTop: 15,
+              }}
+            >
+              <Table sx={{ maxWidth: "70vw" }}>
+                <TableHead sx={{ marginTop: 4 }}>
+                  <TableRow>
+                    <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+                      ID
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Nombre
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Apellido
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Nombre de Usuario
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Acciones
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {userFilter.map((user) => {
+                    return (
+                      <User
+                        key={user.id}
+                        id={user.id}
+                        u_firstname={user.u_firstname}
+                        u_lastname={user.u_lastname}
+                        u_username={user.u_username}
+                        handleOpenDialog={handleOpenDialog}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
+        <div>
+          <Dialog
+            open={openDialog}
+            onClose={handleCloseDialog}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+            sx={{ bgcolor: "background.default" }}
           >
-            {"¿Estás seguro que deseas eliminar este usuario?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              align="center"
-              sx={{ color: "#fff" }}
+            <DialogTitle
+              id="alert-dialog-title"
+              sx={{ color: "warning.light", fontWeight: "bold" }}
             >
-              {`Cuidado estás a punto de eliminar el usuario`}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => handleCloseConfirmDialog(idFromUser)}
-              autoFocus
-            >
-              Aceptar
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleCloseDialog}
-              color="success"
-            >
-              Cancelar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </div>
+              {"¿Estás seguro que deseas eliminar este usuario?"}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText
+                id="alert-dialog-description"
+                align="center"
+                sx={{ color: "#fff" }}
+              >
+                {`Cuidado estás a punto de eliminar el usuario`}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={() => handleCloseConfirmDialog(idFromUser)}
+                autoFocus
+              >
+                Aceptar
+              </Button>
+              <Button
+                variant="outlined"
+                onClick={handleCloseDialog}
+                color="success"
+              >
+                Cancelar
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </div>}
+    </>
   );
 }

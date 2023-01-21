@@ -30,6 +30,7 @@ import React, { useEffect, useState } from "react";
 
 //AXIOS
 import axios from "axios";
+import Spinner from "../pure/spinner";
 
 export default function ProductsList() {
   //STATES
@@ -39,6 +40,7 @@ export default function ProductsList() {
   const [idFromProduct, setIdFromProduct] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false)
 
   //FETCH DATA
   useEffect(() => {
@@ -48,6 +50,8 @@ export default function ProductsList() {
   //METHODS
 
   function getAllProducts() {
+    setIsLoading(!isLoading)
+    console.log({isLoading})
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -55,7 +59,12 @@ export default function ProductsList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(() => {
+        setIsLoading(false)
+        console.log({ isLoading }
+        )
+      }
+      )
   }
 
   const searchHandler = (e) => {
@@ -97,7 +106,9 @@ export default function ProductsList() {
         data.p_description.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (
+          
+  return (<>
+    { isLoading?<Spinner></Spinner> :
     <div>
       {deleteSuccess ? (
         <Alert severity="success" variant="standard">
@@ -144,74 +155,74 @@ export default function ProductsList() {
           </Button>
         </CardContent>
         <CardContent>
-          <TableContainer
-            sx={{
-              bgcolor: "background.paper",
-              marginTop: 15,
-            }}
-          >
-            <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
-              <TableHead sx={{ marginTop: 4 }}>
-                <TableRow>
-                  {/* <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+            <TableContainer
+              sx={{
+                bgcolor: "background.paper",
+                marginTop: 15,
+              }}
+            > <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
+                <TableHead sx={{ marginTop: 4 }}>
+                  <TableRow>
+                    {/* <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
                     ID
                   </TableCell> */}
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Nombre del Producto
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Stock Mínimo
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Unidad de Medida
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Ubicación
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Acciones
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    QR Code
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {productFilter.map((product) => {
-                  return (
-                    <Product
-                      key={product.id}
-                      id={product.id}
-                      p_desription={product.p_description}
-                      p_ubication={product.p_ubication}
-                      p_unit={product.p_unit}
-                      p_minstock={product.p_minstock}
-                      handleOpenDialog={handleOpenDialog}
-                      p_stock={product.p_stock}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Nombre del Producto
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Stock Mínimo
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Unidad de Medida
+                    </TableCell>
+                    <TableCell
+                      align="right"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Ubicación
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      Acciones
+                    </TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{ color: "#efefef", fontWeight: "bold" }}
+                    >
+                      QR Code
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {productFilter.map((product) => {
+                    return (
+                      <Product
+                        key={product.id}
+                        id={product.id}
+                        p_desription={product.p_description}
+                        p_ubication={product.p_ubication}
+                        p_unit={product.p_unit}
+                        p_minstock={product.p_minstock}
+                        handleOpenDialog={handleOpenDialog}
+                        p_stock={product.p_stock}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            
+            </TableContainer>
         </CardContent>
       </Card>
       <div>
@@ -256,6 +267,7 @@ export default function ProductsList() {
           </DialogActions>
         </Dialog>
       </div>
-    </div>
+      
+    </div >}</>
   );
 }

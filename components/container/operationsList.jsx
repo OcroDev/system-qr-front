@@ -12,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import Operation from "../pure/operation";
+import ReportByDeparment from "./reportByDeparment";
 
 //tab panel methods
 function TabPanel(props) {
@@ -19,7 +20,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role="tabpanel"
+      role='tabpanel'
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -172,7 +173,7 @@ export default function OperationsList() {
   return (
     <>
       <Box>
-        <Typography variant="h6" align="center">
+        <Typography variant='h6' align='center'>
           Reportes
         </Typography>
       </Box>
@@ -181,10 +182,11 @@ export default function OperationsList() {
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label="basic tabs example"
+            aria-label='basic tabs example'
           >
-            <Tab label="Entradas" {...a11yProps(0)} />
-            <Tab label="Salidas" {...a11yProps(1)} />
+            <Tab label='Entradas' {...a11yProps(0)} />
+            <Tab label='Salidas' {...a11yProps(1)} />
+            <Tab label='Reporte por departamento' {...a11yProps(2)} />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
@@ -233,16 +235,19 @@ export default function OperationsList() {
             </Table>
           </TableContainer>{" "}
         </TabPanel>
+        <TabPanel value={value} index={2}>
+          <ReportByDeparment />
+        </TabPanel>
 
         <Box sx={{ m: 3 }}>
           <TextField
-            variant="standard"
-            label="Filtrar por Fecha"
-            type="text"
+            variant='standard'
+            label='Filtrar por Fecha'
+            type='text'
             value={searchDate}
             onChange={searchHandler}
             helperText={"dd / mm / aaaa"}
-            color="info"
+            color='info'
           ></TextField>
         </Box>
       </Box>

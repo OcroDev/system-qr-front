@@ -69,7 +69,8 @@ export default function UserAvatar() {
                 sx={{ pl: 4 }}
                 onClick={() => {
                   dispatch(unSetUser());
-                  sessionStorage.removeItem("user");
+                  //sessionStorage.removeItem("user");
+                  localStorage.removeItem("user");
                   router.push("/");
                 }}
               >

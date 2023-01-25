@@ -17,7 +17,8 @@ export default function App({ Component, pageProps }) {
   const [logedIn, setLogedIn] = useState();
 
   const loggedIn = () => {
-    setLogedIn(sessionStorage.getItem("user"));
+    //setLogedIn(sessionStorage.getItem("user"));
+    setLogedIn(localStorage.getItem("user"));
   };
   useEffect(() => {
     loggedIn();

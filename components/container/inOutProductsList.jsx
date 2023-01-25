@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 //AXIOS
 import axios from "axios";
 import { useRouter } from "next/router";
+import Spinner from "../pure/spinner";
 
 export default function InOutProductsList() {
   const router = useRouter();
@@ -36,6 +37,7 @@ export default function InOutProductsList() {
   const [search, setSearch] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
   //FETCH DATA
   useEffect(() => {
@@ -45,6 +47,7 @@ export default function InOutProductsList() {
   //METHODS
 
   function getAllProducts() {
+    setIsLoading(!isLoading)
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -52,7 +55,11 @@ export default function InOutProductsList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(
+      setTimeout(() => { 
+        setIsLoading(false)
+      }, 500)
+      )
   }
 
   const searchHandler = (e) => {
@@ -87,7 +94,8 @@ export default function InOutProductsList() {
         data.p_description.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (
+  return (<>
+    {isLoading ? <Spinner/> : 
     <div>
       {deleteSuccess ? (
         <Alert severity="success" variant="standard">
@@ -200,6 +208,7 @@ export default function InOutProductsList() {
           </CardActions>
         </CardContent>
       </Card>
-    </div>
+    </div>}
+  </>
   );
 }

@@ -9,11 +9,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import Spinner from "../pure/spinner";
 
 export default function OrderList() {
   //states
   const [orders, setOrders] = useState([]);
   const [searchWarehouse, setSearchWarehouse] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   //METHODS
   useEffect(() => {
@@ -21,6 +23,7 @@ export default function OrderList() {
   }, []);
 
   const getOrders = () => {
+    setIsLoading(!isLoading);
     const options = {
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/orders/report`,
@@ -34,7 +37,13 @@ export default function OrderList() {
       })
       .catch(function (error) {
         console.error(error);
-      });
+      }).finally(
+        setTimeout(() => {
+          
+          setIsLoading(false)
+        }, 500)
+
+      )
   };
 
   const searchHandler = (e) => {
@@ -56,25 +65,27 @@ export default function OrderList() {
         <Typography align="center" variant="h5">
           Pedidos
         </Typography>
-        <div style={{ overflowY: "scroll" }}>
-          <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
-            <Table>
-              <TableBody>
-                {ordersFilter.map((order) => {
-                  return (
-                    <Orders
-                      key={order.id}
-                      id={order.id}
-                      date={order.date}
-                      warehouse={order.warehouse_name}
-                      department={order.department_name}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </div>
+        {isLoading ? <div style={{ height: "40vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Spinner></Spinner>
+        </div> : <div style={{ overflowY: "scroll" }}>
+            <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+              <Table>
+                <TableBody>
+                  {ordersFilter.map((order) => {
+                    return (
+                      <Orders
+                        key={order.id}
+                        id={order.id}
+                        date={order.date}
+                        warehouse={order.warehouse_name}
+                        department={order.department_name}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>}
         <Box sx={{ m: 3 }}>
           <TextField
             variant="standard"

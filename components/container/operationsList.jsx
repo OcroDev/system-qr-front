@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Operation from "../pure/operation";
 import ReportByDeparment from "./reportByDeparment";
+import Spinner from "../pure/spinner";
 
 //tab panel methods
 function TabPanel(props) {
@@ -20,7 +21,7 @@ function TabPanel(props) {
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -53,6 +54,7 @@ export default function OperationsList() {
   const [OutOperations, setOutOperations] = useState([]);
   const [value, setValue] = React.useState(0);
   const [searchDate, setSearchDate] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     getInOperations();
@@ -69,6 +71,7 @@ export default function OperationsList() {
 
   //?methods
   const getInOperations = () => {
+    setIsLoading(!isLoading);
     const options = {
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/in`,
@@ -82,9 +85,15 @@ export default function OperationsList() {
       })
       .catch(function (error) {
         console.error(error);
-      });
+      })
+      .finally(
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500)
+      );
   };
   const getOutOperations = () => {
+    setIsLoading(!isLoading);
     const options = {
       method: "GET",
       url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/operations/out`,
@@ -98,7 +107,12 @@ export default function OperationsList() {
       })
       .catch(function (error) {
         console.error(error);
-      });
+      })
+      .finally(
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500)
+      );
   };
   const eliminarDuplicado = (arr) => {
     const operationsMap = arr.map((operation) => {
@@ -173,81 +187,99 @@ export default function OperationsList() {
   return (
     <>
       <Box>
-        <Typography variant='h6' align='center'>
+        <Typography variant="h6" align="center">
           Reportes
         </Typography>
       </Box>
       <Box sx={{ width: "70vw", bgcolor: "#efefef", mt: -10 }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label='basic tabs example'
+        {isLoading ? (
+          <div
+            style={{
+              height: "40vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Tab label='Entradas' {...a11yProps(0)} />
-            <Tab label='Salidas' {...a11yProps(1)} />
-            <Tab label='Reporte por departamento' {...a11yProps(2)} />
-          </Tabs>
-        </Box>
-        <TabPanel value={value} index={0}>
-          <div style={{ overflowY: "scroll" }}>
-            <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
-              <Table>
-                <TableBody>
-                  {operationInDateFilter.map((operation) => {
-                    return (
-                      <Operation
-                        key={operation.id}
-                        id={operation.id}
-                        date={operation.date}
-                        productsTotal={operation.products}
-                        inOut={"Productos Entrantes"}
-                        type={"in"}
-                      />
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <Spinner></Spinner>
           </div>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
-            <Table>
-              <TableBody>
-                {operationOutDateFilter.map((operation) => {
-                  return (
-                    <Operation
-                      key={operation.id}
-                      id={operation.id}
-                      date={operation.date}
-                      productsTotal={operation.products}
-                      inOut={"Productos Salientes"}
-                      warehouse_in={operation.warehouse_in}
-                      dep_in={operation.dep_in}
-                      warehouse={"Destino: "}
-                      dep={"departamento: "}
-                      type={"out"}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>{" "}
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <ReportByDeparment />
-        </TabPanel>
-
+        ) : (
+          <>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+              >
+                <Tab label="Entradas" {...a11yProps(0)} />
+                <Tab label="Salidas" {...a11yProps(1)} />
+                <Tab label="Estado de Salida de material" {...a11yProps(2)} />
+                <Tab label="Reporte por departamento" {...a11yProps(2)} />
+              </Tabs>
+            </Box>
+            <TabPanel value={value} index={0}>
+              <div style={{ overflowY: "scroll" }}>
+                <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+                  <Table>
+                    <TableBody>
+                      {operationInDateFilter.map((operation) => {
+                        return (
+                          <Operation
+                            key={operation.id}
+                            id={operation.id}
+                            date={operation.date}
+                            productsTotal={operation.products}
+                            inOut={"Productos Entrantes"}
+                            type={"in"}
+                          />
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={1}>
+              <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+                <Table>
+                  <TableBody>
+                    {operationOutDateFilter.map((operation) => {
+                      return (
+                        <Operation
+                          key={operation.id}
+                          id={operation.id}
+                          date={operation.date}
+                          productsTotal={operation.products}
+                          inOut={"Productos Salientes"}
+                          warehouse_in={operation.warehouse_in}
+                          dep_in={operation.dep_in}
+                          warehouse={"Destino: "}
+                          dep={"departamento: "}
+                          type={"out"}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>{" "}
+            </TabPanel>
+            <TabPanel value={value} index={2}>
+              <ReportByDeparment />
+            </TabPanel>
+            <TabPanel value={value} index={3}>
+              <ReportByDeparment />
+            </TabPanel>
+          </>
+        )}
         <Box sx={{ m: 3 }}>
           <TextField
-            variant='standard'
-            label='Filtrar por Fecha'
-            type='text'
+            variant="standard"
+            label="Filtrar por Fecha"
+            type="text"
             value={searchDate}
             onChange={searchHandler}
             helperText={"dd / mm / aaaa"}
-            color='info'
+            color="info"
           ></TextField>
         </Box>
       </Box>

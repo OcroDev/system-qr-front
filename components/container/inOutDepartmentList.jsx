@@ -24,6 +24,7 @@ import axios from "axios";
 
 import React from "react";
 import { useSelector } from "react-redux";
+import Spinner from "../pure/spinner";
 
 export default function InOutDepartmentList() {
   //STATES
@@ -31,6 +32,7 @@ export default function InOutDepartmentList() {
   const [search, setSearch] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   //FETCH DATA
   useEffect(() => {
@@ -40,6 +42,7 @@ export default function InOutDepartmentList() {
   //METHODS
 
   function getAllDepartments() {
+      setIsLoading(!isLoading);
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
       .then((response) => {
@@ -47,7 +50,10 @@ export default function InOutDepartmentList() {
 
         setDepartments(getAllDepartment);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500))
   }
 
   const searchHandler = (e) => {
@@ -62,6 +68,7 @@ export default function InOutDepartmentList() {
       );
 
   return (
+    <>{isLoading ? <Spinner/>:
     <div>
       {deleteSuccess ? (
         <Alert severity="success" variant="standard">
@@ -135,6 +142,7 @@ export default function InOutDepartmentList() {
           </TableContainer>
         </CardContent>
       </Card>
-    </div>
+      </div>}
+    </>
   );
 }

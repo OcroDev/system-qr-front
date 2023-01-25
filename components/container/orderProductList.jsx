@@ -37,7 +37,7 @@ export default function OrderProductList() {
   const [search, setSearch] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-
+  const [isLoading, setIsLoading] = useState(false);
   //FETCH DATA
   useEffect(() => {
     getAllProducts();
@@ -46,6 +46,7 @@ export default function OrderProductList() {
   //METHODS
 
   function getAllProducts() {
+    setIsLoading(!isLoading);
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -53,7 +54,11 @@ export default function OrderProductList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => console.log(error)).finally(
+        setTimeout(() => {
+          setIsLoading(false)
+        }, 1000)
+      )
   }
 
   const searchHandler = (e) => {

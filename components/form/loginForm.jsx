@@ -30,7 +30,7 @@ export default function LoginForm() {
   const [creationSuccess, setCreationSuccess] = useState(false);
   const [found, setFound] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   //Initial values for formik form
   const initialValues = {
     u_username: "",
@@ -53,7 +53,7 @@ export default function LoginForm() {
     initialValues: initialValues,
     validationSchema,
     onSubmit: (values) => {
-      setIsLoading(true)
+      setIsLoading(true);
       const options = {
         method: "POST",
         url: `${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/users/login`,
@@ -66,7 +66,8 @@ export default function LoginForm() {
         .request(options)
         .then(function (response) {
           const { data } = response;
-          sessionStorage.setItem("user", "logeado");
+          //sessionStorage.setItem("user", "logeado");
+          localStorage.setItem("user", "logueado");
 
           const userloged = data.userFound;
 
@@ -99,7 +100,7 @@ export default function LoginForm() {
           values.u_username = "";
           values.u_password = "";
           router.push("/");
-          setIsLoading(false)
+          setIsLoading(false);
           setTimeout(() => {
             setFound(false);
             setCreationSuccess(false);
@@ -196,9 +197,11 @@ export default function LoginForm() {
                     Cancelar
                   </Button>
                 </div>
-                {isLoading ? <div className="mt-4">
-                  <Spinner/>
-                </div> : null}
+                {isLoading ? (
+                  <div className="mt-4">
+                    <Spinner />
+                  </div>
+                ) : null}
                 <div className="mt-4">
                   {creationSuccess ? (
                     <Alert severity="success" variant="standard">

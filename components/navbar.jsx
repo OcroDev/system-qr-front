@@ -75,7 +75,7 @@ export default function Navbar() {
               <ListItemIcon sx={{ color: "#fff" }}>
                 <House />
               </ListItemIcon>
-              <ListItemText primary="Home"></ListItemText>
+              <ListItemText primary="Inicio"></ListItemText>
             </ListItemButton>
           </Link>
 
@@ -88,7 +88,7 @@ export default function Navbar() {
                 <ListItemIcon sx={{ color: "#fff" }}>
                   <Inventory />
                 </ListItemIcon>
-                <ListItemText primary="Productos" />
+                <ListItemText primary="Materiales" />
                 {!openProduct ? <ExpandMore /> : <ExpandLess />}
               </ListItemButton>
               <Collapse in={openProduct}>
@@ -121,7 +121,7 @@ export default function Navbar() {
             <ListItemIcon sx={{ color: "#fff" }}>
               <ProductionQuantityLimits />
             </ListItemIcon>
-            <ListItemText primary="Operaciones"></ListItemText>
+            <ListItemText primary="Requisiciones"></ListItemText>
             {!openOperation ? <ExpandMore /> : <ExpandLess />}
           </ListItemButton>
           <Collapse in={openOperation}>
@@ -208,7 +208,7 @@ export default function Navbar() {
                 <ListItemIcon sx={{ color: "#fff" }}>
                   <Warehouse />
                 </ListItemIcon>
-                <ListItemText primary="Almacenes"></ListItemText>
+                <ListItemText primary="Colegios"></ListItemText>
                 {!openWarehouse ? <ExpandMore /> : <ExpandLess />}
               </ListItemButton>
               <Collapse in={openWarehouse}>

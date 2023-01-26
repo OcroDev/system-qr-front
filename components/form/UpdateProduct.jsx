@@ -22,6 +22,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { cm, db } from "../../print_services/logos";
 
 export default function UpdateProduct() {
   //router
@@ -68,10 +69,10 @@ export default function UpdateProduct() {
   //VALIDATION SCHEMA
   const validationSchema = yup.object().shape({
     p_description: yup
-      .string("Ecribe el nombre del producto")
-      .min(5, "El nombre del producto es demasiado corto")
-      .max(25, "El nombre del producto es demasiado largo")
-      .required("El nombre del producto es requerido"),
+      .string("Ecribe el nombre del material")
+      .min(5, "El nombre del material es demasiado corto")
+      .max(25, "El nombre del material es demasiado largo")
+      .required("El nombre del material es requerido"),
     p_minstock: yup.number("El stock mínimo debe ser un número"),
     p_unit: yup.string().max(10, "la unidad de medida es demasiado larga"),
     p_ubication: yup.string(),
@@ -128,10 +129,30 @@ export default function UpdateProduct() {
       <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
         <CardContent>
           <div>
-            <div>
-              <Typography variant="h5" style={{ textAlign: "center" }}>
-                Actualizar Producto <br />"{product.p_description}"
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${db}`}
+                alt=""
+                width={40}
+                height={50}
+              />
+              <Typography variant="h5" sx={{ mr: "5rem", ml: "5rem" }}>
+                Actualizar material <br />"{product.p_description}"
               </Typography>
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${cm}`}
+                alt=""
+                width={40}
+                height={50}
+              />
             </div>
 
             <form
@@ -146,7 +167,7 @@ export default function UpdateProduct() {
                   fullWidth
                   id="p_description"
                   name="p_description"
-                  label="Nuevo nombre del Producto"
+                  label="Nuevo nombre del material"
                   type="text"
                   value={formik.values.p_description}
                   onChange={formik.handleChange}
@@ -165,7 +186,7 @@ export default function UpdateProduct() {
                   fullWidth
                   id="p_minstock"
                   name="p_minstock"
-                  label="Cantidad minima en Stock"
+                  label="Cantidad minima en Existencia"
                   type="number"
                   value={formik.values.p_minstock}
                   onChange={formik.handleChange}
@@ -226,7 +247,7 @@ export default function UpdateProduct() {
                     variant="contained"
                     sx={{ mr: 2 }}
                   >
-                    Actualizar Producto
+                    Actualizar material
                   </Button>
                   <Button
                     type="reset"

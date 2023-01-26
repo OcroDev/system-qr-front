@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@mui/material";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function OrderList() {
   //states
@@ -37,13 +38,12 @@ export default function OrderList() {
       })
       .catch(function (error) {
         console.error(error);
-      }).finally(
+      })
+      .finally(
         setTimeout(() => {
-          
-          setIsLoading(false)
+          setIsLoading(false);
         }, 500)
-
-      )
+      );
   };
 
   const searchHandler = (e) => {
@@ -62,12 +62,44 @@ export default function OrderList() {
     <div>
       <Box sx={{ width: "70vw", bgcolor: "#efefef", mt: -10 }}>
         <br />
-        <Typography align="center" variant="h5">
-          Pedidos
-        </Typography>
-        {isLoading ? <div style={{ height: "40vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <Spinner></Spinner>
-        </div> : <div style={{ overflowY: "scroll" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${db}`}
+            alt=""
+            width={40}
+            height={50}
+          />
+          <Typography align="center" variant="h5">
+            Pedidos
+          </Typography>
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${cm}`}
+            alt=""
+            width={40}
+            height={50}
+          />
+        </div>
+        {isLoading ? (
+          <div
+            style={{
+              height: "40vh",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Spinner></Spinner>
+          </div>
+        ) : (
+          <div style={{ overflowY: "scroll" }}>
             <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
               <Table>
                 <TableBody>
@@ -85,7 +117,8 @@ export default function OrderList() {
                 </TableBody>
               </Table>
             </TableContainer>
-          </div>}
+          </div>
+        )}
         <Box sx={{ m: 3 }}>
           <TextField
             variant="standard"

@@ -20,6 +20,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import { cm, db } from "../../print_services/logos";
 
 export default function AddUser() {
   //states
@@ -42,7 +43,7 @@ export default function AddUser() {
       .string("Ecribe el primer nombre del usuario")
       .min(3, "El nombre del usuario es demasiado corto")
       .max(15, "El nombre del usuario es demasiado largo")
-      .required("El nombre del producto es requerido"),
+      .required("El nombre del usuario es requerido"),
     u_lastname: yup
       .string("Escribe el apellido del usuario")
       .min(3, "El apellido es demasiado corto")
@@ -123,10 +124,30 @@ export default function AddUser() {
     <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
       <CardContent>
         <div>
-          <div>
-            <Typography variant="h5" style={{ textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${db}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+            <Typography variant="h5" sx={{ ml: "5rem", mr: "5rem" }}>
               Crear un Nuevo Usuario
             </Typography>
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${cm}`}
+              alt=""
+              width={40}
+              height={50}
+            />
           </div>
 
           <form

@@ -19,6 +19,8 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
+import Company from "../pure/company";
+import { cm, db } from "../../print_services/logos";
 
 export default function AddProduct() {
   const UBICATION = ["PAPELERÍA", "DEPÓSITO DE LIMPIEZA"];
@@ -37,11 +39,11 @@ export default function AddProduct() {
   //VALIDATION SCHEMA
   const validationSchema = yup.object().shape({
     p_description: yup
-      .string("Ecribe el nombre del producto")
-      .min(5, "El nombre del producto es demasiado corto")
-      .max(25, "El nombre del producto es demasiado largo")
-      .required("El nombre del producto es requerido"),
-    p_minstock: yup.number("El stock mínimo debe ser un número"),
+      .string("Ecribe el nombre del material ")
+      .min(5, "El nombre del material  es demasiado corto")
+      .max(25, "El nombre del material  es demasiado largo")
+      .required("El nombre del material es requerido"),
+    p_minstock: yup.number("la existencia mínimo debe ser un número"),
     p_unit: yup.string().max(10, "la unidad de medida es demasiado larga"),
     p_ubication: yup.string(),
   });
@@ -93,136 +95,164 @@ export default function AddProduct() {
   });
 
   return (
-    <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
-      <CardContent>
-        <div>
+    <>
+      <Card
+        sx={{ bgcolor: "#fff", mt: 0, width: "50vw", ml: "auto", mr: "auto" }}
+      >
+        <CardContent>
           <div>
-            <Typography variant="h5" style={{ textAlign: "center" }}>
-              Crear un Nuevo Producto
-            </Typography>
-          </div>
-
-          <form
-            onSubmit={formik.handleSubmit}
-            onReset={formik.handleReset}
-            className=" d-flex justify-content-center align-item-center"
-          >
-            <div>
-              <TextField
-                sx={{ mt: 4, width: 500 }}
-                variant="outlined"
-                fullWidth
-                id="p_description"
-                name="p_description"
-                label="Nombre del Producto"
-                type="text"
-                value={formik.values.p_description}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.p_description &&
-                  Boolean(formik.errors.p_description)
-                }
-                helperText={
-                  formik.touched.p_description && formik.errors.p_description
-                }
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img
+                style={{ marginTop: -10 }}
+                src={`data:image/png;base64,${db}`}
+                alt=""
+                width={40}
+                height={50}
               />
-              <br />
-              <TextField
-                sx={{ mt: 4, width: 250 }}
-                variant="outlined"
-                fullWidth
-                id="p_minstock"
-                name="p_minstock"
-                label="Cantidad minima en Stock"
-                type="number"
-                value={formik.values.p_minstock}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.p_minstock && Boolean(formik.errors.p_minstock)
-                }
-                helperText={
-                  formik.touched.p_minstock && formik.errors.p_minstock
-                }
+              <Typography
+                variant="h5"
+                style={{ marginRight: "5rem", marginLeft: "5rem" }}
+              >
+                Crear un Nuevo Material
+              </Typography>
+              <img
+                style={{ marginTop: -10 }}
+                src={`data:image/png;base64,${cm}`}
+                alt=""
+                width={40}
+                height={50}
               />
-              <br />
-              <TextField
-                sx={{ mt: 4, width: 250 }}
-                variant="outlined"
-                fullWidth
-                id="p_unit"
-                name="p_unit"
-                label="Unidad de medida"
-                type="text"
-                value={formik.values.p_unit}
-                onChange={formik.handleChange}
-                error={formik.touched.p_unit && Boolean(formik.errors.p_unit)}
-                helperText={formik.touched.p_unit && formik.errors.p_unit}
-              />
-              <br />
-              <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
-                <InputLabel id="ubication-label">Ubicación</InputLabel>
-                <Select
-                  labelId="ubication-label"
-                  id="p_ubication"
-                  name="p_ubication"
-                  label="Ubicación"
-                  value={formik.values.p_ubication}
-                  onChange={formik.handleChange}
-                  className="mb-4"
-                  error={
-                    formik.touched.p_ubication &&
-                    Boolean(formik.errors.p_ubication)
-                  }
-                  // helperText={
-                  //   formik.touched.p_ubication && formik.errors.p_ubication
-                  // }
-                >
-                  <MenuItem value="" sx={{ color: "#efefef" }}>
-                    Selecciona la ubicacion
-                  </MenuItem>
-                  <MenuItem value={UBICATION[0]} sx={{ color: "#efefef" }}>
-                    Papelería
-                  </MenuItem>
-                  <MenuItem value={UBICATION[1]} sx={{ color: "#efefef" }}>
-                    Depósito de limpieza
-                  </MenuItem>
-                </Select>
-              </FormControl>
-              <br />
-              <div className="d-flex justify-content-center ">
-                <Button
-                  type="submit"
-                  size="large"
-                  variant="contained"
-                  sx={{ mr: 2 }}
-                >
-                  Crear Producto
-                </Button>
-                <Button
-                  type="reset"
-                  size="large"
-                  variant="outlined"
-                  sx={{ ml: 0 }}
-                >
-                  Cancelar
-                </Button>
-              </div>
-              <div className="mt-4">
-                {creationSuccess ? (
-                  <Alert severity="success" variant="standard">
-                    {apiMessage}
-                  </Alert>
-                ) : null}
-                {found ? (
-                  <Alert severity="error" variant="standard">
-                    {apiMessage}
-                  </Alert>
-                ) : null}
-              </div>
             </div>
-          </form>
-        </div>
-      </CardContent>
-    </Card>
+
+            <form
+              onSubmit={formik.handleSubmit}
+              onReset={formik.handleReset}
+              className=" d-flex justify-content-center align-item-center"
+            >
+              <div>
+                <TextField
+                  sx={{ mt: 4, width: 500 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_description"
+                  name="p_description"
+                  label="Nombre del Material"
+                  type="text"
+                  value={formik.values.p_description}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.p_description &&
+                    Boolean(formik.errors.p_description)
+                  }
+                  helperText={
+                    formik.touched.p_description && formik.errors.p_description
+                  }
+                />
+                <br />
+                <TextField
+                  sx={{ mt: 4, width: 250 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_minstock"
+                  name="p_minstock"
+                  label="Cantidad minima en Existencia"
+                  type="number"
+                  value={formik.values.p_minstock}
+                  onChange={formik.handleChange}
+                  error={
+                    formik.touched.p_minstock &&
+                    Boolean(formik.errors.p_minstock)
+                  }
+                  helperText={
+                    formik.touched.p_minstock && formik.errors.p_minstock
+                  }
+                />
+                <br />
+                <TextField
+                  sx={{ mt: 4, width: 250 }}
+                  variant="outlined"
+                  fullWidth
+                  id="p_unit"
+                  name="p_unit"
+                  label="Unidad de medida"
+                  type="text"
+                  value={formik.values.p_unit}
+                  onChange={formik.handleChange}
+                  error={formik.touched.p_unit && Boolean(formik.errors.p_unit)}
+                  helperText={formik.touched.p_unit && formik.errors.p_unit}
+                />
+                <br />
+                <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
+                  <InputLabel id="ubication-label">Ubicación</InputLabel>
+                  <Select
+                    labelId="ubication-label"
+                    id="p_ubication"
+                    name="p_ubication"
+                    label="Ubicación"
+                    value={formik.values.p_ubication}
+                    onChange={formik.handleChange}
+                    className="mb-4"
+                    error={
+                      formik.touched.p_ubication &&
+                      Boolean(formik.errors.p_ubication)
+                    }
+                    // helperText={
+                    //   formik.touched.p_ubication && formik.errors.p_ubication
+                    // }
+                  >
+                    <MenuItem value="" sx={{ color: "#efefef" }}>
+                      Selecciona la ubicacion
+                    </MenuItem>
+                    <MenuItem value={UBICATION[0]} sx={{ color: "#efefef" }}>
+                      Papelería
+                    </MenuItem>
+                    <MenuItem value={UBICATION[1]} sx={{ color: "#efefef" }}>
+                      Depósito de limpieza
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+                <br />
+                <div className="d-flex justify-content-center ">
+                  <Button
+                    type="submit"
+                    size="large"
+                    variant="contained"
+                    sx={{ mr: 2 }}
+                  >
+                    Crear Material
+                  </Button>
+                  <Button
+                    type="reset"
+                    size="large"
+                    variant="outlined"
+                    sx={{ ml: 0 }}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+                <div className="mt-4">
+                  {creationSuccess ? (
+                    <Alert severity="success" variant="standard">
+                      {apiMessage}
+                    </Alert>
+                  ) : null}
+                  {found ? (
+                    <Alert severity="error" variant="standard">
+                      {apiMessage}
+                    </Alert>
+                  ) : null}
+                </div>
+              </div>
+            </form>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 }

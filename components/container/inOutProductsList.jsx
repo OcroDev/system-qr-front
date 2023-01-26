@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function InOutProductsList() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function InOutProductsList() {
   const [search, setSearch] = useState("");
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   //FETCH DATA
   useEffect(() => {
@@ -47,7 +48,7 @@ export default function InOutProductsList() {
   //METHODS
 
   function getAllProducts() {
-    setIsLoading(!isLoading)
+    setIsLoading(!isLoading);
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -55,11 +56,12 @@ export default function InOutProductsList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error)).finally(
-      setTimeout(() => { 
-        setIsLoading(false)
-      }, 500)
-      )
+      .catch((error) => console.log(error))
+      .finally(
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500)
+      );
   }
 
   const searchHandler = (e) => {
@@ -94,121 +96,154 @@ export default function InOutProductsList() {
         data.p_description.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (<>
-    {isLoading ? <Spinner/> : 
-    <div>
-      {deleteSuccess ? (
-        <Alert severity="success" variant="standard">
-          {apiMessage}
-        </Alert>
-      ) : null}
+  return (
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div>
+          {deleteSuccess ? (
+            <Alert severity="success" variant="standard">
+              {apiMessage}
+            </Alert>
+          ) : null}
 
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 0,
-          width: "75vw",
-          height: "80vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent
-          sx={{
-            position: "absolute",
-            background: "#fff",
-            width: "75vw",
-            zIndex: "998",
-          }}
-        >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
-          </Typography>
-
-          <TextField
-            variant="standard"
-            label="Buscar Producto"
-            type="text"
-            value={search}
-            onChange={searchHandler}
-          ></TextField>
-        </CardContent>
-        <CardContent>
-          <TableContainer
+          <Card
             sx={{
-              bgcolor: "background.paper",
-              marginTop: 15,
-              maxHeight: "50vh",
+              bgcolor: "#fff",
+              mt: 0,
+              width: "75vw",
+              height: "83vh",
+              overflowY: "scroll",
             }}
           >
-            <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-              <Table sx={{ maxWidth: "75vw" }}>
-                <TableHead sx={{ marginTop: 4 }}>
-                  <TableRow>
-                    <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
-                      ID
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Nombre del Producto
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Existencia Actual
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Cantidad
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Añadir
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {productFilter.map((product) => {
-                    return (
-                      <InOutProduct
-                        key={product.id}
-                        id={product.id}
-                        p_description={product.p_description}
-                        stock={product.p_stock}
-                        opType={operation_type}
-                        minstock={product.p_minstock}
-                      />
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </div>
-          </TableContainer>
-        </CardContent>
-        <CardContent>
-          <CardActions>
-            <Button
-              variant="contained"
-              startIcon={<Reply />}
-              color="info"
-              onClick={() =>
-                operation_type == "IN"
-                  ? router.push("/operations/in")
-                  : router.push("/operations/out")
-              }
+            <CardContent
+              sx={{
+                position: "absolute",
+                background: "#fff",
+                width: "75vw",
+                zIndex: "998",
+              }}
             >
-              Regresar
-            </Button>
-          </CardActions>
-        </CardContent>
-      </Card>
-    </div>}
-  </>
+              <CardContent
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${db}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+                <Typography
+                  fontFamily={"monospace"}
+                  align="center"
+                  variant="h5"
+                >
+                  MATERIALES
+                </Typography>
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${cm}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+              </CardContent>
+              <hr className="hr-style" />
+
+              <TextField
+                variant="standard"
+                label="Buscar Material"
+                type="text"
+                value={search}
+                onChange={searchHandler}
+              ></TextField>
+            </CardContent>
+            <CardContent>
+              <TableContainer
+                sx={{
+                  bgcolor: "background.paper",
+                  marginTop: 20,
+                  maxHeight: "50vh",
+                }}
+              >
+                <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+                  <Table sx={{ maxWidth: "75vw" }}>
+                    <TableHead sx={{ marginTop: 4 }}>
+                      <TableRow>
+                        <TableCell
+                          sx={{ color: "#efefef", fontWeight: "bold" }}
+                        >
+                          ID
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          sx={{ color: "#efefef", fontWeight: "bold" }}
+                        >
+                          Nombre del Material
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          sx={{ color: "#efefef", fontWeight: "bold" }}
+                        >
+                          Existencia Actual
+                        </TableCell>
+                        <TableCell
+                          align="right"
+                          sx={{ color: "#efefef", fontWeight: "bold" }}
+                        >
+                          Cantidad
+                        </TableCell>
+                        <TableCell
+                          align="center"
+                          sx={{ color: "#efefef", fontWeight: "bold" }}
+                        >
+                          Añadir
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {productFilter.map((product) => {
+                        return (
+                          <InOutProduct
+                            key={product.id}
+                            id={product.id}
+                            p_description={product.p_description}
+                            stock={product.p_stock}
+                            opType={operation_type}
+                            minstock={product.p_minstock}
+                          />
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TableContainer>
+            </CardContent>
+            <CardContent>
+              <CardActions>
+                <Button
+                  variant="contained"
+                  startIcon={<Reply />}
+                  color="info"
+                  onClick={() =>
+                    operation_type == "IN"
+                      ? router.push("/operations/in")
+                      : router.push("/operations/out")
+                  }
+                >
+                  Regresar
+                </Button>
+              </CardActions>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+    </>
   );
 }

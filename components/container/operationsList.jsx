@@ -122,7 +122,9 @@ export default function OperationsList() {
   };
 
   const createOperationsArray = (operationArray, type) => {
+    console.log(operationArray);
     let idOperation = eliminarDuplicado(operationArray);
+
     let result = [];
     if (type === "in") {
       for (let i = 0; i < idOperation.length; i++) {
@@ -155,6 +157,8 @@ export default function OperationsList() {
         }
         data.id = idOperation[i];
         data.products = contador;
+        console.log(operationArray[i].op_status);
+        data.op_status = operationArray[i].op_status;
         contador = 0;
         result.push(Object.assign({}, data));
       }
@@ -213,7 +217,6 @@ export default function OperationsList() {
               >
                 <Tab label="Entradas" {...a11yProps(0)} />
                 <Tab label="Salidas" {...a11yProps(1)} />
-                <Tab label="Estado de Salida de material" {...a11yProps(2)} />
                 <Tab label="Reporte por departamento" {...a11yProps(2)} />
               </Tabs>
             </Box>
@@ -229,7 +232,7 @@ export default function OperationsList() {
                             id={operation.id}
                             date={operation.date}
                             productsTotal={operation.products}
-                            inOut={"Productos Entrantes"}
+                            inOut={"Materiales Entrantes"}
                             type={"in"}
                           />
                         );
@@ -244,18 +247,20 @@ export default function OperationsList() {
                 <Table>
                   <TableBody>
                     {operationOutDateFilter.map((operation) => {
+                      console.log(operation.op_status);
                       return (
                         <Operation
                           key={operation.id}
                           id={operation.id}
                           date={operation.date}
                           productsTotal={operation.products}
-                          inOut={"Productos Salientes"}
+                          inOut={"Materiales Salientes"}
                           warehouse_in={operation.warehouse_in}
                           dep_in={operation.dep_in}
                           warehouse={"Destino: "}
                           dep={"departamento: "}
                           type={"out"}
+                          status={operation.op_status}
                         />
                       );
                     })}
@@ -264,9 +269,6 @@ export default function OperationsList() {
               </TableContainer>{" "}
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <ReportByDeparment />
-            </TabPanel>
-            <TabPanel value={value} index={3}>
               <ReportByDeparment />
             </TabPanel>
           </>

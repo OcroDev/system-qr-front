@@ -30,6 +30,7 @@ import React, { useEffect, useState } from "react";
 //AXIOS
 import axios from "axios";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function WarehouseList() {
   //STATES
@@ -49,7 +50,7 @@ export default function WarehouseList() {
   //METHODS
 
   function getAllWarehouses() {
-    setIsLoading(!isLoading)
+    setIsLoading(!isLoading);
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/warehouses`)
       .then((response) => {
@@ -57,11 +58,12 @@ export default function WarehouseList() {
 
         setWarehouses(getAllWarehouse);
       })
-      .catch((error) => console.log(error)).finally(
+      .catch((error) => console.log(error))
+      .finally(
         setTimeout(() => {
-          setIsLoading(false)
+          setIsLoading(false);
         }, 500)
-      )
+      );
   }
 
   const searchHandler = (e) => {
@@ -103,129 +105,160 @@ export default function WarehouseList() {
         data.w_description.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (<>{isLoading ? <Spinner/> : 
-    <div>
-      {deleteSuccess ? (
-        <Alert severity="success" variant="standard">
-          {apiMessage}
-        </Alert>
-      ) : null}
+  return (
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div>
+          {deleteSuccess ? (
+            <Alert severity="success" variant="standard">
+              {apiMessage}
+            </Alert>
+          ) : null}
 
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 0,
-          width: "60vw",
-          height: "60vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent
-          sx={{
-            position: "absolute",
-            background: "#fff",
-            width: "60vw",
-            zIndex: "998",
-          }}
-        >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            ALMACENES
-          </Typography>
-
-          <TextField
-            variant="standard"
-            label="Buscar Almacén"
-            type="text"
-            value={search}
-            onChange={searchHandler}
-          ></TextField>
-        </CardContent>
-        <CardContent>
-          <TableContainer
+          <Card
             sx={{
-              bgcolor: "background.paper",
-              marginTop: 15,
+              bgcolor: "#fff",
+              mt: 0,
+              width: "60vw",
+              height: "60vh",
+              overflowY: "scroll",
             }}
           >
-            <Table sx={{ maxWidth: "70vw" }}>
-              <TableHead sx={{ marginTop: 4 }}>
-                <TableRow>
-                  <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
-                    ID
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Nombre del Almacén
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Acciones
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {warehouseFilter.map((warehouse) => {
-                  return (
-                    <Warehouse
-                      key={warehouse.id}
-                      id={warehouse.id}
-                      w_description={warehouse.w_description}
-                      handleOpenDialog={handleOpenDialog}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-      </Card>
-      <div>
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{ bgcolor: "background.default" }}
-        >
-          <DialogTitle
-            id="alert-dialog-title"
-            sx={{ color: "warning.light", fontWeight: "bold" }}
-          >
-            {"¿Estás seguro que deseas eliminar este almacén?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              align="center"
-              sx={{ color: "#fff" }}
+            <CardContent
+              sx={{
+                position: "absolute",
+                background: "#fff",
+                width: "60vw",
+                zIndex: "998",
+              }}
             >
-              {`Cuidado estás a punto de eliminar el almacen:`}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => handleCloseConfirmDialog(idFromWarehouse)}
-              autoFocus
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${db}`}
+                  alt="colegio don bosco"
+                  width={40}
+                  height={50}
+                />
+                <Typography
+                  align="center"
+                  variant="h5"
+                  sx={{ ml: "13rem", mr: "13rem" }}
+                >
+                  COLEGIOS
+                </Typography>
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${cm}`}
+                  alt="colegio metropolitano"
+                  width={40}
+                  height={50}
+                />
+              </div>
+              <hr className="hr-style" />
+              <TextField
+                variant="standard"
+                label="Buscar colegio"
+                type="text"
+                value={search}
+                onChange={searchHandler}
+              ></TextField>
+            </CardContent>
+            <CardContent>
+              <TableContainer
+                sx={{
+                  bgcolor: "background.paper",
+                  marginTop: 15,
+                }}
+              >
+                <Table sx={{ maxWidth: "70vw" }}>
+                  <TableHead sx={{ marginTop: 4 }}>
+                    <TableRow>
+                      <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+                        ID
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Nombre del Colegio
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Acciones
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {warehouseFilter.map((warehouse) => {
+                      return (
+                        <Warehouse
+                          key={warehouse.id}
+                          id={warehouse.id}
+                          w_description={warehouse.w_description}
+                          handleOpenDialog={handleOpenDialog}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+          <div>
+            <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              sx={{ bgcolor: "background.default" }}
             >
-              Aceptar
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleCloseDialog}
-              color="success"
-            >
-              Cancelar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </div>}
+              <DialogTitle
+                id="alert-dialog-title"
+                sx={{ color: "warning.light", fontWeight: "bold" }}
+              >
+                {"¿Estás seguro que deseas eliminar este colegio?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-description"
+                  align="center"
+                  sx={{ color: "#fff" }}
+                >
+                  {`Cuidado estás a punto de eliminar el colegio:`}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleCloseConfirmDialog(idFromWarehouse)}
+                  autoFocus
+                >
+                  Aceptar
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleCloseDialog}
+                  color="success"
+                >
+                  Cancelar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        </div>
+      )}
     </>
   );
 }

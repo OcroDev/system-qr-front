@@ -23,7 +23,7 @@ const printServices = {
     for (let i = 0; i < 1; i++) {
       for (const key in orderData) {
         doc_data.Cantidad = orderData[key].mov_quantity.toString();
-        doc_data.Producto = orderData[key].p_description;
+        doc_data.Material = orderData[key].p_description;
         doc_data.ID = orderData[key].product_id.toString();
         doc_data.Medida = orderData[key].p_unit;
         doc_table.push(Object.assign({}, doc_data));
@@ -63,7 +63,7 @@ const printServices = {
       }
       return result;
     }
-    const headers = createHeaders(["ID", "Producto", "Cantidad", "Medida"]);
+    const headers = createHeaders(["ID", "Material", "Cantidad", "Medida"]);
 
     //DOCUMENT
     const doc = new jsPDF();
@@ -165,14 +165,14 @@ const printServices = {
         doc_data.Cantidad = (
           minus * operationData[key].mov_quantity
         ).toString();
-        doc_data.Producto = operationData[key].p_description;
+        doc_data.Material = operationData[key].p_description;
         doc_data.Medida = operationData[key].p_unit;
         doc_table.push(Object.assign({}, doc_data));
       }
 
     doc_data = {
       id: operationData[0].id.toString(),
-      title: type === "in" ? "Entrada de productos" : "Nota de Entrega",
+      title: type === "in" ? "Entrada de materiales" : "Nota de Entrega",
       date: operationData[0].createdat.substr(0, 10),
       img:
         operationData[0].warehouse_in === CM
@@ -206,7 +206,7 @@ const printServices = {
       }
       return result;
     }
-    const headers = createHeaders(["Producto", "Cantidad", "Medida"]);
+    const headers = createHeaders(["Material", "Cantidad", "Medida"]);
 
     //DOCUMENT
     const doc = new jsPDF();
@@ -335,7 +335,7 @@ const printServices = {
       }
 
     doc_data = {
-      title: "Reporte de Productos en el Inventario",
+      title: "Reporte de Materiales en el Inventario",
       date: new Date().toLocaleDateString(),
       totalProduct: result.length.toString(),
     };
@@ -349,7 +349,7 @@ const printServices = {
     doc.setFillColor(235, 235, 235);
     doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
     doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
-    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    doc.text(80, 41, `Total de materiales: ${doc_data.totalProduct}`);
     //DATA Table
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
@@ -421,7 +421,7 @@ const printServices = {
       }
 
     doc_data = {
-      title: "Productos en existencia mínima",
+      title: "Materiales en existencia mínima",
       date: new Date().toLocaleDateString(),
       totalProduct: result.length.toString(),
     };
@@ -435,7 +435,7 @@ const printServices = {
     doc.setFillColor(235, 235, 235);
     doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
     doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
-    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    doc.text(80, 41, `Total de Materiales: ${doc_data.totalProduct}`);
     //DATA Table
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
@@ -502,7 +502,7 @@ const printServices = {
       }
 
     doc_data = {
-      title: "Productos con mayor salida",
+      title: "Materiales con mayor salida",
       date: new Date().toLocaleDateString(),
       totalProduct: result.length.toString(),
     };
@@ -516,7 +516,7 @@ const printServices = {
     doc.setFillColor(235, 235, 235);
     doc.roundedRect(10, 35, 190, 10, 1, 1, "F");
     doc.text(12, 41, `Fecha de Reporte: ${doc_data.date}`);
-    doc.text(80, 41, `Total de productos: ${doc_data.totalProduct}`);
+    doc.text(80, 41, `Total de Materiales: ${doc_data.totalProduct}`);
     //DATA Table
     doc.setFont("helvetica", "normal");
     doc.setFontSize(12);
@@ -539,7 +539,7 @@ const printServices = {
 
     img = $d.body.ownerDocument.images;
     let date = new Date().toLocaleDateString("es-ve");
-    let title = "Lista de Productos Qr";
+    let title = "Lista de Materiales Qr";
 
     //? document
 
@@ -567,7 +567,7 @@ const printServices = {
       //text square
       doc.setFont("helvetica", "normal");
       doc.setFontSize(10);
-      doc.text(12, setDownProduct, `Producto: ${doc_data[key].p_description}`);
+      doc.text(12, setDownProduct, `Material: ${doc_data[key].p_description}`);
       doc.text(12, setDownStock, `Existencia: ${doc_data[key].p_stock}`);
       doc.text(12, setDownUbication, `Ubicación: ${doc_data[key].p_ubication}`);
       doc.text(10, 25, `Fecha: ${date}`);
@@ -603,7 +603,7 @@ const printServices = {
   printOneQr: (doc_data) => {
     doc_data = {
       ...doc_data,
-      title: "Qr de producto",
+      title: "Qr del Material",
       date: new Date().toLocaleDateString("es-ve"),
     };
 
@@ -618,7 +618,7 @@ const printServices = {
     //?observaciones
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
-    doc.text(12, 55, `Producto: ${doc_data.name}`);
+    doc.text(12, 55, `Material: ${doc_data.name}`);
     doc.text(12, 60, `Existencia: ${doc_data.stock}`);
     doc.text(12, 65, `Ubicación: ${doc_data.ubication}`);
 

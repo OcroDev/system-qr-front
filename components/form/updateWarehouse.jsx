@@ -18,6 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { cm, db } from "../../print_services/logos";
 
 export default function UpdateWarehouse() {
   //router
@@ -59,10 +60,10 @@ export default function UpdateWarehouse() {
   //VALIDATION SCHEMA
   const validationSchema = yup.object().shape({
     w_description: yup
-      .string("Ecribe el nombre del almacén")
-      .min(5, "El nombre del almacén es demasiado corto")
-      .max(25, "El nombre del almacén es demasiado largo")
-      .required("El nombre del almacén es requerido"),
+      .string("Ecribe el nombre del colegio")
+      .min(5, "El nombre del colegio es demasiado corto")
+      .max(25, "El nombre del colegio es demasiado largo")
+      .required("El nombre del colegio es requerido"),
   });
 
   //BUILD FORMIK
@@ -110,10 +111,43 @@ export default function UpdateWarehouse() {
       <Card sx={{ bgcolor: "#fff", mt: -10, width: "50vw" }}>
         <CardContent>
           <div>
-            <div>
-              <Typography variant="h5" style={{ textAlign: "center" }}>
-                Actualizar Almacén <br />"{warehouse.w_description}"
-              </Typography>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${db}`}
+                alt=""
+                width={40}
+                height={50}
+              />
+              <div>
+                <Typography
+                  variant="h6"
+                  sx={{ ml: "2rem", mr: "2rem" }}
+                  align="center"
+                >
+                  Actualizar Colegio
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{ ml: "2rem", mr: "2rem" }}
+                  align="center"
+                >
+                  "{warehouse.w_description}"
+                </Typography>
+              </div>
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${cm}`}
+                alt=""
+                width={40}
+                height={50}
+              />
             </div>
 
             <form
@@ -128,7 +162,7 @@ export default function UpdateWarehouse() {
                   fullWidth
                   id="w_description"
                   name="w_description"
-                  label="Nuevo nombre del Almacén"
+                  label="Nuevo nombre del Colegio"
                   type="text"
                   value={formik.values.w_description}
                   onChange={formik.handleChange}
@@ -149,7 +183,7 @@ export default function UpdateWarehouse() {
                     variant="contained"
                     sx={{ mr: 2 }}
                   >
-                    Actualizar Almacén
+                    Actualizar Colegio
                   </Button>
                   <Button
                     type="reset"

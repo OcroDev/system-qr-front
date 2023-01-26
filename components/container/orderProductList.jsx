@@ -27,6 +27,7 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { OrderProduct } from "../pure/orderProduct";
+import { cm, db } from "../../print_services/logos";
 
 export default function OrderProductList() {
   const router = useRouter();
@@ -54,11 +55,12 @@ export default function OrderProductList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error)).finally(
+      .catch((error) => console.log(error))
+      .finally(
         setTimeout(() => {
-          setIsLoading(false)
+          setIsLoading(false);
         }, 1000)
-      )
+      );
   }
 
   const searchHandler = (e) => {
@@ -106,7 +108,7 @@ export default function OrderProductList() {
           bgcolor: "#fff",
           mt: 0,
           width: "75vw",
-          height: "80vh",
+          height: "85vh",
           overflowY: "scroll",
         }}
       >
@@ -118,13 +120,35 @@ export default function OrderProductList() {
             zIndex: "998",
           }}
         >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
-          </Typography>
-
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${db}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+            <Typography fontFamily={"monospace"} align="center" variant="h5">
+              Materiales
+            </Typography>
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${cm}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+          </CardContent>
+          <hr className="hr-style" />
           <TextField
             variant="standard"
-            label="Buscar Producto"
+            label="Buscar Material"
             type="text"
             value={search}
             onChange={searchHandler}
@@ -134,7 +158,7 @@ export default function OrderProductList() {
           <TableContainer
             sx={{
               bgcolor: "background.paper",
-              marginTop: 15,
+              marginTop: 20,
               maxHeight: "50vh",
             }}
           >
@@ -149,7 +173,7 @@ export default function OrderProductList() {
                       align="right"
                       sx={{ color: "#efefef", fontWeight: "bold" }}
                     >
-                      Nombre del Producto
+                      Nombre del Material
                     </TableCell>
 
                     <TableCell

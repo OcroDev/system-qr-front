@@ -17,6 +17,7 @@ import {
 
 //AXIOS
 import axios from "axios";
+import { cm, db } from "../../print_services/logos";
 
 export default function AddDepartment() {
   //states variable
@@ -81,10 +82,33 @@ export default function AddDepartment() {
     <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
       <CardContent>
         <div>
-          <div>
-            <Typography variant="h5" style={{ textAlign: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${db}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+            <Typography
+              variant="h6"
+              style={{ marginLeft: "5rem", marginRight: "5rem" }}
+            >
               Crear un Nuevo Departamento
             </Typography>
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${cm}`}
+              alt=""
+              width={40}
+              height={50}
+            />
           </div>
 
           <form

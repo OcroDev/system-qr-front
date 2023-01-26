@@ -40,6 +40,7 @@ import { setOperationType } from "../../redux/reducers/operations_type/operation
 import { MovementProduct } from "../pure/movementProduct";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
 import { addOne } from "../../redux/reducers/orderBadge/orderBadgeSlice";
+import { cm, db } from "../../print_services/logos";
 
 export default function OrdersOperation() {
   const router = useRouter();
@@ -206,10 +207,30 @@ export default function OrdersOperation() {
           overflowY: "scroll",
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${db}`}
+            alt=""
+            width={40}
+            height={50}
+          />
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            Pedido de Productos
+            Pedido de Materiales
           </Typography>
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${cm}`}
+            alt=""
+            width={40}
+            height={50}
+          />
         </CardContent>
         <hr className="hr-style" />
         <form onSubmit={formik.handleSubmit}>
@@ -293,7 +314,7 @@ export default function OrdersOperation() {
                         ID
                       </TableCell>
                       <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Nombre del Producto
+                        Nombre del Material
                       </TableCell>
                       <TableCell align="center" sx={{ fontWeight: "bold" }}>
                         Cantidad
@@ -355,7 +376,7 @@ export default function OrdersOperation() {
                 router.push("/products/orderProducts");
               }}
             >
-              Añadir productos
+              Añadir Materiales
             </Button>
             <Button
               type="button"
@@ -368,7 +389,7 @@ export default function OrdersOperation() {
                 handleOpenSnackbar();
               }}
             >
-              Eliminar productos
+              Eliminar Materiales
             </Button>
           </div>
         </form>
@@ -408,7 +429,7 @@ export default function OrdersOperation() {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Productos eliminados
+          Materiales eliminados
         </Alert>
       </Snackbar>
     </div>

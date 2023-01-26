@@ -1,4 +1,10 @@
-import { DeleteForever, Print } from "@mui/icons-material";
+import {
+  CheckCircle,
+  DeleteForever,
+  Print,
+  RadioButtonChecked,
+  ScheduleSend,
+} from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -75,25 +81,32 @@ export default function Operation(props) {
             color: "#373739",
           }}
         >
-          <CardContent sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography variant="body2" m={1}>
+          <CardContent
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body2" ml={"-1.5rem"}>
               <span>
                 <b>Fecha: </b>
                 {props.date}
               </span>
             </Typography>
-            <Typography variant="body2" m={1}>
+            <Typography variant="body2">
               <span>
                 <b>Reporte # </b>({props.id})
               </span>
             </Typography>
-            <Typography variant="body2" m={1}>
+            <Typography variant="body2">
               <span>
                 <b>{props.inOut}: </b>({props.productsTotal})
               </span>
             </Typography>
             <IconButton
-              sx={{ color: "primary.main", ml: 2 }}
+              sx={{ color: "primary.main" }}
               onClick={() => {
                 printServices.operationReport(props.type, props.id);
               }}
@@ -104,7 +117,7 @@ export default function Operation(props) {
               </Tooltip>
             </IconButton>
             <IconButton
-              sx={{ color: "error.main", ml: 2 }}
+              sx={{ color: "error.main" }}
               onClick={() => {
                 setDeleted(true);
                 deleteOperation();
@@ -115,17 +128,28 @@ export default function Operation(props) {
                 <DeleteForever />
               </Tooltip>
             </IconButton>
+            {props.type === "in" ? null : !props.status ? (
+              <Tooltip title="Por entregar" color="warning" disabled>
+                <ScheduleSend />
+              </Tooltip>
+            ) : (
+              <Tooltip title="Entregado" disabled color="success">
+                <CheckCircle />
+              </Tooltip>
+            )}
           </CardContent>
-          <Typography variant="body2" ml={3} mt={-2}>
-            <span style={{ marginRight: "10px" }}>
-              <b>{props.warehouse}</b>
-              {props.warehouse_in}
-            </span>
-            <span>
-              <b>{props.dep}</b>
-              {props.dep_in}
-            </span>
-          </Typography>
+          <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
+            <Typography variant="body2" ml={3} mt={-2}>
+              <span style={{ marginRight: "10px" }}>
+                <b>{props.warehouse}</b>
+                {props.warehouse_in}
+              </span>
+              <span>
+                <b>{props.dep}</b>
+                {props.dep_in}
+              </span>
+            </Typography>
+          </CardContent>
         </Card>
       </TableCell>
     </TableRow>

@@ -18,6 +18,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { cm, db } from "../../print_services/logos";
 
 export default function UpdateDepartment() {
   //router
@@ -110,10 +111,30 @@ export default function UpdateDepartment() {
       <Card sx={{ bgcolor: "#fff", mt: -10, width: "50vw" }}>
         <CardContent>
           <div>
-            <div>
-              <Typography variant="h5" style={{ textAlign: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${db}`}
+                alt=""
+                width={40}
+                height={50}
+              />
+              <Typography variant="h5" sx={{ ml: "5rem", mr: "5rem" }}>
                 Actualizar Departamento <br />"{department.d_name}"
               </Typography>
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${cm}`}
+                alt=""
+                width={40}
+                height={50}
+              />
             </div>
 
             <form

@@ -78,7 +78,7 @@ export const MovementProduct = ({ p_description, p_stock, id }) => {
               severity="error"
               sx={{ width: "100%" }}
             >
-              Producto eliminado
+              Material eliminado
             </Alert>
           </Snackbar>
         </TableCell>

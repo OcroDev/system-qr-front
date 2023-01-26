@@ -17,6 +17,7 @@ import {
 
 //AXIOS
 import axios from "axios";
+import { cm, db } from "../../print_services/logos";
 
 export const AddWarehouse = () => {
   //states variable
@@ -81,10 +82,30 @@ export const AddWarehouse = () => {
     <Card sx={{ bgcolor: "#fff", mt: 0 }} style={{ width: "50vw" }}>
       <CardContent>
         <div>
-          <div>
-            <Typography variant="h5" style={{ textAlign: "center" }}>
-              Crear un Nuevo Almacén
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${db}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+            <Typography variant="h5" sx={{ ml: "6rem", mr: "6rem" }}>
+              Crear un Nuevo Colegio
             </Typography>
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${cm}`}
+              alt=""
+              width={40}
+              height={50}
+            />
           </div>
 
           <form
@@ -99,7 +120,7 @@ export const AddWarehouse = () => {
                 fullWidth
                 id="w_description"
                 name="w_description"
-                label="Nombre del Almacen"
+                label="Nombre del Colegio"
                 type="text"
                 value={formik.values.w_description}
                 onChange={formik.handleChange}
@@ -119,7 +140,7 @@ export const AddWarehouse = () => {
                   variant="contained"
                   sx={{ mr: 2 }}
                 >
-                  Crear Almacén
+                  Crear Colegio
                 </Button>
                 <Button
                   type="reset"

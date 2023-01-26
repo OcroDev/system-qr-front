@@ -74,7 +74,7 @@ export default function UpdateUser() {
       .string("Ecribe el primer nombre del usuario")
       .min(3, "El nombre del usuario es demasiado corto")
       .max(10, "El nombre del usuario es demasiado largo")
-      .required("El nombre del producto es requerido"),
+      .required("El nombre del usuario es requerido"),
     u_lastname: yup
       .string("Escribe el apellido del usuario")
       .min(3, "El apellido es demasiado corto")

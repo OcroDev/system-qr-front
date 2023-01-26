@@ -23,7 +23,7 @@ export default function ReportByDeparment() {
   const initialValues = { d_name: "", w_description: "" };
   const validationSchema = yup.object().shape({
     d_name: yup.string("").required("El departamento es requerido"),
-    w_description: yup.string("").required("El almacén es requerido"),
+    w_description: yup.string("").required("El colegio es requerido"),
   });
   const formik = useFormik({
     initialValues: initialValues,
@@ -64,20 +64,20 @@ export default function ReportByDeparment() {
             justifyContent: "space-between",
           }}
         >
-          <FormControl sx={{ width: 350, ml: 20, mt: 4, mb: 0 }}>
-            <InputLabel id='d_name-label'>Departamento</InputLabel>
+          <FormControl sx={{ width: 350, ml: 0, mt: 4, mb: 0 }}>
+            <InputLabel id="d_name-label">Departamento</InputLabel>
             <Select
-              labelId='d_name-label'
-              id='d_name'
-              name='d_name'
-              label='Departamento'
+              labelId="d_name-label"
+              id="d_name"
+              name="d_name"
+              label="Departamento"
               value={formik.values.d_name}
               onChange={formik.handleChange}
-              className='mb-4'
-              variant='outlined'
+              className="mb-4"
+              variant="outlined"
             >
               {/* //TODO: hacer el menuItem partiendo del arreglo generado*/}
-              <MenuItem value='' sx={{ color: "#efefef" }}>
+              <MenuItem value="" sx={{ color: "#efefef" }}>
                 Selecciona el tipo de usuario
               </MenuItem>
               <MenuItem value={"worker"} sx={{ color: "#efefef" }}>
@@ -88,23 +88,23 @@ export default function ReportByDeparment() {
               </MenuItem>
             </Select>
           </FormControl>
-          <FormHelperText color='error'>
+          <FormHelperText color="error">
             {formik.touched.d_name && Boolean(formik.errors.d_name)}
           </FormHelperText>
           <FormControl sx={{ width: 350, mt: 4, mb: 0 }}>
-            <InputLabel id='w_description-label'>Colegio</InputLabel>
+            <InputLabel id="w_description-label">Colegio</InputLabel>
             <Select
-              labelId='w_description-label'
-              id='w_description'
-              name='w_description'
-              label='Almacén'
+              labelId="w_description-label"
+              id="w_description"
+              name="w_description"
+              label="colegio"
               value={formik.values.w_description}
               onChange={formik.handleChange}
-              className='mb-4'
-              variant='outlined'
+              className="mb-4"
+              variant="outlined"
             >
               {/* //TODO: hacer el menuItem partiendo del arreglo generado*/}
-              <MenuItem value='' sx={{ color: "#efefef" }}>
+              <MenuItem value="" sx={{ color: "#efefef" }}>
                 Selecciona el tipo de usuario
               </MenuItem>
               <MenuItem value={"worker"} sx={{ color: "#efefef" }}>
@@ -115,7 +115,7 @@ export default function ReportByDeparment() {
               </MenuItem>
             </Select>
           </FormControl>
-          <FormHelperText color='error'>
+          <FormHelperText color="error">
             {formik.touched.w_description &&
               Boolean(formik.errors.w_description)}
           </FormHelperText>

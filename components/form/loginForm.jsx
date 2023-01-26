@@ -122,7 +122,7 @@ export default function LoginForm() {
         sx={{
           bgcolor: "#fff",
           mt: 20,
-          width: "50vw",
+          width: "60vw",
           marginLeft: "auto",
           marginRight: "auto",
         }}
@@ -140,9 +140,9 @@ export default function LoginForm() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "50vw" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="u_username"
@@ -161,7 +161,7 @@ export default function LoginForm() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   id="u_password"
                   name="u_password"

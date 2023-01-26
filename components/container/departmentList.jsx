@@ -31,6 +31,7 @@ import axios from "axios";
 
 import React from "react";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function DepartmentList() {
   //STATES
@@ -49,22 +50,19 @@ export default function DepartmentList() {
 
   //METHODS
   function getAllDepartments() {
-    setIsLoading(!isLoading)
+    setIsLoading(!isLoading);
     axios
-    .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
-    .then((response) => {
-      const getAllDepartment = response.data.allDepartments;
-      setDepartments(getAllDepartment);
-      
+      .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
+      .then((response) => {
+        const getAllDepartment = response.data.allDepartments;
+        setDepartments(getAllDepartment);
       })
-      .catch((error) => 
-        console.log(error.message)
-    ).finally(
-      setTimeout(() => {
-        
-        setIsLoading(false)
-      }, 500)
-      )
+      .catch((error) => console.log(error.message))
+      .finally(
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 500)
+      );
   }
 
   const searchHandler = (e) => {
@@ -104,126 +102,154 @@ export default function DepartmentList() {
         data.d_name.toUpperCase().includes(search.toUpperCase())
       );
 
-  return (<>
-    { isLoading ? <Spinner></Spinner> :
-      <div>
-        {deleteSuccess ? (
-          <Alert severity="success" variant="standard">
-            {apiMessage}
-          </Alert>
-        ) : null}
+  return (
+    <>
+      {isLoading ? (
+        <Spinner></Spinner>
+      ) : (
+        <div>
+          {deleteSuccess ? (
+            <Alert severity="success" variant="standard">
+              {apiMessage}
+            </Alert>
+          ) : null}
 
-        <Card
-          sx={{
-            bgcolor: "#fff",
-            mt: 0,
-            width: "60vw",
-            height: "60vh",
-            overflowY: "scroll",
-          }}
-        >
-          <CardContent
+          <Card
             sx={{
-              position: "absolute",
-              background: "#fff",
+              bgcolor: "#fff",
+              mt: 0,
               width: "60vw",
-              zIndex: "998",
+              height: "60vh",
+              overflowY: "scroll",
             }}
           >
-            <Typography fontFamily={"monospace"} align="center" variant="h5">
-              DEPARTAMENTOS
-            </Typography>
-
-            <TextField
-              variant="standard"
-              label="Buscar Departamento"
-              type="text"
-              value={search}
-              onChange={searchHandler}
-            ></TextField>
-          </CardContent>
-          <CardContent>
-            <TableContainer sx={{ bgcolor: "background.paper", marginTop: 15 }}>
-              <Table sx={{ maxWidth: "70vw" }}>
-                <TableHead sx={{ marginTop: 4 }}>
-                  <TableRow>
-                    <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
-                      ID
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Nombre del Departamento
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Acciones
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {departmentFilter.map((department) => {
-                    return (
-                      <Department
-                        key={department.id}
-                        id={department.id}
-                        d_name={department.d_name}
-                        handleOpenDialog={handleOpenDialog}
-                      />
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </CardContent>
-        </Card>
-        <div>
-          <Dialog
-            open={openDialog}
-            onClose={handleCloseDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-            sx={{ bgcolor: "background.default" }}
-          >
-            <DialogTitle
-              id="alert-dialog-title"
-              sx={{ color: "warning.light", fontWeight: "bold" }}
+            <CardContent
+              sx={{
+                position: "absolute",
+                background: "#fff",
+                width: "60vw",
+                zIndex: "998",
+              }}
             >
-              {"¿Estás seguro que deseas eliminar este departamento?"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText
-                id="alert-dialog-description"
-                align="center"
-                sx={{ color: "#fff" }}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                }}
               >
-                {`Cuidado estás a punto de eliminar un departamento`}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => handleCloseConfirmDialog(idFromDepartment)}
-                autoFocus
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${db}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+                <Typography align="center" variant="h5">
+                  DEPARTAMENTOS
+                </Typography>
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${cm}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+              </div>
+              <hr className="hr-style" />
+
+              <TextField
+                variant="standard"
+                label="Buscar Departamento"
+                type="text"
+                value={search}
+                onChange={searchHandler}
+              ></TextField>
+            </CardContent>
+            <CardContent>
+              <TableContainer
+                sx={{ bgcolor: "background.paper", marginTop: 15 }}
               >
-                Eliminar
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={handleCloseDialog}
-                color="success"
+                <Table sx={{ maxWidth: "70vw" }}>
+                  <TableHead sx={{ marginTop: 4 }}>
+                    <TableRow>
+                      <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+                        ID
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Nombre del Departamento
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Acciones
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {departmentFilter.map((department) => {
+                      return (
+                        <Department
+                          key={department.id}
+                          id={department.id}
+                          d_name={department.d_name}
+                          handleOpenDialog={handleOpenDialog}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+          <div>
+            <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              sx={{ bgcolor: "background.default" }}
+            >
+              <DialogTitle
+                id="alert-dialog-title"
+                sx={{ color: "warning.light", fontWeight: "bold" }}
               >
-                Cancelar
-              </Button>
-            </DialogActions>
-          </Dialog>
+                {"¿Estás seguro que deseas eliminar este departamento?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-description"
+                  align="center"
+                  sx={{ color: "#fff" }}
+                >
+                  {`Cuidado estás a punto de eliminar un departamento`}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleCloseConfirmDialog(idFromDepartment)}
+                  autoFocus
+                >
+                  Eliminar
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleCloseDialog}
+                  color="success"
+                >
+                  Cancelar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
         </div>
-      </div>
-    }
+      )}
     </>
   );
 }

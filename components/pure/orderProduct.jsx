@@ -80,7 +80,7 @@ export const OrderProduct = ({
 
   let minStockTooltip = (
     <IconButton color="secondary">
-      <Tooltip title="Producto en existencia mínima">
+      <Tooltip title="Material en existencia mínima">
         <WarningAmber />
       </Tooltip>
     </IconButton>
@@ -114,7 +114,7 @@ export const OrderProduct = ({
             }}
             color="warning"
           >
-            <Tooltip title="Añadir producto">
+            <Tooltip title="Añadir material">
               <AddShoppingCartSharp />
             </Tooltip>
           </IconButton>
@@ -146,7 +146,7 @@ export const OrderProduct = ({
                 severity="error"
                 sx={{ width: "100%" }}
               >
-                El producto fue agregado anteriormente
+                El material fue agregado anteriormente
               </Alert>
             ) : (
               <Alert
@@ -154,7 +154,7 @@ export const OrderProduct = ({
                 severity="success"
                 sx={{ width: "100%" }}
               >
-                Producto agregado
+                material agregado
               </Alert>
             )}
           </Snackbar>
@@ -170,7 +170,7 @@ export const OrderProduct = ({
               variant="filled"
               sx={{ width: "100%" }}
             >
-              Cuidado el producto {p_description} quedará en existencia mínima
+              Cuidado el material {p_description} quedará en existencia mínima
             </Alert>
           </Snackbar>
         </TableCell>

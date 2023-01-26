@@ -30,6 +30,8 @@ import { useRouter } from "next/router";
 import { deleteProducts } from "../../redux/reducers/products/productOperationSlice";
 import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
 import { Stack } from "@mui/system";
+import Company from "../pure/company";
+import { cm, db } from "../../print_services/logos";
 
 export default function InOperation() {
   const [lastOperation, setLastOperation] = useState(0);
@@ -54,7 +56,7 @@ export default function InOperation() {
     w_description: "",
   };
   const validationSchema = yup.object().shape({
-    w_description: yup.string().required("El almacen es requerido * "),
+    w_description: yup.string().required("El colegio es requerido * "),
   });
 
   //* METHODS
@@ -193,182 +195,204 @@ export default function InOperation() {
   let date = new Date().toLocaleDateString("es-VE");
 
   return (
-    <div>
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 5,
-          width: "77vw",
-          height: "90vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent>
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            Entrada de Productos
-          </Typography>
-        </CardContent>
-
-        <hr className="hr-style" />
-        <form onSubmit={formik.handleSubmit}>
-          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 20 }}>
-            <InputLabel sx={{ mr: 15, mt: 2 }}>
-              <b>Número:</b> {lastOperation}
-            </InputLabel>
-            <InputLabel sx={{ mr: 15, mt: 2 }}>
-              <b>Fecha:</b> {date}
-            </InputLabel>
-            <FormControl sx={{ width: 250, mt: 0, mb: 0 }}>
-              <InputLabel id="w_description-label">Almacén</InputLabel>
-              <Select
-                variant="standard"
-                labelId="w_description-label"
-                id="w_description"
-                name="w_description"
-                label="Almacén"
-                value={formik.values.w_description}
-                onChange={formik.handleChange}
-                className="mb-4"
-                error={
-                  formik.touched.w_description &&
-                  Boolean(formik.errors.w_description)
-                }
-                // helperText={
-
-                // }
-              >
-                {warehouses.map((warehouse) => {
-                  return (
-                    <MenuItem
-                      key={warehouse.id}
-                      value={warehouse.id}
-                      sx={{ color: "#efefef" }}
-                    >
-                      {warehouse.w_description}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-              <FormHelperText sx={{ color: "red" }}>
-                {formik.touched.w_description && formik.errors.w_description}
-              </FormHelperText>
-            </FormControl>
-          </CardContent>
-          <hr className="hr-style" />
-          <CardContent>
-            <TableContainer>
-              <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-                <Table>
-                  <TableHead sx={{ marginTop: 4 }}>
-                    <TableRow>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        ID
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Nombre del Producto
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Cantidad
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Quitar
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-
-                  <TableBody>
-                    {movementProducts.products.map((product, index) => {
-                      return (
-                        <MovementProduct
-                          key={index}
-                          id={product.id}
-                          p_description={product.p_description}
-                          p_stock={product.p_stock}
-                        />
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
-            </TableContainer>
-          </CardContent>
-          <hr className="hr-style" />
-          <div className="d-flex justify-content-center ">
-            <Button
-              type="submit"
-              size="medium"
-              variant="contained"
-              sx={{ mr: 2 }}
-            >
-              Generar Entrada
-            </Button>
-            <Button
-              type="button"
-              size="medium"
-              variant="outlined"
-              sx={{ mr: 2 }}
-              color="success"
-              onClick={() => {
-                dispatch(setOperationType("IN"));
-                router.push("/products/operationProducts");
-              }}
-            >
-              Añadir productos
-            </Button>
-            <Button
-              type="button"
-              size="medium"
-              variant="outlined"
-              sx={{ mr: 2 }}
-              color="error"
-              onClick={() => {
-                dispatch(deleteProducts());
-                handleOpenSnackbar();
-              }}
-            >
-              Eliminar productos
-            </Button>
-          </div>
-        </form>
-        <br />
-        {openAlert === "created" ? (
-          <Stack
-            sx={{ width: "100%" }}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Alert variant="standard" color="success">
-              <AlertTitle>Operación Exitosa</AlertTitle>
-              Entrada generada
-            </Alert>
-          </Stack>
-        ) : openAlert === "failure" ? (
-          <Stack
-            sx={{ width: "100%" }}
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Alert variant="standard" color="error">
-              <AlertTitle>Operación Fallida</AlertTitle>
-              No se pudo generar la entada
-            </Alert>
-          </Stack>
-        ) : null}
-      </Card>
-      <Snackbar
-        open={openSnackbar}
-        autoHideDuration={3000}
-        onClose={handleCloseSnackbar}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={handleCloseSnackbar}
-          severity="error"
-          sx={{ width: "100%" }}
+    <>
+      <div>
+        <Card
+          sx={{
+            bgcolor: "#fff",
+            mt: 5,
+            width: "77vw",
+            height: "90vh",
+            overflowY: "scroll",
+          }}
         >
-          Productos eliminados
-        </Alert>
-      </Snackbar>
-    </div>
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${db}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+            <Typography align="center" variant="h5">
+              Entrada de Materiales
+            </Typography>
+            <img
+              style={{ marginTop: 0 }}
+              src={`data:image/png;base64,${cm}`}
+              alt=""
+              width={40}
+              height={50}
+            />
+          </CardContent>
+
+          <hr className="hr-style" />
+          <form onSubmit={formik.handleSubmit}>
+            <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
+              <InputLabel sx={{ mr: 15, mt: 2 }}>
+                <b>Número:</b> {lastOperation}
+              </InputLabel>
+              <InputLabel sx={{ mr: 15, mt: 2 }}>
+                <b>Fecha:</b> {date}
+              </InputLabel>
+              <FormControl sx={{ width: 250, mt: 0, mb: 0 }}>
+                <InputLabel id="w_description-label">Colegio</InputLabel>
+                <Select
+                  variant="standard"
+                  labelId="w_description-label"
+                  id="w_description"
+                  name="w_description"
+                  label="Colegio"
+                  value={formik.values.w_description}
+                  onChange={formik.handleChange}
+                  className="mb-4"
+                  error={
+                    formik.touched.w_description &&
+                    Boolean(formik.errors.w_description)
+                  }
+                  // helperText={
+
+                  // }
+                >
+                  {warehouses.map((warehouse) => {
+                    return (
+                      <MenuItem
+                        key={warehouse.id}
+                        value={warehouse.id}
+                        sx={{ color: "#efefef" }}
+                      >
+                        {warehouse.w_description}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+                <FormHelperText sx={{ color: "red" }}>
+                  {formik.touched.w_description && formik.errors.w_description}
+                </FormHelperText>
+              </FormControl>
+            </CardContent>
+            <hr className="hr-style" />
+            <CardContent>
+              <TableContainer>
+                <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+                  <Table>
+                    <TableHead sx={{ marginTop: 4 }}>
+                      <TableRow>
+                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                          ID
+                        </TableCell>
+                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                          Nombre del Material
+                        </TableCell>
+                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                          Cantidad
+                        </TableCell>
+                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                          Quitar
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+
+                    <TableBody>
+                      {movementProducts.products.map((product, index) => {
+                        return (
+                          <MovementProduct
+                            key={index}
+                            id={product.id}
+                            p_description={product.p_description}
+                            p_stock={product.p_stock}
+                          />
+                        );
+                      })}
+                    </TableBody>
+                  </Table>
+                </div>
+              </TableContainer>
+            </CardContent>
+            <hr className="hr-style" />
+            <div className="d-flex justify-content-center ">
+              <Button
+                type="submit"
+                size="medium"
+                variant="contained"
+                sx={{ mr: 2 }}
+              >
+                Generar Entrada
+              </Button>
+              <Button
+                type="button"
+                size="medium"
+                variant="outlined"
+                sx={{ mr: 2 }}
+                color="success"
+                onClick={() => {
+                  dispatch(setOperationType("IN"));
+                  router.push("/products/operationProducts");
+                }}
+              >
+                Añadir Materiales
+              </Button>
+              <Button
+                type="button"
+                size="medium"
+                variant="outlined"
+                sx={{ mr: 2 }}
+                color="error"
+                onClick={() => {
+                  dispatch(deleteProducts());
+                  handleOpenSnackbar();
+                }}
+              >
+                Eliminar Materiales
+              </Button>
+            </div>
+          </form>
+          <br />
+          {openAlert === "created" ? (
+            <Stack
+              sx={{ width: "100%" }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Alert variant="standard" color="success">
+                <AlertTitle>Operación Exitosa</AlertTitle>
+                Entrada generada
+              </Alert>
+            </Stack>
+          ) : openAlert === "failure" ? (
+            <Stack
+              sx={{ width: "100%" }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Alert variant="standard" color="error">
+                <AlertTitle>Operación Fallida</AlertTitle>
+                No se pudo generar la entada
+              </Alert>
+            </Stack>
+          ) : null}
+        </Card>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={3000}
+          onClose={handleCloseSnackbar}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity="error"
+            sx={{ width: "100%" }}
+          >
+            Materiales eliminados
+          </Alert>
+        </Snackbar>
+      </div>
+    </>
   );
 }

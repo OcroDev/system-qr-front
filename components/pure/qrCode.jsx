@@ -9,6 +9,7 @@ export default function QrCode(props) {
         Nombre:${props.name}, 
         Ubicacion ${props.ubication}
         Existencia: ${props.stock}
+        
         `}
       options={{
         level: "H",

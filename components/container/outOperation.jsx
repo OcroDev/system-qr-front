@@ -38,6 +38,7 @@ import {
 } from "../../redux/reducers/department/departmentOperationSlice";
 import { setOperationType } from "../../redux/reducers/operations_type/operationTypeSlice";
 import { Add, Remove } from "@mui/icons-material";
+import { cm, db } from "../../print_services/logos";
 
 export default function OutOperation() {
   const [lastOperation, setLastOperation] = useState(0);
@@ -75,10 +76,10 @@ export default function OutOperation() {
   const validationSchema = yup.object().shape({
     warehouse_in_id: yup
       .string()
-      .required("El almacen de destino es requerido* "),
+      .required("El colegio de destino es requerido* "),
     warehouse_out_id: yup
       .string()
-      .required("El almacen de origen es requerido* "),
+      .required("El colegio de origen es requerido* "),
   });
 
   //* METHODS
@@ -228,15 +229,35 @@ export default function OutOperation() {
           overflowY: "scroll",
         }}
       >
-        <CardContent>
+        <CardContent
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+          }}
+        >
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${db}`}
+            alt=""
+            width={40}
+            height={50}
+          />
           <Typography fontFamily={"monospace"} align="center" variant="h5">
-            Salida de Productos
+            Salida de Materiales
           </Typography>
+          <img
+            style={{ marginTop: 0 }}
+            src={`data:image/png;base64,${cm}`}
+            alt=""
+            width={40}
+            height={50}
+          />
         </CardContent>
 
         <hr className="hr-style" />
         <form onSubmit={formik.handleSubmit}>
-          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
+          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 2 }}>
             <InputLabel sx={{ mr: 5, mt: 2 }}>
               <b>Número:</b> {lastOperation}
             </InputLabel>
@@ -245,14 +266,14 @@ export default function OutOperation() {
             </InputLabel>
             <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
               <InputLabel id="warehouse_in_id-label">
-                Almacén destino
+                Colegio destino
               </InputLabel>
               <Select
                 variant="standard"
                 labelId="warehouse_in_id-label"
                 id="warehouse_in_id"
                 name="warehouse_in_id"
-                label="Almacén"
+                label="Colegio"
                 value={formik.values.warehouse_in_id}
                 onChange={formik.handleChange}
                 className="mb-4"
@@ -280,14 +301,14 @@ export default function OutOperation() {
             </FormControl>
             <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
               <InputLabel id="warehouse_out_id-label">
-                Almacén Origen
+                Colegio Origen
               </InputLabel>
               <Select
                 variant="standard"
                 labelId="warehouse_out_id-label"
                 id="warehouse_out_id"
                 name="warehouse_out_id"
-                label="Almacén Origen"
+                label="Colegio Origen"
                 value={formik.values.warehouse_out_id}
                 onChange={formik.handleChange}
                 className="mb-4"
@@ -315,7 +336,7 @@ export default function OutOperation() {
             </FormControl>
           </CardContent>
           <CardContent
-            sx={{ display: "inline-flex", mr: "auto", ml: 10, mt: -5, mb: -5 }}
+            sx={{ display: "inline-flex", mr: "auto", ml: 2, mt: -5, mb: -5 }}
           >
             <InputLabel sx={{ ml: 0, mt: 0 }}>
               <b>Departamento Destino:</b> {department_name}
@@ -353,7 +374,7 @@ export default function OutOperation() {
                         ID
                       </TableCell>
                       <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Nombre del Producto
+                        Nombre del Material
                       </TableCell>
                       <TableCell align="center" sx={{ fontWeight: "bold" }}>
                         Cantidad
@@ -380,8 +401,8 @@ export default function OutOperation() {
               </div>
             </TableContainer>
           </CardContent>
+          {/* <InputLabel /> */}
           <hr className="hr-style" />
-          <InputLabel />
           <div className="d-flex justify-content-center ">
             <Button
               type="submit"
@@ -402,7 +423,7 @@ export default function OutOperation() {
                 router.push("/products/operationProducts");
               }}
             >
-              Añadir productos
+              Añadir Materiales
             </Button>
             <Button
               type="button"
@@ -415,7 +436,7 @@ export default function OutOperation() {
                 handleOpenSnackbar();
               }}
             >
-              Eliminar productos
+              Eliminar Materiales
             </Button>
           </div>
         </form>
@@ -455,7 +476,7 @@ export default function OutOperation() {
           severity="error"
           sx={{ width: "100%" }}
         >
-          Productos eliminados
+          Materiales eliminados
         </Alert>
       </Snackbar>
     </div>

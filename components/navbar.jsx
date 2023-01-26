@@ -79,7 +79,7 @@ export default function Navbar() {
             </ListItemButton>
           </Link>
 
-          {/* Productos */}
+          {/* Materiales */}
           {u_type === "WORKER" ? (
             <>
               <ListItemButton

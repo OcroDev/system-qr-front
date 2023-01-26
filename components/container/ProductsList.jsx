@@ -31,6 +31,7 @@ import React, { useEffect, useState } from "react";
 //AXIOS
 import axios from "axios";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function ProductsList() {
   //STATES
@@ -40,7 +41,7 @@ export default function ProductsList() {
   const [idFromProduct, setIdFromProduct] = useState(0);
   const [deleteSuccess, setDeleteSuccess] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   //FETCH DATA
   useEffect(() => {
@@ -50,8 +51,8 @@ export default function ProductsList() {
   //METHODS
 
   function getAllProducts() {
-    setIsLoading(!isLoading)
-  
+    setIsLoading(!isLoading);
+
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/products`)
       .then((response) => {
@@ -59,11 +60,10 @@ export default function ProductsList() {
 
         setProducts(getAllProduct);
       })
-      .catch((error) => console.log(error)).finally(() => {
-        setIsLoading(false)
-        
-      }
-      )
+      .catch((error) => console.log(error))
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   const searchHandler = (e) => {
@@ -105,168 +105,193 @@ export default function ProductsList() {
         data.p_description.toUpperCase().includes(search.toUpperCase())
       );
 
-          
-  return (<>
-    { isLoading ? <Spinner></Spinner> :
-    <div>
-      {deleteSuccess ? (
-        <Alert severity="success" variant="standard">
-          {apiMessage}
-        </Alert>
-      ) : null}
+  return (
+    <>
+      {isLoading ? (
+        <Spinner></Spinner>
+      ) : (
+        <div>
+          {deleteSuccess ? (
+            <Alert severity="success" variant="standard">
+              {apiMessage}
+            </Alert>
+          ) : null}
 
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 0,
-          width: "75vw",
-          height: "80vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent
-          sx={{
-            position: "absolute",
-            background: "#fff",
-            width: "75vw",
-            zIndex: "998",
-          }}
-        >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            PRODUCTOS
-          </Typography>
-
-          <TextField
-            variant="standard"
-            label="Buscar Producto"
-            type="text"
-            value={search}
-            onChange={searchHandler}
-          ></TextField>
-
-          <Button
-            sx={{ ml: 10, mt: 2 }}
-            onClick={() => {
-              printServices.printQr(products);
+          <Card
+            sx={{
+              bgcolor: "#fff",
+              mt: 0,
+              width: "75vw",
+              height: "90vh",
             }}
           >
-            Imprimir reporte QR
-          </Button>
-        </CardContent>
-        <CardContent>
-            <TableContainer
+            <CardContent
               sx={{
-                bgcolor: "background.paper",
-                marginTop: 15,
+                position: "absolute",
+                background: "#fff",
+                width: "75vw",
+                zIndex: "998",
               }}
-            > <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
-                <TableHead sx={{ marginTop: 4 }}>
-                  <TableRow>
-                    {/* <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${db}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+                <Typography align="center" variant="h5">
+                  Materiales
+                </Typography>
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${cm}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+              </div>
+              <hr className="hr-style" />
+              <TextField
+                variant="standard"
+                label="Buscar Material"
+                type="text"
+                value={search}
+                onChange={searchHandler}
+              ></TextField>
+
+              <Button
+                sx={{ ml: 10, mt: 2 }}
+                onClick={() => {
+                  printServices.printQr(products);
+                }}
+              >
+                Imprimir reporte QR
+              </Button>
+            </CardContent>
+            <CardContent>
+              <TableContainer
+                sx={{
+                  bgcolor: "background.paper",
+                  marginTop: 15,
+                  height: "72vh",
+                }}
+              >
+                <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
+                  <TableHead sx={{ marginTop: 4 }}>
+                    <TableRow>
+                      {/* <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
                     ID
                   </TableCell> */}
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Nombre del Producto
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Stock Mínimo
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Unidad de Medida
-                    </TableCell>
-                    <TableCell
-                      align="right"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Ubicación
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      Acciones
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      sx={{ color: "#efefef", fontWeight: "bold" }}
-                    >
-                      QR Code
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {productFilter.map((product) => {
-                    return (
-                      <Product
-                        key={product.id}
-                        id={product.id}
-                        p_desription={product.p_description}
-                        p_ubication={product.p_ubication}
-                        p_unit={product.p_unit}
-                        p_minstock={product.p_minstock}
-                        handleOpenDialog={handleOpenDialog}
-                        p_stock={product.p_stock}
-                      />
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            
-            </TableContainer>
-        </CardContent>
-      </Card>
-      <div>
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{ bgcolor: "background.default" }}
-        >
-          <DialogTitle
-            id="alert-dialog-title"
-            sx={{ color: "warning.light", fontWeight: "bold" }}
-          >
-            {"¿Estás seguro que deseas eliminar este producto?"}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText
-              id="alert-dialog-description"
-              align="center"
-              sx={{ color: "#fff" }}
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Nombre del Material
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Existencia Mínimo
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Unidad de Medida
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Ubicación
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Acciones
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        QR Code
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {productFilter.map((product) => {
+                      return (
+                        <Product
+                          key={product.id}
+                          id={product.id}
+                          p_desription={product.p_description}
+                          p_ubication={product.p_ubication}
+                          p_unit={product.p_unit}
+                          p_minstock={product.p_minstock}
+                          handleOpenDialog={handleOpenDialog}
+                          p_stock={product.p_stock}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+          <div>
+            <Dialog
+              open={openDialog}
+              onClose={handleCloseDialog}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+              sx={{ bgcolor: "background.default" }}
             >
-              {`Cuidado estás a punto de eliminar el producto:`}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              variant="outlined"
-              color="error"
-              onClick={() => handleCloseConfirmDialog(idFromProduct)}
-              autoFocus
-            >
-              Aceptar
-            </Button>
-            <Button
-              variant="outlined"
-              onClick={handleCloseDialog}
-              color="success"
-            >
-              Cancelar
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-      
-    </div >}</>
+              <DialogTitle
+                id="alert-dialog-title"
+                sx={{ color: "warning.light", fontWeight: "bold" }}
+              >
+                {"¿Estás seguro que deseas eliminar este Material?"}
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText
+                  id="alert-dialog-description"
+                  align="center"
+                  sx={{ color: "#fff" }}
+                >
+                  {`Cuidado estás a punto de eliminar el material`}
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  variant="outlined"
+                  color="error"
+                  onClick={() => handleCloseConfirmDialog(idFromProduct)}
+                  autoFocus
+                >
+                  Aceptar
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleCloseDialog}
+                  color="success"
+                >
+                  Cancelar
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

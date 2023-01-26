@@ -25,6 +25,7 @@ import axios from "axios";
 import React from "react";
 import { useSelector } from "react-redux";
 import Spinner from "../pure/spinner";
+import { cm, db } from "../../print_services/logos";
 
 export default function InOutDepartmentList() {
   //STATES
@@ -42,7 +43,7 @@ export default function InOutDepartmentList() {
   //METHODS
 
   function getAllDepartments() {
-      setIsLoading(!isLoading);
+    setIsLoading(!isLoading);
     axios
       .get(`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/departments`)
       .then((response) => {
@@ -50,10 +51,12 @@ export default function InOutDepartmentList() {
 
         setDepartments(getAllDepartment);
       })
-      .catch((error) => console.log(error)).finally(
+      .catch((error) => console.log(error))
+      .finally(
         setTimeout(() => {
           setIsLoading(false);
-        }, 500))
+        }, 500)
+      );
   }
 
   const searchHandler = (e) => {
@@ -68,81 +71,118 @@ export default function InOutDepartmentList() {
       );
 
   return (
-    <>{isLoading ? <Spinner/>:
-    <div>
-      {deleteSuccess ? (
-        <Alert severity="success" variant="standard">
-          {apiMessage}
-        </Alert>
-      ) : null}
+    <>
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <div>
+          {deleteSuccess ? (
+            <Alert severity="success" variant="standard">
+              {apiMessage}
+            </Alert>
+          ) : null}
 
-      <Card
-        sx={{
-          bgcolor: "#fff",
-          mt: 0,
-          width: "60vw",
-          height: "60vh",
-          overflowY: "scroll",
-        }}
-      >
-        <CardContent
-          sx={{
-            position: "absolute",
-            background: "#fff",
-            width: "60vw",
-            zIndex: "998",
-          }}
-        >
-          <Typography fontFamily={"monospace"} align="center" variant="h5">
-            DEPARTAMENTOS
-          </Typography>
+          <Card
+            sx={{
+              bgcolor: "#fff",
+              mt: 0,
+              width: "60vw",
+              height: "60vh",
+              overflowY: "scroll",
+            }}
+          >
+            <CardContent
+              sx={{
+                position: "absolute",
+                background: "#fff",
+                width: "60vw",
+                zIndex: "998",
+              }}
+            >
+              <CardContent
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-around",
+                }}
+              >
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${db}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+                <Typography
+                  fontFamily={"monospace"}
+                  align="center"
+                  variant="h5"
+                >
+                  DEPARTAMENTOS
+                </Typography>
+                <img
+                  style={{ marginTop: 0 }}
+                  src={`data:image/png;base64,${cm}`}
+                  alt=""
+                  width={40}
+                  height={50}
+                />
+              </CardContent>
+              <hr className="hr-style" />
 
-          <TextField
-            variant="standard"
-            label="Buscar Departamento"
-            type="text"
-            value={search}
-            onChange={searchHandler}
-          ></TextField>
-        </CardContent>
-        <CardContent>
-          <TableContainer sx={{ bgcolor: "background.paper", marginTop: 15 }}>
-            <Table sx={{ maxWidth: "70vw" }}>
-              <TableHead sx={{ marginTop: 4 }}>
-                <TableRow>
-                  <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
-                    ID
-                  </TableCell>
-                  <TableCell
-                    align="right"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Nombre del Departamento
-                  </TableCell>
-                  <TableCell
-                    align="center"
-                    sx={{ color: "#efefef", fontWeight: "bold" }}
-                  >
-                    Seleccionar
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {departmentFilter.map((department) => {
-                  return (
-                    <InOutDepartment
-                      key={department.id}
-                      id={department.id}
-                      d_name={department.d_name}
-                    />
-                  );
-                })}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </CardContent>
-      </Card>
-      </div>}
+              <TextField
+                variant="standard"
+                label="Buscar Departamento"
+                type="text"
+                value={search}
+                onChange={searchHandler}
+              ></TextField>
+            </CardContent>
+            <CardContent>
+              <TableContainer
+                sx={{
+                  bgcolor: "background.paper",
+                  marginTop: 20,
+                  height: "37vh",
+                }}
+              >
+                <Table sx={{ maxWidth: "70vw" }}>
+                  <TableHead sx={{ marginTop: 4 }}>
+                    <TableRow>
+                      <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
+                        ID
+                      </TableCell>
+                      <TableCell
+                        align="right"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Nombre del Departamento
+                      </TableCell>
+                      <TableCell
+                        align="center"
+                        sx={{ color: "#efefef", fontWeight: "bold" }}
+                      >
+                        Seleccionar
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {departmentFilter.map((department) => {
+                      return (
+                        <InOutDepartment
+                          key={department.id}
+                          id={department.id}
+                          d_name={department.d_name}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </CardContent>
+          </Card>
+        </div>
+      )}
     </>
   );
 }

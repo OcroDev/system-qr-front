@@ -14,7 +14,7 @@ import {
 export default function ReportCreate() {
   const bull = (
     <Box
-      component='span'
+      component="span"
       sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
     >
       •
@@ -24,7 +24,7 @@ export default function ReportCreate() {
   const router = useRouter();
   return (
     <>
-      <Typography variant='h5'>Operaciones</Typography>
+      <Typography variant="h5">Requisiciones</Typography>
       <Divider></Divider>
       <div
         style={{
@@ -34,11 +34,11 @@ export default function ReportCreate() {
       >
         <Card sx={styleCard}>
           <CardContent>
-            <Typography variant='h6'>Reportes de Operaciones</Typography>
+            <Typography variant="h6">Reportes de Requisiciones</Typography>
             <Button
-              variant='contained'
-              size='medium'
-              color='info'
+              variant="contained"
+              size="medium"
+              color="info"
               sx={{ mt: 5 }}
               onClick={() => router.push("/reports/operations")}
             >
@@ -49,8 +49,8 @@ export default function ReportCreate() {
         </Card>
       </div>
 
-      <Typography variant='h5' mt={5}>
-        Productos
+      <Typography variant="h5" mt={5}>
+        Materiales
       </Typography>
       <Divider></Divider>
       <div
@@ -61,12 +61,12 @@ export default function ReportCreate() {
       >
         <Card sx={styleCard}>
           <CardContent>
-            <Typography variant='h6'>Reporte de Inventario</Typography>
+            <Typography variant="h6">Reporte de Inventario</Typography>
             <Button
               sx={{ mt: 5 }}
-              variant='outlined'
-              size='medium'
-              color='info'
+              variant="outlined"
+              size="medium"
+              color="info"
               onClick={() => printServices.productReport()}
             >
               Ver
@@ -75,11 +75,13 @@ export default function ReportCreate() {
         </Card>
         <Card sx={styleCard}>
           <CardContent>
-            <Typography variant='h6'>Productos en stock mínimo</Typography>
+            <Typography variant="h6">
+              Materiales en existencia mínima
+            </Typography>
             <Button
-              size='medium'
-              variant='outlined'
-              color='info'
+              size="medium"
+              variant="outlined"
+              color="info"
               sx={{ mt: 1 }}
               onClick={() => printServices.productMinStock()}
             >
@@ -89,11 +91,11 @@ export default function ReportCreate() {
         </Card>
         <Card sx={styleCard}>
           <CardContent>
-            <Typography variant='h6'>Productos con mayor salida</Typography>
+            <Typography variant="h6">Materiales con mayor salida</Typography>
             <Button
-              size='medium'
-              variant='outlined'
-              color='info'
+              size="medium"
+              variant="outlined"
+              color="info"
               sx={{ mt: 1 }}
               onClick={() => printServices.productMustOut()}
             >

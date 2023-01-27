@@ -6,7 +6,7 @@ const QrCodeOperation = (props) => {
   let image = (
     <Image
       className="qrcode"
-      text={`${process.env.NEXT_PUBLIC_URI_ENDPOINT}/qrstock/api/reports/operations/detail/${props.id}`}
+      text={`https://system-qr-inventory.vercel.app/reports/operations/detail/${props.id}`}
       options={{
         type: "image/png",
         quality: 0.9,

@@ -122,7 +122,6 @@ export default function OperationsList() {
   };
 
   const createOperationsArray = (operationArray, type) => {
-    console.log(operationArray);
     let idOperation = eliminarDuplicado(operationArray);
 
     let result = [];
@@ -153,15 +152,15 @@ export default function OperationsList() {
             data.date = operationArray[key].date.substr(0, 10);
             data.dep_in = operationArray[key].dep_in;
             data.warehouse_in = operationArray[key].warehouse_in;
+            data.op_status = operationArray[key].op_status;
           }
         }
         data.id = idOperation[i];
         data.products = contador;
-        console.log(operationArray[i].op_status);
-        data.op_status = operationArray[i].op_status;
         contador = 0;
         result.push(Object.assign({}, data));
       }
+      console.log(result);
     }
 
     return result;
@@ -176,6 +175,7 @@ export default function OperationsList() {
   const OperationsInCell = createOperationsArray(InOperations, "in");
   const OperationsOutCell = createOperationsArray(OutOperations, "out");
 
+  console.log(OperationsOutCell);
   //DATE FILTER
   const operationInDateFilter = !searchDate
     ? OperationsInCell
@@ -190,11 +190,11 @@ export default function OperationsList() {
 
   return (
     <>
-      <Box>
+      {/* <Box>
         <Typography variant="h6" align="center">
           Reportes
         </Typography>
-      </Box>
+      </Box> */}
       <Box sx={{ width: "70vw", bgcolor: "#efefef", mt: -10 }}>
         {isLoading ? (
           <div
@@ -221,33 +221,30 @@ export default function OperationsList() {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <div style={{ overflowY: "scroll" }}>
-                <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
-                  <Table>
-                    <TableBody>
-                      {operationInDateFilter.map((operation) => {
-                        return (
-                          <Operation
-                            key={operation.id}
-                            id={operation.id}
-                            date={operation.date}
-                            productsTotal={operation.products}
-                            inOut={"Materiales Entrantes"}
-                            type={"in"}
-                          />
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </div>
+              <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+                <Table>
+                  <TableBody>
+                    {operationInDateFilter.map((operation) => {
+                      return (
+                        <Operation
+                          key={operation.id}
+                          id={operation.id}
+                          date={operation.date}
+                          productsTotal={operation.products}
+                          inOut={"Materiales Entrantes"}
+                          type={"in"}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
             </TabPanel>
             <TabPanel value={value} index={1}>
               <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
                 <Table>
                   <TableBody>
                     {operationOutDateFilter.map((operation) => {
-                      console.log(operation.op_status);
                       return (
                         <Operation
                           key={operation.id}
@@ -266,7 +263,7 @@ export default function OperationsList() {
                     })}
                   </TableBody>
                 </Table>
-              </TableContainer>{" "}
+              </TableContainer>
             </TabPanel>
             <TabPanel value={value} index={2}>
               <ReportByDeparment />

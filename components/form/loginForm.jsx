@@ -67,10 +67,10 @@ export default function LoginForm() {
         .then(function (response) {
           const { data } = response;
           //sessionStorage.setItem("user", "logeado");
-          localStorage.setItem("user", "logueado");
 
           const userloged = data.userFound;
 
+          localStorage.setItem("user", `${userloged.u_type}`);
           setApiMessage(data.message);
           setCreationSuccess(!creationSuccess);
           dispatch(

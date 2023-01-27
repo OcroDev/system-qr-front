@@ -281,7 +281,7 @@ const printServices = {
     doc.setFillColor(255, 255, 255);
     doc.roundedRect(140, 260, 60, 30, 1, 1);
     //save doc
-    doc.save("a4.pdf");
+    type === "in" ? doc.save("Entrada.pdf") : doc.save("Nota de Entrega");
   },
   productReport: async () => {
     //fetching data
@@ -629,6 +629,7 @@ const printServices = {
     doc.roundedRect(10, 50, 190, 20, 0.5, 0.5);
     doc.save("a4.pdf");
   },
+  printOutQr: (doc_data) => {},
 };
 
 export default printServices;

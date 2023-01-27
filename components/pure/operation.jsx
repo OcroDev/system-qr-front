@@ -3,6 +3,7 @@ import {
   DeleteForever,
   Print,
   RadioButtonChecked,
+  QrCode2,
   ScheduleSend,
 } from "@mui/icons-material";
 import {
@@ -18,9 +19,11 @@ import {
 import React, { useState } from "react";
 import printServices from "../../print_services/printServices";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Operation(props) {
   const [deleted, setDeleted] = useState(false);
+  const router = useRouter();
 
   const updateStockProduct = (movements) => {
     movements.map((product) => {
@@ -108,6 +111,17 @@ export default function Operation(props) {
             <IconButton
               sx={{ color: "primary.main" }}
               onClick={() => {
+                router.push(`/reports/operations/detail/${props.id}`);
+              }}
+              size="small"
+            >
+              <Tooltip title="Imprimir QR">
+                <QrCode2 />
+              </Tooltip>
+            </IconButton>
+            <IconButton
+              sx={{ color: "primary.main" }}
+              onClick={() => {
                 printServices.operationReport(props.type, props.id);
               }}
               size="small"
@@ -139,7 +153,7 @@ export default function Operation(props) {
             )}
           </CardContent>
           <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <Typography variant="body2" ml={3} mt={-2}>
+            <Typography variant="body2" ml={1.5} mt={-2}>
               <span style={{ marginRight: "10px" }}>
                 <b>{props.warehouse}</b>
                 {props.warehouse_in}

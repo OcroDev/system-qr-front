@@ -71,7 +71,7 @@ export default function OutOperationDetail() {
       <Card
         sx={{
           display: "flex",
-          mt: -30,
+          mt: 0,
           bgcolor: "#efefef",
           flexDirection: "row",
         }}

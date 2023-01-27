@@ -108,17 +108,20 @@ export default function Operation(props) {
                 <b>{props.inOut}: </b>({props.productsTotal})
               </span>
             </Typography>
-            <IconButton
-              sx={{ color: "primary.main" }}
-              onClick={() => {
-                router.push(`/reports/operations/detail/${props.id}`);
-              }}
-              size="small"
-            >
-              <Tooltip title="Imprimir QR">
-                <QrCode2 />
-              </Tooltip>
-            </IconButton>
+            {props.type === "out" ? (
+              <IconButton
+                sx={{ color: "primary.main" }}
+                onClick={() => {
+                  router.push(`/reports/operations/detail/${props.id}`);
+                }}
+                size="small"
+              >
+                <Tooltip title="Imprimir QR">
+                  <QrCode2 />
+                </Tooltip>
+              </IconButton>
+            ) : null}
+
             <IconButton
               sx={{ color: "primary.main" }}
               onClick={() => {

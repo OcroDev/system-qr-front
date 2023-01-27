@@ -540,6 +540,7 @@ const printServices = {
     img = $d.body.ownerDocument.images;
     let date = new Date().toLocaleDateString("es-ve");
     let title = "Lista de Materiales Qr";
+    let imgCounter = 2;
 
     //? document
 
@@ -553,8 +554,9 @@ const printServices = {
 
     for (const key in doc_data) {
       //header
+
       doc.addImage(
-        `${img.item(key).currentSrc}`,
+        `${img.item(imgCounter).currentSrc}`,
         "JPEG",
         180,
         setDownQrCode,
@@ -591,6 +593,7 @@ const printServices = {
         pageCounter = 0;
       }
       pageCounter++;
+      imgCounter++;
     }
 
     var key = 0;
@@ -598,7 +601,7 @@ const printServices = {
 
     // }
 
-    doc.save("a4.pdf");
+    doc.save("listadoQR.pdf");
   },
   printOneQr: (doc_data) => {
     doc_data = {
@@ -627,8 +630,9 @@ const printServices = {
     doc.setDrawColor(0);
     doc.setFillColor(255, 255, 255);
     doc.roundedRect(10, 50, 190, 20, 0.5, 0.5);
-    doc.save("a4.pdf");
+    doc.save("MaterialQR.pdf");
   },
+
   printOutQr: (doc_data) => {},
 };
 

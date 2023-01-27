@@ -66,6 +66,17 @@ export default function OutOperationDetail() {
       .catch((error) => console.log(error.message));
   };
 
+  const printQR = () => {
+    let img = document.body.ownerDocument.images.item(0).currentSrc;
+    const operationToPrint = {
+      id: operationData.id,
+      to: operationData.warehouse_in,
+      department: operationData.dep_in,
+      dataImg: img,
+    };
+    console.log(operationToPrint.dataImg);
+  };
+
   return (
     <div>
       <Card
@@ -127,7 +138,7 @@ export default function OutOperationDetail() {
           >
             {userType === "WORKER" ? (
               <>
-                <IconButton aria-label="print" type="submit">
+                <IconButton aria-label="print" onClick={() => printQR()}>
                   <Tooltip title="imprimir">
                     <Print color="primary" sx={{ height: 30, width: 30 }} />
                   </Tooltip>

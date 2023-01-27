@@ -160,7 +160,6 @@ export default function OperationsList() {
         contador = 0;
         result.push(Object.assign({}, data));
       }
-      console.log(result);
     }
 
     return result;
@@ -175,7 +174,6 @@ export default function OperationsList() {
   const OperationsInCell = createOperationsArray(InOperations, "in");
   const OperationsOutCell = createOperationsArray(OutOperations, "out");
 
-  console.log(OperationsOutCell);
   //DATE FILTER
   const operationInDateFilter = !searchDate
     ? OperationsInCell

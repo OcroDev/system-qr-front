@@ -123,40 +123,31 @@ export default function WarehouseList() {
               mt: 0,
               width: "60vw",
               height: "60vh",
-              overflowY: "scroll",
             }}
           >
             <CardContent
               sx={{
-                position: "absolute",
                 background: "#fff",
                 width: "60vw",
-                zIndex: "998",
               }}
             >
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "space-around",
                   alignItems: "center",
                 }}
               >
                 <img
-                  style={{ marginTop: 0 }}
                   src={`data:image/png;base64,${db}`}
                   alt="colegio don bosco"
                   width={40}
                   height={50}
                 />
-                <Typography
-                  align="center"
-                  variant="h5"
-                  sx={{ ml: "13rem", mr: "13rem" }}
-                >
+                <Typography align="center" variant="h5">
                   COLEGIOS
                 </Typography>
                 <img
-                  style={{ marginTop: 0 }}
                   src={`data:image/png;base64,${cm}`}
                   alt="colegio metropolitano"
                   width={40}
@@ -176,10 +167,12 @@ export default function WarehouseList() {
               <TableContainer
                 sx={{
                   bgcolor: "background.paper",
-                  marginTop: 15,
+                  marginTop: 0,
+                  height: "40vh",
+                  overflowY: "scroll",
                 }}
               >
-                <Table sx={{ maxWidth: "70vw" }}>
+                <Table sx={{ width: "100%" }}>
                   <TableHead sx={{ marginTop: 4 }}>
                     <TableRow>
                       <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>

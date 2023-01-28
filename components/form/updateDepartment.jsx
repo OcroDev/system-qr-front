@@ -115,7 +115,7 @@ export default function UpdateDepartment() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-around",
               }}
             >
               <img
@@ -125,7 +125,7 @@ export default function UpdateDepartment() {
                 width={40}
                 height={50}
               />
-              <Typography variant="h5" sx={{ ml: "5rem", mr: "5rem" }}>
+              <Typography variant="h5" align="center">
                 Actualizar Departamento <br />"{department.d_name}"
               </Typography>
               <img
@@ -142,9 +142,9 @@ export default function UpdateDepartment() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   id="d_name"
                   name="d_name"

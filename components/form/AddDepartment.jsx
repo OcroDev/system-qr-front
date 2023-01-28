@@ -85,7 +85,7 @@ export default function AddDepartment() {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-around",
               alignItems: "center",
             }}
           >
@@ -96,12 +96,7 @@ export default function AddDepartment() {
               width={40}
               height={50}
             />
-            <Typography
-              variant="h6"
-              style={{ marginLeft: "5rem", marginRight: "5rem" }}
-            >
-              Crear un Nuevo Departamento
-            </Typography>
+            <Typography variant="h6">Crear un Nuevo Departamento</Typography>
             <img
               style={{ marginTop: 0 }}
               src={`data:image/png;base64,${cm}`}
@@ -116,9 +111,9 @@ export default function AddDepartment() {
             onReset={formik.handleReset}
             className=" d-flex justify-content-center align-item-center"
           >
-            <div>
+            <div style={{ width: "90%" }}>
               <TextField
-                sx={{ mb: 4, mt: 4, width: 500 }}
+                sx={{ mb: 4, mt: 4, width: "100%" }}
                 variant="outlined"
                 fullWidth
                 id="d_name"

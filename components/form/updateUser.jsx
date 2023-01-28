@@ -23,6 +23,7 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
+import { cm, db } from "../../print_services/logos";
 
 export default function UpdateUser() {
   //router
@@ -154,10 +155,30 @@ export default function UpdateUser() {
       <Card sx={{ bgcolor: "#fff", mt: 0, width: "50vw" }}>
         <CardContent>
           <div>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+              }}
+            >
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${db}`}
+                alt=""
+                width={40}
+                height={50}
+              />
               <Typography variant="h5" style={{ textAlign: "center" }}>
                 Actualizar Usuario <br />"{user.u_firstname} {user.u_lastname}"
               </Typography>
+              <img
+                style={{ marginTop: 0 }}
+                src={`data:image/png;base64,${cm}`}
+                alt=""
+                width={40}
+                height={50}
+              />
             </div>
 
             <form
@@ -165,9 +186,9 @@ export default function UpdateUser() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="u_firstname"
@@ -186,7 +207,7 @@ export default function UpdateUser() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="u_lastname"
@@ -205,7 +226,7 @@ export default function UpdateUser() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="u_username"
@@ -223,7 +244,7 @@ export default function UpdateUser() {
                   }
                 />
                 <br />
-                <FormControl sx={{ width: 250, mt: 4, mb: 0 }}>
+                <FormControl sx={{ width: "55%", mt: 4 }}>
                   <InputLabel id="u_type-label">Tipo de Usuario</InputLabel>
                   <Select
                     labelId="u_type-label"
@@ -251,7 +272,7 @@ export default function UpdateUser() {
 
                 <br />
                 <TextField
-                  sx={{ mt: 0, width: 500 }}
+                  sx={{ mt: 0, width: "100%" }}
                   variant="outlined"
                   id="u_password"
                   name="u_password"
@@ -270,7 +291,7 @@ export default function UpdateUser() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   id="confirm"
                   name="confirm"

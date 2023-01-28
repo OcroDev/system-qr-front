@@ -41,7 +41,7 @@ export default function AddProduct() {
     p_description: yup
       .string("Ecribe el nombre del material ")
       .min(5, "El nombre del material  es demasiado corto")
-      .max(25, "El nombre del material  es demasiado largo")
+      .max(40, "El nombre del material  es demasiado largo")
       .required("El nombre del material es requerido"),
     p_minstock: yup.number("la existencia mínimo debe ser un número"),
     p_unit: yup.string().max(10, "la unidad de medida es demasiado larga"),
@@ -135,9 +135,9 @@ export default function AddProduct() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "80%" }}
                   variant="outlined"
                   fullWidth
                   id="p_description"
@@ -156,7 +156,7 @@ export default function AddProduct() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 250 }}
+                  sx={{ mt: 4, width: "45%" }}
                   variant="outlined"
                   fullWidth
                   id="p_minstock"
@@ -175,7 +175,7 @@ export default function AddProduct() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 250 }}
+                  sx={{ mt: 4, width: "45%" }}
                   variant="outlined"
                   fullWidth
                   id="p_unit"
@@ -188,7 +188,7 @@ export default function AddProduct() {
                   helperText={formik.touched.p_unit && formik.errors.p_unit}
                 />
                 <br />
-                <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
+                <FormControl sx={{ width: "45%", mt: 4, mb: 4 }}>
                   <InputLabel id="ubication-label">Ubicación</InputLabel>
                   <Select
                     labelId="ubication-label"

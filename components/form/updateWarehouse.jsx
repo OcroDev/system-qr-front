@@ -115,7 +115,7 @@ export default function UpdateWarehouse() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-around",
               }}
             >
               <img
@@ -126,18 +126,10 @@ export default function UpdateWarehouse() {
                 height={50}
               />
               <div>
-                <Typography
-                  variant="h6"
-                  sx={{ ml: "2rem", mr: "2rem" }}
-                  align="center"
-                >
+                <Typography variant="h6" align="center">
                   Actualizar Colegio
                 </Typography>
-                <Typography
-                  variant="h6"
-                  sx={{ ml: "2rem", mr: "2rem" }}
-                  align="center"
-                >
+                <Typography variant="h6" align="center">
                   "{warehouse.w_description}"
                 </Typography>
               </div>
@@ -155,9 +147,9 @@ export default function UpdateWarehouse() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="w_description"

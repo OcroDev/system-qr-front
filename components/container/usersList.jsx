@@ -101,7 +101,7 @@ export default function UsersList() {
   const userFilter = !search
     ? users
     : users.filter((data) =>
-        data.u_username.toUpperCase().includes(search.toUpperCase())
+        data.u_firstname.toUpperCase().includes(search.toUpperCase())
       );
 
   return (
@@ -126,7 +126,6 @@ export default function UsersList() {
           >
             <CardContent
               sx={{
-                position: "absolute",
                 background: "#fff",
                 width: "60vw",
                 zIndex: "998",
@@ -136,7 +135,7 @@ export default function UsersList() {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  justifyContent: "space-around",
                 }}
               >
                 <img
@@ -146,11 +145,7 @@ export default function UsersList() {
                   width={40}
                   height={50}
                 />
-                <Typography
-                  align="center"
-                  variant="h5"
-                  sx={{ ml: "13rem", mr: "13rem" }}
-                >
+                <Typography align="center" variant="h5">
                   USUARIOS
                 </Typography>
                 <img
@@ -174,12 +169,12 @@ export default function UsersList() {
               <TableContainer
                 sx={{
                   bgcolor: "background.paper",
-                  marginTop: 15,
-                  height: "42vh",
+                  maxHeight: "40vh",
+                  overflowY: "scroll",
                 }}
               >
-                <Table sx={{ maxWidth: "70vw" }}>
-                  <TableHead sx={{ marginTop: 4 }}>
+                <Table sx={{ maxWidth: "60vw" }}>
+                  <TableHead>
                     <TableRow>
                       <TableCell sx={{ color: "#efefef", fontWeight: "bold" }}>
                         ID

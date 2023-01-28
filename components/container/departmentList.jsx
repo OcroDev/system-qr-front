@@ -120,15 +120,13 @@ export default function DepartmentList() {
               mt: 0,
               width: "60vw",
               height: "60vh",
-              overflowY: "scroll",
+              //overflowY: "scroll",
             }}
           >
             <CardContent
               sx={{
-                position: "absolute",
                 background: "#fff",
                 width: "60vw",
-                zIndex: "998",
               }}
             >
               <div
@@ -139,7 +137,6 @@ export default function DepartmentList() {
                 }}
               >
                 <img
-                  style={{ marginTop: 0 }}
                   src={`data:image/png;base64,${db}`}
                   alt=""
                   width={40}
@@ -149,7 +146,6 @@ export default function DepartmentList() {
                   DEPARTAMENTOS
                 </Typography>
                 <img
-                  style={{ marginTop: 0 }}
                   src={`data:image/png;base64,${cm}`}
                   alt=""
                   width={40}
@@ -166,9 +162,14 @@ export default function DepartmentList() {
                 onChange={searchHandler}
               ></TextField>
             </CardContent>
-            <CardContent>
+            <CardContent sx={{ height: "50vh" }}>
               <TableContainer
-                sx={{ bgcolor: "background.paper", marginTop: 15 }}
+                sx={{
+                  bgcolor: "background.paper",
+                  marginTop: 0,
+                  overflowY: "scroll",
+                  height: "40vh",
+                }}
               >
                 <Table sx={{ maxWidth: "70vw" }}>
                   <TableHead sx={{ marginTop: 4 }}>

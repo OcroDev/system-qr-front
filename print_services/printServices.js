@@ -633,7 +633,34 @@ const printServices = {
     doc.save("MaterialQR.pdf");
   },
 
-  printOutQr: (doc_data) => {},
+  printOutQr: (doc_data) => {
+    doc_data = {
+      ...doc_data,
+      title: "Etiqueta de salida QR",
+      date: new Date().toLocaleDateString("es-ve"),
+    };
+
+    const doc = new jsPDF({ orientation: "l", format: [210, 100] });
+    //? header
+    doc.addImage(`${doc_data.dataImg}`, "JPEG", 180, 52, 15, 15);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(16);
+    doc.text(`${doc_data.title}`, 100, 30, null, null, "center");
+    doc.setFontSize(10);
+    //?observaciones
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.text(12, 55, `Colegio: ${doc_data.warehouse}`);
+    doc.text(12, 60, `Departamento: ${doc_data.department}`);
+    // doc.text(12, 65, `Ubicación: ${doc_data.ubication}`);
+
+    doc.text(10, 25, `Fecha: ${doc_data.date}`);
+    doc.setFontSize(8);
+    doc.setDrawColor(0);
+    doc.setFillColor(255, 255, 255);
+    doc.roundedRect(10, 50, 190, 20, 0.5, 0.5);
+    doc.save("SalidaQR.pdf");
+  },
 };
 
 export default printServices;

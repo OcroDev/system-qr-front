@@ -88,11 +88,11 @@ export default function Operation(props) {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-evenly",
+              justifyContent: "space-around",
               alignItems: "center",
             }}
           >
-            <Typography variant="body2" ml={"-1.5rem"}>
+            <Typography variant="body2">
               <span>
                 <b>Fecha: </b>
                 {props.date}
@@ -155,18 +155,26 @@ export default function Operation(props) {
               </Tooltip>
             )}
           </CardContent>
-          <CardContent sx={{ display: "flex", justifyContent: "flex-start" }}>
-            <Typography variant="body2" ml={1.5} mt={-2}>
-              <span style={{ marginRight: "10px" }}>
-                <b>{props.warehouse}</b>
-                {props.warehouse_in}
-              </span>
-              <span>
-                <b>{props.dep}</b>
-                {props.dep_in}
-              </span>
-            </Typography>
-          </CardContent>
+          {props.type === "out" ? (
+            <CardContent
+              sx={{
+                display: "flex",
+                justifyContent: "flex-start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="body2">
+                <span>
+                  <b>{props.warehouse}</b>
+                  {props.warehouse_in}
+                </span>
+                <span>
+                  <b>{props.dep}</b>
+                  {props.dep_in}
+                </span>
+              </Typography>
+            </CardContent>
+          ) : null}
         </Card>
       </TableCell>
     </TableRow>

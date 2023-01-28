@@ -202,7 +202,7 @@ export default function InOperation() {
             bgcolor: "#fff",
             mt: 5,
             width: "77vw",
-            height: "90vh",
+            maxHeight: "80vh",
             overflowY: "scroll",
           }}
         >
@@ -234,14 +234,21 @@ export default function InOperation() {
 
           <hr className="hr-style" />
           <form onSubmit={formik.handleSubmit}>
-            <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 10 }}>
-              <InputLabel sx={{ mr: 15, mt: 2 }}>
+            <CardContent
+              sx={{
+                display: "inline-flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <InputLabel>
                 <b>Número:</b> {lastOperation}
               </InputLabel>
-              <InputLabel sx={{ mr: 15, mt: 2 }}>
+              <InputLabel>
                 <b>Fecha:</b> {date}
               </InputLabel>
-              <FormControl sx={{ width: 250, mt: 0, mb: 0 }}>
+              <FormControl sx={{ width: "30%", mt: 0, mb: 0 }}>
                 <InputLabel id="w_description-label">Colegio</InputLabel>
                 <Select
                   variant="standard"
@@ -279,40 +286,38 @@ export default function InOperation() {
             </CardContent>
             <hr className="hr-style" />
             <CardContent>
-              <TableContainer>
-                <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-                  <Table>
-                    <TableHead sx={{ marginTop: 4 }}>
-                      <TableRow>
-                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                          ID
-                        </TableCell>
-                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                          Nombre del Material
-                        </TableCell>
-                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                          Cantidad
-                        </TableCell>
-                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                          Quitar
-                        </TableCell>
-                      </TableRow>
-                    </TableHead>
+              <TableContainer sx={{ overflowY: "scroll", maxHeight: "40vh" }}>
+                <Table>
+                  <TableHead sx={{ marginTop: 4 }}>
+                    <TableRow>
+                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                        ID
+                      </TableCell>
+                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                        Nombre del Material
+                      </TableCell>
+                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                        Cantidad
+                      </TableCell>
+                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                        Quitar
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
 
-                    <TableBody>
-                      {movementProducts.products.map((product, index) => {
-                        return (
-                          <MovementProduct
-                            key={index}
-                            id={product.id}
-                            p_description={product.p_description}
-                            p_stock={product.p_stock}
-                          />
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </div>
+                  <TableBody>
+                    {movementProducts.products.map((product, index) => {
+                      return (
+                        <MovementProduct
+                          key={index}
+                          id={product.id}
+                          p_description={product.p_description}
+                          p_stock={product.p_stock}
+                        />
+                      );
+                    })}
+                  </TableBody>
+                </Table>
               </TableContainer>
             </CardContent>
             <hr className="hr-style" />

@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { cm, db } from "../../print_services/logos";
 import QrCodeOperation from "../pure/qrCodeOperation";
+import printServices from "../../print_services/printServices";
 
 export default function OutOperationDetail() {
   const [operation, setOperation] = useState([]);
@@ -70,11 +71,11 @@ export default function OutOperationDetail() {
     let img = document.body.ownerDocument.images.item(0).currentSrc;
     const operationToPrint = {
       id: operationData.id,
-      to: operationData.warehouse_in,
+      warehouse: operationData.warehouse_in,
       department: operationData.dep_in,
       dataImg: img,
     };
-    console.log(operationToPrint.dataImg);
+    printServices.printOutQr(operationToPrint);
   };
 
   return (

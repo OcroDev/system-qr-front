@@ -127,7 +127,7 @@ export default function AddUser() {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-around",
               alignItems: "center",
             }}
           >
@@ -138,9 +138,7 @@ export default function AddUser() {
               width={40}
               height={50}
             />
-            <Typography variant="h5" sx={{ ml: "5rem", mr: "5rem" }}>
-              Crear un Nuevo Usuario
-            </Typography>
+            <Typography variant="h5">Crear un Nuevo Usuario</Typography>
             <img
               style={{ marginTop: 0 }}
               src={`data:image/png;base64,${cm}`}
@@ -155,9 +153,9 @@ export default function AddUser() {
             onReset={formik.handleReset}
             className=" d-flex justify-content-center align-item-center"
           >
-            <div>
+            <div style={{ width: "90%" }}>
               <TextField
-                sx={{ mt: 4, width: 500 }}
+                sx={{ mt: 4, width: "100%" }}
                 variant="outlined"
                 fullWidth
                 id="u_firstname"
@@ -176,7 +174,7 @@ export default function AddUser() {
               />
               <br />
               <TextField
-                sx={{ mt: 4, width: 500 }}
+                sx={{ mt: 4, width: "100%" }}
                 variant="outlined"
                 fullWidth
                 id="u_lastname"
@@ -194,7 +192,7 @@ export default function AddUser() {
               />
               <br />
               <TextField
-                sx={{ mt: 4, width: 500 }}
+                sx={{ mt: 4, width: "100%" }}
                 variant="outlined"
                 fullWidth
                 id="u_username"
@@ -211,7 +209,7 @@ export default function AddUser() {
                 }
               />
               <br />
-              <FormControl sx={{ width: 250, mt: 4, mb: 0 }}>
+              <FormControl sx={{ width: "55%", mt: 4, mb: 0 }}>
                 <InputLabel id="u_type-label">Tipo de Usuario</InputLabel>
                 <Select
                   labelId="u_type-label"
@@ -238,7 +236,7 @@ export default function AddUser() {
               </FormHelperText>
               <br />
               <TextField
-                sx={{ mt: 0, width: 500 }}
+                sx={{ mt: 0, width: "100%" }}
                 variant="outlined"
                 id="u_password"
                 name="u_password"
@@ -256,7 +254,7 @@ export default function AddUser() {
               />
               <br />
               <TextField
-                sx={{ mt: 4, width: 500 }}
+                sx={{ mt: 4, width: "100%" }}
                 variant="outlined"
                 id="confirm"
                 name="confirm"

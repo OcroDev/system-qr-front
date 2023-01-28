@@ -133,7 +133,7 @@ export default function UpdateProduct() {
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
+                justifyContent: "space-around",
               }}
             >
               <img
@@ -143,7 +143,7 @@ export default function UpdateProduct() {
                 width={40}
                 height={50}
               />
-              <Typography variant="h5" sx={{ mr: "5rem", ml: "5rem" }}>
+              <Typography variant="h5" sx={{}}>
                 Actualizar material <br />"{product.p_description}"
               </Typography>
               <img
@@ -160,9 +160,9 @@ export default function UpdateProduct() {
               onReset={formik.handleReset}
               className=" d-flex justify-content-center align-item-center"
             >
-              <div>
+              <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: 500 }}
+                  sx={{ mt: 4, width: "80%" }}
                   variant="outlined"
                   fullWidth
                   id="p_description"
@@ -181,7 +181,7 @@ export default function UpdateProduct() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 250 }}
+                  sx={{ mt: 4, width: "45%" }}
                   variant="outlined"
                   fullWidth
                   id="p_minstock"
@@ -200,7 +200,7 @@ export default function UpdateProduct() {
                 />
                 <br />
                 <TextField
-                  sx={{ mt: 4, width: 250 }}
+                  sx={{ mt: 4, width: "45%" }}
                   variant="outlined"
                   fullWidth
                   id="p_unit"
@@ -213,7 +213,7 @@ export default function UpdateProduct() {
                   helperText={formik.touched.p_unit && formik.errors.p_unit}
                 />
                 <br />
-                <FormControl sx={{ width: 250, mt: 4, mb: 4 }}>
+                <FormControl sx={{ width: "45%", mt: 4, mb: 4 }}>
                   <InputLabel id="ubication-label">Ubicación</InputLabel>
                   <Select
                     labelId="ubication-label"

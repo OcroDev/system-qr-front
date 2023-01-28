@@ -225,7 +225,7 @@ export default function OutOperation() {
           bgcolor: "#fff",
           mt: 5,
           width: "77vw",
-          height: "90vh",
+          maxHeight: "80vh",
           overflowY: "scroll",
         }}
       >
@@ -257,14 +257,21 @@ export default function OutOperation() {
 
         <hr className="hr-style" />
         <form onSubmit={formik.handleSubmit}>
-          <CardContent sx={{ display: "inline-flex", mr: "auto", ml: 2 }}>
-            <InputLabel sx={{ mr: 5, mt: 2 }}>
+          <CardContent
+            sx={{
+              display: "inline-flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            <InputLabel>
               <b>Número:</b> {lastOperation}
             </InputLabel>
-            <InputLabel sx={{ mr: 5, mt: 2 }}>
+            <InputLabel>
               <b>Fecha:</b> {date}
             </InputLabel>
-            <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
+            <FormControl sx={{ width: "30%" }}>
               <InputLabel id="warehouse_in_id-label">
                 Colegio destino
               </InputLabel>
@@ -299,7 +306,7 @@ export default function OutOperation() {
                   formik.errors.warehouse_in_id}
               </FormHelperText>
             </FormControl>
-            <FormControl sx={{ width: 250, mr: 5, mb: 0 }}>
+            <FormControl sx={{ width: "30%" }}>
               <InputLabel id="warehouse_out_id-label">
                 Colegio Origen
               </InputLabel>
@@ -336,14 +343,20 @@ export default function OutOperation() {
             </FormControl>
           </CardContent>
           <CardContent
-            sx={{ display: "inline-flex", mr: "auto", ml: 2, mt: -5, mb: -5 }}
+            sx={{
+              display: "inline-flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              width: "100%",
+              ml: 2,
+            }}
           >
             <InputLabel sx={{ ml: 0, mt: 0 }}>
               <b>Departamento Destino:</b> {department_name}
             </InputLabel>
 
             <IconButton
-              sx={{ color: "success.main", mt: -1 }}
+              sx={{ color: "success.main" }}
               onClick={() => {
                 router.push("/departments/operationDepartments/");
               }}
@@ -353,7 +366,7 @@ export default function OutOperation() {
               </Tooltip>
             </IconButton>
             <IconButton
-              sx={{ color: "error.main", mt: -1 }}
+              sx={{ color: "error.main" }}
               onClick={() => {
                 dispatch(deleteDepartment());
               }}
@@ -365,40 +378,38 @@ export default function OutOperation() {
           </CardContent>
           <hr className="hr-style" />
           <CardContent>
-            <TableContainer>
-              <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
-                <Table>
-                  <TableHead sx={{ marginTop: 4 }}>
-                    <TableRow>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        ID
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Nombre del Material
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Cantidad
-                      </TableCell>
-                      <TableCell align="center" sx={{ fontWeight: "bold" }}>
-                        Quitar
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
+            <TableContainer sx={{ overflowY: "scroll", maxHeight: "35vh" }}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      ID
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      Nombre del Material
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      Cantidad
+                    </TableCell>
+                    <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                      Quitar
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
 
-                  <TableBody>
-                    {movementProducts.products.map((product, index) => {
-                      return (
-                        <MovementProduct
-                          key={index}
-                          id={product.id}
-                          p_description={product.p_description}
-                          p_stock={product.p_stock}
-                        />
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
+                <TableBody>
+                  {movementProducts.products.map((product, index) => {
+                    return (
+                      <MovementProduct
+                        key={index}
+                        id={product.id}
+                        p_description={product.p_description}
+                        p_stock={product.p_stock}
+                      />
+                    );
+                  })}
+                </TableBody>
+              </Table>
             </TableContainer>
           </CardContent>
           {/* <InputLabel /> */}

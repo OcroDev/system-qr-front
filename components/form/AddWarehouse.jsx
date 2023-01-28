@@ -86,7 +86,7 @@ export const AddWarehouse = () => {
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-around",
             }}
           >
             <img
@@ -96,9 +96,7 @@ export const AddWarehouse = () => {
               width={40}
               height={50}
             />
-            <Typography variant="h5" sx={{ ml: "6rem", mr: "6rem" }}>
-              Crear un Nuevo Colegio
-            </Typography>
+            <Typography variant="h5">Crear un Nuevo Colegio</Typography>
             <img
               style={{ marginTop: 0 }}
               src={`data:image/png;base64,${cm}`}
@@ -113,9 +111,9 @@ export const AddWarehouse = () => {
             onReset={formik.handleReset}
             className=" d-flex justify-content-center align-item-center"
           >
-            <div>
+            <div style={{ width: "90%" }}>
               <TextField
-                sx={{ mb: 4, mt: 4, width: 500 }}
+                sx={{ mb: 4, mt: 4, width: "100%" }}
                 variant="outlined"
                 fullWidth
                 id="w_description"

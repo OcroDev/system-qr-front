@@ -122,7 +122,7 @@ export default function ProductsList() {
               bgcolor: "#fff",
               mt: 0,
               width: "75vw",
-              height: "90vh",
+              height: "80vh",
             }}
           >
             <CardContent
@@ -181,7 +181,7 @@ export default function ProductsList() {
                 sx={{
                   bgcolor: "background.paper",
                   marginTop: 15,
-                  height: "72vh",
+                  maxHeight: "64vh",
                 }}
               >
                 <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>

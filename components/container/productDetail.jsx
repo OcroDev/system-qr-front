@@ -1,4 +1,4 @@
-import { Print, ArrowCircleLeft } from "@mui/icons-material";
+import { Print, ArrowCircleLeft, Update } from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -17,6 +17,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import printServices from "../../print_services/printServices";
 import Link from "next/link";
+import QrCodeOperation from "../pure/qrCodeOperation";
 
 export default function ProductDetail(props) {
   const router = useRouter();
@@ -66,6 +67,7 @@ export default function ProductDetail(props) {
       .catch();
   };
 
+  const URI = `system-qr-inventory.vercel.app/products/detail/${product.id}`;
   return (
     <>
       <Card
@@ -110,6 +112,11 @@ export default function ProductDetail(props) {
                   </Tooltip>
                 </IconButton>
               </Link>
+              <IconButton aria-label="update" onClick={() => getProduct()}>
+                <Tooltip title="Actualizar">
+                  <Update color="info" sx={{ height: 30, width: 30 }} />
+                </Tooltip>
+              </IconButton>
               {/* <TextField
                 sx={{ width: 68, flexDirection: "column" }}
                 variant="standard"
@@ -136,12 +143,17 @@ export default function ProductDetail(props) {
             overflow: "hidden",
           }}
         >
-          <QrCode
+          {/* <QrCode
             width={formik.values.qrWidth}
             name={product.p_description}
             ubication={product.p_ubication}
             stock={product.p_stock}
-          ></QrCode>
+          ></QrCode> */}
+          <QrCodeOperation
+            width={formik.values.qrWidth}
+            id={product.id}
+            URI={URI}
+          />
         </div>
       </Card>
     </>

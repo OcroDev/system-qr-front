@@ -78,6 +78,8 @@ export default function OutOperationDetail() {
     printServices.printOutQr(operationToPrint);
   };
 
+  const URI = `system-qr-inventory.vercel.app/reports/operations/detail/${operationData.id}`;
+
   return (
     <div>
       <Card
@@ -193,6 +195,7 @@ export default function OutOperationDetail() {
             <QrCodeOperation
               width={120}
               id={operationData.id}
+              URI={URI}
             ></QrCodeOperation>
             {operationData.warehouse_in === DB ? (
               <img

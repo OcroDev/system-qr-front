@@ -6,6 +6,7 @@ import { TableCell, TableRow, IconButton, Tooltip } from "@mui/material";
 //MATERIAL ICONS
 import { DeleteForever, Update, Print } from "@mui/icons-material";
 import QrCode from "./qrCode";
+import QrCodeOperation from "./qrCodeOperation";
 
 export const Product = ({
   p_desription,
@@ -17,6 +18,8 @@ export const Product = ({
   handleOpenDialog,
 }) => {
   const checkid = (idbutton) => {};
+  const URI = `system-qr-inventory.vercel.app/products/detail/${id}`;
+
   return (
     <>
       <TableRow>
@@ -60,13 +63,15 @@ export const Product = ({
           </IconButton>
         </TableCell>
         <TableCell>
-          <QrCode
+          {/* <QrCode
             name={p_desription}
             ubication={p_ubication}
             stock={p_stock}
             width={85}
             type="images"
-          />
+          /> */}
+
+          <QrCodeOperation id={id} width={96} URI={URI} />
         </TableCell>
       </TableRow>
     </>

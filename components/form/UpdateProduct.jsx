@@ -143,9 +143,14 @@ export default function UpdateProduct() {
                 width={40}
                 height={50}
               />
-              <Typography variant="h5" sx={{}}>
-                Actualizar material <br />"{product.p_description}"
-              </Typography>
+              <div>
+                <Typography variant="h5" align="center">
+                  Actualizar material
+                </Typography>
+                <Typography variant="h5" align="center">
+                  "{product.p_description}"
+                </Typography>
+              </div>
               <img
                 style={{ marginTop: 0 }}
                 src={`data:image/png;base64,${cm}`}

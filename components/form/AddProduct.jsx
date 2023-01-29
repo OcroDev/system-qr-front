@@ -104,7 +104,7 @@ export default function AddProduct() {
             <div
               style={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: "space-around",
                 alignItems: "center",
               }}
             >
@@ -115,12 +115,7 @@ export default function AddProduct() {
                 width={40}
                 height={50}
               />
-              <Typography
-                variant="h5"
-                style={{ marginRight: "5rem", marginLeft: "5rem" }}
-              >
-                Crear un Nuevo Material
-              </Typography>
+              <Typography variant="h5">Crear un Nuevo Material</Typography>
               <img
                 style={{ marginTop: -10 }}
                 src={`data:image/png;base64,${cm}`}

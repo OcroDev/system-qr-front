@@ -1,5 +1,6 @@
 import { ArrowCircleLeft, Print, Update } from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -21,6 +22,9 @@ export default function OutOperationDetail() {
   const [operationData, setOperationData] = useState({});
   const router = useRouter();
   const [userType, setUserType] = useState("");
+  const [checked, setChecked] = useState("");
+  const [success, setSuccess] = useState(false);
+
   let DB = "COLEGIO LOS PIRINEOS DON BOSCO",
     CM = "COLEGIO METROPOLITANO";
 
@@ -47,7 +51,6 @@ export default function OutOperationDetail() {
             warehouse_in: response.data.operation[0].warehouse_in,
             dep_in: response.data.operation[0].dep_in,
           };
-          console.log(operationFind);
           setOperation(operationFind);
           setOperationData(dataFind);
         })
@@ -63,8 +66,21 @@ export default function OutOperationDetail() {
           id: id,
         }
       )
-      .then((response) => console.log(response.data.message))
-      .catch((error) => console.log(error.message));
+      .then((response) => {
+        setChecked(response.data.message);
+        setSuccess(true);
+      })
+      .catch((error) => {
+        console.log(error.message);
+        setChecked(error.message);
+        setSuccess(false);
+      })
+      .finally(
+        setTimeout(() => {
+          setChecked("");
+          setSuccess(false);
+        }, 2000)
+      );
   };
 
   const printQR = () => {
@@ -179,6 +195,19 @@ export default function OutOperationDetail() {
               </>
             ) : null}
           </Box>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            {checked === "" ? null : success ? (
+              <Alert color="success">{checked}</Alert>
+            ) : (
+              <Alert color="error">{checked}</Alert>
+            )}
+          </div>
         </Box>
 
         <Box>

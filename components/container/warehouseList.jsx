@@ -1,5 +1,6 @@
 //DEPENDENCIES
 import { Warehouse } from "../pure/warehouse";
+import styles from "../../styles/scrollbar.module.css";
 
 //MATERIAL UI
 import {
@@ -171,6 +172,7 @@ export default function WarehouseList() {
                   height: "40vh",
                   overflowY: "scroll",
                 }}
+                className={styles.scrollbar}
               >
                 <Table sx={{ width: "100%" }}>
                   <TableHead sx={{ marginTop: 4 }}>

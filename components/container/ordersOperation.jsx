@@ -1,3 +1,5 @@
+//styles
+import styles from "../../styles/scrollbar.module.css";
 //axios
 import axios from "axios";
 //mui material
@@ -317,7 +319,10 @@ export default function OrdersOperation() {
           </CardContent>
           <hr className="hr-style" />
           <CardContent>
-            <TableContainer sx={{ overflowY: "scroll", maxHeight: "30vh" }}>
+            <TableContainer
+              sx={{ overflowY: "scroll", maxHeight: "30vh" }}
+              className={styles.scrollbar}
+            >
               <Table>
                 <TableHead sx={{ marginTop: 4 }}>
                   <TableRow>

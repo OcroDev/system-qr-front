@@ -41,7 +41,7 @@ export default function AddProduct() {
     p_description: yup
       .string("Ecribe el nombre del material ")
       .min(5, "El nombre del material  es demasiado corto")
-      .max(40, "El nombre del material  es demasiado largo")
+      .max(50, "El nombre del material  es demasiado largo")
       .required("El nombre del material es requerido"),
     p_minstock: yup.number("la existencia mínimo debe ser un número"),
     p_unit: yup.string().max(10, "la unidad de medida es demasiado larga"),
@@ -132,7 +132,7 @@ export default function AddProduct() {
             >
               <div style={{ width: "90%" }}>
                 <TextField
-                  sx={{ mt: 4, width: "80%" }}
+                  sx={{ mt: 4, width: "100%" }}
                   variant="outlined"
                   fullWidth
                   id="p_description"

@@ -14,7 +14,7 @@ import axios from "axios";
 import Operation from "../pure/operation";
 import ReportByDeparment from "./reportByDeparment";
 import Spinner from "../pure/spinner";
-
+import styles from "../../styles/scrollbar.module.css";
 //tab panel methods
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -215,11 +215,14 @@ export default function OperationsList() {
               >
                 <Tab label="Entradas" {...a11yProps(0)} />
                 <Tab label="Salidas" {...a11yProps(1)} />
-                <Tab label="Reporte por departamento" {...a11yProps(2)} />
+                {/* <Tab label="Reporte por departamento" {...a11yProps(2)} /> */}
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+              <TableContainer
+                sx={{ overflowY: "scroll", height: "40vh" }}
+                className={styles.scrollbar}
+              >
                 <Table>
                   <TableBody>
                     {operationInDateFilter.map((operation) => {
@@ -239,7 +242,10 @@ export default function OperationsList() {
               </TableContainer>
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
+              <TableContainer
+                sx={{ overflowY: "scroll", height: "40vh" }}
+                className={styles.scrollbar}
+              >
                 <Table>
                   <TableBody>
                     {operationOutDateFilter.map((operation) => {
@@ -263,9 +269,9 @@ export default function OperationsList() {
                 </Table>
               </TableContainer>
             </TabPanel>
-            <TabPanel value={value} index={2}>
+            {/* <TabPanel value={value} index={2}>
               <ReportByDeparment />
-            </TabPanel>
+            </TabPanel> */}
           </>
         )}
         <Box sx={{ m: 3 }}>

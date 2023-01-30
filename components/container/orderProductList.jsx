@@ -28,6 +28,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { OrderProduct } from "../pure/orderProduct";
 import { cm, db } from "../../print_services/logos";
+import styles from "../../styles/scrollbar.module.css";
 
 export default function OrderProductList() {
   const router = useRouter();
@@ -111,6 +112,7 @@ export default function OrderProductList() {
           height: "85vh",
           overflowY: "scroll",
         }}
+        className={styles.scrollbar}
       >
         <CardContent
           sx={{
@@ -162,7 +164,10 @@ export default function OrderProductList() {
               maxHeight: "50vh",
             }}
           >
-            <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+            <div
+              style={{ overflowY: "scroll", maxHeight: "50vh" }}
+              className={styles.scrollbar}
+            >
               <Table sx={{ maxWidth: "75vw" }}>
                 <TableHead sx={{ marginTop: 4 }}>
                   <TableRow>

@@ -2,6 +2,8 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/system";
 import printServices from "../../../print_services/printServices";
+import stylesReport from "../../../styles/scrollbarReport.module.css";
+import styles from "../../../styles/scrollbar.module.css";
 import {
   Button,
   Card,
@@ -29,6 +31,7 @@ export default function ReportCreate() {
           width: "75vw",
           overflowY: "scroll",
         }}
+        className={styles.scrollbar}
       >
         <Typography variant="h5">Requisiciones</Typography>
         <Divider></Divider>
@@ -38,7 +41,7 @@ export default function ReportCreate() {
             flexDirection: "row",
           }}
         >
-          <Card sx={styleCard}>
+          <Card sx={styleCard} className={stylesReport.scrollbarReport}>
             <CardContent sx={{}}>
               <Typography variant="h6">Reportes de Requisiciones</Typography>
               <Button

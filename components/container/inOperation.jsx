@@ -1,5 +1,7 @@
 import axios from "axios";
 
+import styles from "../../styles/scrollbar.module.css";
+
 import {
   Button,
   Card,
@@ -196,8 +198,9 @@ export default function InOperation() {
 
   return (
     <>
-      <div>
+      <div className={styles.scrollbar}>
         <Card
+          className={styles.scrollbar}
           sx={{
             bgcolor: "#fff",
             mt: 5,
@@ -286,7 +289,10 @@ export default function InOperation() {
             </CardContent>
             <hr className="hr-style" />
             <CardContent>
-              <TableContainer sx={{ overflowY: "scroll", maxHeight: "40vh" }}>
+              <TableContainer
+                sx={{ overflowY: "scroll", maxHeight: "40vh" }}
+                className={styles.scrollbar}
+              >
                 <Table>
                   <TableHead sx={{ marginTop: 4 }}>
                     <TableRow>

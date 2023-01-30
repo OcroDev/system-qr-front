@@ -1,5 +1,6 @@
 //DEPENDENCIES
 import { Department } from "../pure/department";
+import styles from "../../styles/scrollbar.module.css";
 
 //MATERIAL UI
 import {
@@ -122,6 +123,7 @@ export default function DepartmentList() {
               height: "60vh",
               //overflowY: "scroll",
             }}
+            className={styles.scrollbar}
           >
             <CardContent
               sx={{
@@ -170,6 +172,7 @@ export default function DepartmentList() {
                   overflowY: "scroll",
                   height: "40vh",
                 }}
+                className={styles.scrollbar}
               >
                 <Table sx={{ maxWidth: "70vw" }}>
                   <TableHead sx={{ marginTop: 4 }}>

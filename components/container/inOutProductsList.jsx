@@ -1,5 +1,6 @@
 //DEPENDENCIES
 import { InOutProduct } from "../pure/inOutProduct";
+import styles from "../../styles/scrollbar.module.css";
 //MATERIAL UI
 import {
   Table,
@@ -116,6 +117,7 @@ export default function InOutProductsList() {
               height: "83vh",
               overflowY: "scroll",
             }}
+            className={styles.scrollbar}
           >
             <CardContent
               sx={{
@@ -172,7 +174,10 @@ export default function InOutProductsList() {
                   maxHeight: "50vh",
                 }}
               >
-                <div style={{ overflowY: "scroll", maxHeight: "50vh" }}>
+                <div
+                  style={{ overflowY: "scroll", maxHeight: "50vh" }}
+                  className={styles.scrollbar}
+                >
                   <Table sx={{ maxWidth: "75vw" }}>
                     <TableHead sx={{ marginTop: 4 }}>
                       <TableRow>

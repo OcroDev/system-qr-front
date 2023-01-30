@@ -1,6 +1,6 @@
 //DEPENDENCIES
 import { InOutDepartment } from "../pure/inOutDepartment";
-
+import styles from "../../styles/scrollbar.module.css";
 //MATERIAL UI
 import {
   Table,
@@ -90,6 +90,7 @@ export default function InOutDepartmentList() {
               height: "60vh",
               overflowY: "scroll",
             }}
+            className={styles.scrollbar}
           >
             <CardContent
               sx={{
@@ -145,6 +146,7 @@ export default function InOutDepartmentList() {
                   marginTop: 20,
                   height: "37vh",
                 }}
+                className={styles.scrollbar}
               >
                 <Table sx={{ maxWidth: "70vw" }}>
                   <TableHead sx={{ marginTop: 4 }}>

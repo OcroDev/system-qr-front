@@ -1,5 +1,6 @@
 //DEPENDENCIES
 import { User } from "../pure/user";
+import styles from "../../styles/scrollbar.module.css";
 
 //MATERIAL UI
 import {
@@ -172,6 +173,7 @@ export default function UsersList() {
                   maxHeight: "40vh",
                   overflowY: "scroll",
                 }}
+                className={styles.scrollbar}
               >
                 <Table sx={{ maxWidth: "60vw" }}>
                   <TableHead>

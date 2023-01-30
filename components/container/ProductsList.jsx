@@ -1,7 +1,7 @@
 //DEPENDENCIES
 import { Product } from "../pure/product";
 import printServices from "../../print_services/printServices";
-
+import styles from "../../styles/scrollbar.module.css";
 //MATERIAL UI
 import {
   Table,
@@ -183,6 +183,7 @@ export default function ProductsList() {
                   marginTop: 15,
                   maxHeight: "64vh",
                 }}
+                className={styles.scrollbar}
               >
                 <Table sx={{ maxWidth: "75vw", maxHeight: "40vh" }}>
                   <TableHead sx={{ marginTop: 4 }}>

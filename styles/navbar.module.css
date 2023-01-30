@@ -7,3 +7,30 @@
   overflow-y: scroll;
   z-index: 999;
 }
+
+.sidebar::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.sidebar::-webkit-scrollbar:vertical {
+  width: 5px;
+}
+
+.sidebar::-webkit-scrollbar-button:increment,
+.sidebar::-webkit-scrollbar-button {
+  display: none;
+}
+
+.sidebar::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--bs-gray-700);
+  border-radius: 20px;
+  border: 1px solid var(--bs-gray-900);
+}
+
+.sidebar::-webkit-scrollbar-track {
+  border-radius: 10px;
+}

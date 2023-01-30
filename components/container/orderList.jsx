@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Spinner from "../pure/spinner";
 import { cm, db } from "../../print_services/logos";
+import styles from "../../styles/scrollbar.module.css";
 
 export default function OrderList() {
   //states
@@ -99,7 +100,7 @@ export default function OrderList() {
             <Spinner></Spinner>
           </div>
         ) : (
-          <div style={{ overflowY: "scroll" }}>
+          <div style={{ overflowY: "scroll" }} className={styles.scrollbar}>
             <TableContainer sx={{ overflowY: "scroll", height: "40vh" }}>
               <Table>
                 <TableBody>

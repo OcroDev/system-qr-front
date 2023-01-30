@@ -1,3 +1,4 @@
+import styles from "../../styles/scrollbar.module.css";
 import axios from "axios";
 
 import {
@@ -228,6 +229,7 @@ export default function OutOperation() {
           maxHeight: "80vh",
           overflowY: "scroll",
         }}
+        className={styles.scrollbar}
       >
         <CardContent
           sx={{
@@ -378,7 +380,10 @@ export default function OutOperation() {
           </CardContent>
           <hr className="hr-style" />
           <CardContent>
-            <TableContainer sx={{ overflowY: "scroll", maxHeight: "35vh" }}>
+            <TableContainer
+              sx={{ overflowY: "scroll", maxHeight: "35vh" }}
+              className={styles.scrollbar}
+            >
               <Table>
                 <TableHead>
                   <TableRow>

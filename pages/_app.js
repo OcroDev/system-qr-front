@@ -12,6 +12,7 @@ import store from "../redux/store";
 import { Provider } from "react-redux";
 import { useEffect, useState } from "react";
 import LoginForm from "../components/form/loginForm";
+import Footer from "../components/pure/Footer";
 
 export default function App({ Component, pageProps }) {
   const [logedIn, setLogedIn] = useState();
@@ -35,6 +36,7 @@ export default function App({ Component, pageProps }) {
       ) : (
         <LoginForm />
       )}
+      <Footer/>
     </Provider>
   );
 }

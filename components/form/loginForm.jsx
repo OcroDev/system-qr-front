@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import Head from "next/head";
 import Spinner from "../pure/spinner";
+import { LoginData } from "../pure/LoginData";
 
 export default function LoginForm() {
   //redux
@@ -219,6 +220,7 @@ export default function LoginForm() {
           </div>
         </CardContent>
       </Card>
+      <LoginData/>
     </>
   );
 }

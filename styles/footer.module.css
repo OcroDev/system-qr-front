@@ -1,0 +1,49 @@
+.footer {
+  position: fixed;
+  left: 70vw;
+  bottom: 5vh;
+  text-align: left;
+  background: rgba(22, 24, 28, 0.7);
+  border-radius: 2rem;
+  opacity: 0.95;
+  backdrop-filter: blur(0.5rem);
+  width: 15rem;
+  color: #fff;
+  transition:  scale .5s ease-in-out, opacity .5s ease-in-out;
+  font-size: 18px;
+}
+.footer:hover {
+  opacity: .8;
+  scale: 1.09;
+}
+
+.footer img {
+  width: 1em;
+  height: 1em;
+}
+
+.footer a, .footer span
+ {
+  font-size: 0.9rem;
+  color: #f02;
+  opacity: 0.8;
+  font-weight: 700;
+}
+
+.footer a {
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+.footer a:hover {
+  color: #ff6f82;
+  transition: color 0.2s ease-in-out;
+  text-decoration: underline;
+}
+
+.footer h5,
+.footer h6 {
+  margin: .1em;
+  display: flex;
+  justify-content: center;
+}
